@@ -1,9 +1,7 @@
-package com.hellomeritz.chat.repository;
+package com.hellomeritz.chat.repository.chatmessage;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public class ChatMessageRepositoryImpl implements ChatMessageRepository {

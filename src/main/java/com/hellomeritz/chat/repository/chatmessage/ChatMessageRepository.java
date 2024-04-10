@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.repository;
+package com.hellomeritz.chat.repository.chatmessage;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 
