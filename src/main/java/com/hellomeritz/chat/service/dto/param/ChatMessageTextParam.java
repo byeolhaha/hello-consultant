@@ -6,14 +6,16 @@ import com.hellomeritz.chat.domain.ChatMessageType;
 public record ChatMessageTextParam(
     String contents,
     long userId,
-    boolean isFC
+    boolean isFC,
+    long chatRoomId
 ) {
     public ChatMessage toChatMessage() {
         return ChatMessage.of(
             contents,
             ChatMessageType.TEXT.name(),
             userId,
-            isFC
+            isFC,
+            chatRoomId
         );
     }
 }

@@ -12,7 +12,8 @@ public class ChatFixture {
         return new ChatMessageTextParam(
             "안녕하세요 반가워요",
             1,
-            true
+            true,
+            1
         );
     }
 }

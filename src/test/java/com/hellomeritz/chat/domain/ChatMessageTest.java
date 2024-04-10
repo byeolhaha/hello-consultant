@@ -20,7 +20,8 @@ class ChatMessageTest {
                 contents,
                 ChatMessageType.TEXT.name(),
                 1,
-                true
+                true,
+                1
             ));
     }
 
@@ -33,7 +34,8 @@ class ChatMessageTest {
                 "안녕",
                 messageType,
                 1,
-                true
+                true,
+                1
             ));
     }
 
@@ -46,7 +48,8 @@ class ChatMessageTest {
                 contentsOverLength,
                 ChatMessageType.TEXT.name(),
                 1,
-                true
+                true,
+                1
             ));
     }
 
