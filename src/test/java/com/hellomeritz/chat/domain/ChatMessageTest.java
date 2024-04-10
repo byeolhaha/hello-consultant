@@ -17,7 +17,7 @@ class ChatMessageTest {
     @NullSource
     void testNullOrEmptyContents(String contents) {
         assertThrows(IllegalArgumentException.class,
-            () -> new ChatMessage(
+            () -> ChatMessage.of(
                 contents,
                 ChatMessageType.TEXT.name(),
                 1,
@@ -31,7 +31,7 @@ class ChatMessageTest {
     @NullSource
     void testNullOrEmptyMessageType(String messageType) {
         assertThrows(IllegalArgumentException.class,
-            () -> new ChatMessage(
+            () -> ChatMessage.of(
                 "안녕",
                 messageType,
                 1,
@@ -45,7 +45,7 @@ class ChatMessageTest {
     @MethodSource("provideInvalidLength")
     void testMaxContentsLength(String contentsOverLength) {
         assertThrows(IllegalArgumentException.class,
-            () -> new ChatMessage(
+            () -> ChatMessage.of(
                 contentsOverLength,
                 ChatMessageType.TEXT.name(),
                 1,
@@ -59,7 +59,7 @@ class ChatMessageTest {
     @ValueSource(longs = {0, -1})
     void testInvalidUserId(long userId) {
         assertThrows(IllegalArgumentException.class,
-            () -> new ChatMessage(
+            () -> ChatMessage.of(
                 "안녕하세요",
                 ChatMessageType.TEXT.name(),
                 userId,
@@ -73,7 +73,7 @@ class ChatMessageTest {
     @ValueSource(longs = {0, -1})
     void testInvalidChatRoomId(long chatRoomId) {
         assertThrows(IllegalArgumentException.class,
-            () -> new ChatMessage(
+            () -> ChatMessage.of(
                 "안녕하세요",
                 ChatMessageType.TEXT.name(),
                 1,

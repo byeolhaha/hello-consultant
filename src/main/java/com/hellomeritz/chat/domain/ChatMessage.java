@@ -21,7 +21,7 @@ public class ChatMessage {
     private long chatRoomId;
     private LocalDateTime createdAt;
 
-    protected ChatMessage(
+    private ChatMessage(
         String contents,
         String messageType,
         long userId,
