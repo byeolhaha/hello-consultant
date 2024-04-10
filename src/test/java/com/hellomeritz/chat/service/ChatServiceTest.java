@@ -1,17 +1,25 @@
 package com.hellomeritz.chat.service;
 
+import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
+import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
+import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
 import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateTextResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
+import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
@@ -33,7 +41,7 @@ class ChatServiceTest {
     @Test
     void saveChatMessage() {
         // given
-        ChatMessageTextParam chatMessageTextParam = ChatFixture.chatMessageTextParam();
+        ChatMessageTextParam chatMessageTextParam = ChatFixture.chatMessageTextParamByFC();
 
         // when
         ChatMessageTranslateTextResult result = chatService.translateText(chatMessageTextParam);
@@ -56,6 +64,32 @@ class ChatServiceTest {
 
         // then
         assertThat(result.chatRoomId()).isEqualTo(chatRoom.getChatRoomId());
+    }
+
+    @DisplayName("채팅방 메세지를 스크롤 방식으로 확인할 수 있으며 현재부터 과거로 스크롤 방식으로 보여진다.")
+    @Test
+    void getChatMessages() {
+        // given
+        chatMessageRepository.deleteAll();
+
+        ChatMessage firstChatMessage = chatMessageRepository.save(ChatFixture.originChatMessageByFC());
+        chatMessageRepository.save(ChatFixture.translatedChatMessageByFC());
+        chatMessageRepository.save(ChatFixture.originChatMessageByUser());
+        chatMessageRepository.save(ChatFixture.translatedChatMessageByUser());
+
+        ChatMessageGetParam chatMessageGetParam = ChatFixture.chatMessageGetParam();
+
+        // when
+        ChatMessageGetResults results = chatService.getChatMessages(chatMessageGetParam);
+
+        // then
+        assertThat(results.nextChatMessageId()).isEqualTo(firstChatMessage.getId());
+        for (int i = 0; i < results.chatMessages().size() - 1; i++) {
+            LocalDateTime current = LocalDateTime.parse(results.chatMessages().get(i).createdAt());
+            LocalDateTime next = LocalDateTime.parse(results.chatMessages().get(i + 1).createdAt());
+            assertThat(current).isBeforeOrEqualTo(next);
+        }
+
     }
 
 }
