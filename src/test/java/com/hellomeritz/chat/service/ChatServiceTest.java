@@ -32,7 +32,7 @@ class ChatServiceTest {
         ChatMessageTranslateTextResult result = chatService.translateText(chatMessageTextParam);
 
         // then
-        assertThat(result.translatedContents()).isEqualTo(chatMessageTextParam.contents());
+        assertThat(result.originContents()).isEqualTo(chatMessageTextParam.contents());
     }
 
 }

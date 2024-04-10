@@ -13,7 +13,9 @@ public class ChatFixture {
             "안녕하세요 반가워요",
             1,
             true,
-            1
+            1,
+            "EN",
+            "KO"
         );
     }
 }
