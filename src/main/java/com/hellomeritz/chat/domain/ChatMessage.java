@@ -2,6 +2,7 @@ package com.hellomeritz.chat.domain;
 
 import lombok.Getter;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,8 @@ public class ChatMessage {
     private static final int USER_ID_MIN_VALUE = 1;
     private static final int ROOM_ID_MIN_VALUE = 1;
 
-    private ObjectId id;
+    @Id
+    private String id;
     private String contents;
     private long userId;
     private boolean isFC;
