@@ -1,20 +1,26 @@
 package com.hellomeritz.chat.service;
 
+import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.client.Translator;
 import com.hellomeritz.chat.global.client.TranslationResponse;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
+import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
+import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
 import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateTextResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 public class ChatService {
+    private static final int CHAT_PAGE_SIZE = 10;
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final Translator translator;
@@ -42,7 +48,14 @@ public class ChatService {
                 ChatRoom.of(param.fcId(), param.userId())
             )
         );
+    }
 
+    @Transactional(readOnly = true)
+    public ChatMessageGetResults getChatMessages(ChatMessageGetParam param) {
+        List<ChatMessage> chatMessages = chatMessageRepository.getChatMessageByCursor(
+            param.toChatMessageGetRepositoryRequest(CHAT_PAGE_SIZE));
+
+        return ChatMessageGetResults.to(chatMessages, param.myId());
     }
 
 }
