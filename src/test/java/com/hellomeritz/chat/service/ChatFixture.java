@@ -1,6 +1,7 @@
 package com.hellomeritz.chat.service;
 
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
+import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
 
 public class ChatFixture {
 
@@ -16,6 +17,13 @@ public class ChatFixture {
             1,
             "EN",
             "KO"
+        );
+    }
+
+    public static ChatRoomCreateParam chatRoomCreateParam() {
+        return new ChatRoomCreateParam(
+            1L,
+            1L
         );
     }
 }
