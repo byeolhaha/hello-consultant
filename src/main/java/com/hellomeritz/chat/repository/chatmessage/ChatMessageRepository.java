@@ -2,13 +2,14 @@ package com.hellomeritz.chat.repository.chatmessage;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 
 import java.util.List;
 
 public interface ChatMessageRepository {
     ChatMessage save(ChatMessage chatMessage);
 
-    List<ChatMessage> getChatMessageByCursor(ChatMessageGetRepositoryRequest request);
+    ChatMessageGetRepositoryResponses getChatMessageByCursor(ChatMessageGetRepositoryRequest request);
 
     void deleteAll();
 

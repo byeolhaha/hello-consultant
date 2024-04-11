@@ -20,26 +20,26 @@ public class ChatController {
     }
 
     @PostMapping(
-        consumes = MediaType.APPLICATION_JSON_VALUE
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ChatMessageTranslateResponse> translateText(
-        @RequestBody ChatMessageTranslateRequest request) {
+    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessage(
+            @RequestBody ChatMessageTranslateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ChatMessageTranslateResponse.to(
-                chatService.translateText(request.toChatMessageTextParam())
-            ));
+                .body(ChatMessageTranslateResponse.to(
+                        chatService.translateText(request.toChatMessageTextParam())
+                ));
     }
 
-    @GetMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE
+    @PostMapping(
+            path = "/audios",
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ChatMessageGetResponses> getChatMessages(
-        @ModelAttribute ChatMessageGetRequest request
-    ) {
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(ChatMessageGetResponses.to(
-                chatService.getChatMessages(request.toChatMessageGetParam())
-            ));
+    public ResponseEntity<ChatMessageTranslateResponse> sendAudioChatMessage(
+            @RequestBody ChatMessageTranslateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ChatMessageTranslateResponse.to(
+                        chatService.translateText(request.toChatMessageTextParam())
+                ));
     }
 
 }
