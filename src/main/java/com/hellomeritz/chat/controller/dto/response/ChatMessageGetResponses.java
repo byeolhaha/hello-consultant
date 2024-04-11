@@ -14,6 +14,7 @@ public record ChatMessageGetResponses(
         return new ChatMessageGetResponses(
                 results.chatMessages().stream()
                         .map(chatMessageGetResult -> new ChatMessageGetResponse(
+                                chatMessageGetResult.chatMessageId(),
                                 chatMessageGetResult.contents(),
                                 chatMessageGetResult.createdAt(),
                                 chatMessageGetResult.isMine()
@@ -24,6 +25,7 @@ public record ChatMessageGetResponses(
     }
 
     public record ChatMessageGetResponse(
+            String chatMessageId,
             String contents,
             String createdAt,
             boolean isMine

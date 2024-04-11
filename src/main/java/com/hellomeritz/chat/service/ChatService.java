@@ -5,6 +5,7 @@ import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.client.Translator;
 import com.hellomeritz.chat.global.client.TranslationResponse;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
@@ -36,26 +37,28 @@ public class ChatService {
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
         return ChatMessageTranslateTextResult.to(
-            chatMessageRepository.save(param.toChatMessage()),
-            chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
+                chatMessageRepository.save(param.toChatMessage()),
+                chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
         );
     }
 
     @Transactional
     public ChatRoomCreateResult createChatRoom(ChatRoomCreateParam param) {
         return ChatRoomCreateResult.to(
-            chatRoomRepository.save(
-                ChatRoom.of(param.fcId(), param.userId())
-            )
+                chatRoomRepository.save(
+                        ChatRoom.of(param.fcId(), param.userId())
+                )
         );
     }
 
     @Transactional(readOnly = true)
     public ChatMessageGetResults getChatMessages(ChatMessageGetParam param) {
-        List<ChatMessage> chatMessages = chatMessageRepository.getChatMessageByCursor(
-            param.toChatMessageGetRepositoryRequest(CHAT_PAGE_SIZE));
+        ChatMessageGetRepositoryResponses chatMessages = chatMessageRepository.getChatMessageByCursor(
+                param.toChatMessageGetRepositoryRequest(CHAT_PAGE_SIZE));
 
-        return ChatMessageGetResults.to(chatMessages, param.myId());
+        return ChatMessageGetResults.to(
+                chatMessages,
+                param.myId());
     }
 
 }
