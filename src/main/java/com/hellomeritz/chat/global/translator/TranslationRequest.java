@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.client;
+package com.hellomeritz.chat.global.translator;
 
 public record TranslationRequest(
     String contents,

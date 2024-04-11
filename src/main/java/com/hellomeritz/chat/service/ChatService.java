@@ -1,9 +1,8 @@
 package com.hellomeritz.chat.service;
 
-import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
-import com.hellomeritz.chat.global.client.Translator;
-import com.hellomeritz.chat.global.client.TranslationResponse;
+import com.hellomeritz.chat.global.translator.Translator;
+import com.hellomeritz.chat.global.translator.TranslationResponse;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
@@ -15,8 +14,6 @@ import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateTextResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 
 @Service
