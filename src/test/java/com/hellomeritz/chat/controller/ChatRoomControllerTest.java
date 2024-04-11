@@ -1,61 +1,43 @@
 package com.hellomeritz.chat.controller;
 
-import com.hellomeritz.chat.service.ChatService;
-import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
-import com.hellomeritz.global.ChatFixture;
-import com.hellomeritz.global.RestDocsSupport;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hellomeritz.chat.controller.dto.request.ChatMessageGetRequest;
+import com.hellomeritz.global.ControllerTestSupport;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ChatRoomControllerTest extends RestDocsSupport {
+public class ChatRoomControllerTest extends ControllerTestSupport {
 
-    ChatService chatService = mock(ChatService.class);
-
-    @Override
-    protected Object initController() {
-        return new ChatController(chatService);
-    }
-
-    @DisplayName("채팅메세지를 무한스크롤로 확인하는 API")
-    @Test
-    void getChatMessages() throws Exception{
-        Long chatRoomId = 1L;
-        ChatMessageGetResults results = ChatFixture.chatMessageGetResults();
-        given(chatService.getChatMessages(any())).willReturn(results);
-
-        mockMvc.perform(get("/chat-rooms/{chatRoomId}",chatRoomId)
-                .param("myId",String.valueOf(1))
-                .param("nextChatMessageId","66172f7ab156dc2cf99c4b2c"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("get-chat-messages",
-                        pathParameters(
-                                parameterWithName("chatRoomId").description("채팅방 id")
-                        ),
-                        queryParameters(
-                                parameterWithName("myId").description("유저 ID"),
-                                parameterWithName("nextChatMessageId").description("무한스크롤 검색을 위한 다음 채팅메시지 ID")
-                         ),
-                        responseFields(
-                                fieldWithPath("chatMessageGetResponses[].contents").type(JsonFieldType.NUMBER).description("메세지 아이디"),
-                                fieldWithPath("chatMessageGetResponses[].createdAt").type(JsonFieldType.NUMBER).description("보낸사람 아이디"),
-                                fieldWithPath("chatMessageGetResponses[].isMine").type(JsonFieldType.STRING).description("메세지 내용"),
-                                fieldWithPath("nextChatMessageId").type(JsonFieldType.BOOLEAN).description("다음 페이지 존재 여부"))
+    @DisplayName("myId가 null이거나 빈값인 경우를 검증한다.")
+    @ParameterizedTest
+    @NullSource
+    void getChatMessage_nullOrEmpty_MyId(Long myId) throws Exception {
+        mockMvc.perform(get("/chat-rooms/{chtRoomId}/messages", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageGetRequest(
+                                myId,
+                                ""
                         )
-                        );
-
+                ))).andExpect(status().is4xxClientError());
     }
+
+    @DisplayName("myId가 0이거나 음수인 경우를 검증한다.")
+    @ParameterizedTest
+    @ValueSource(longs = {-1L, 0L})
+    void getChatMessage_invalid_myId(Long myId) throws Exception {
+        mockMvc.perform(get("/chat-rooms/{chtRoomId}/messages", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageGetRequest(
+                                myId,
+                                ""
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
+
 }
-
-
