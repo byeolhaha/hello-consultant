@@ -40,6 +40,9 @@ dependencies {
 
 	//mongodb
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	//websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('bootBuildImage') {
