@@ -23,6 +23,10 @@ public class ChatMessage {
     private long chatRoomId;
     private LocalDateTime createdAt;
 
+    private ChatMessage () {
+
+    }
+
     private ChatMessage(
         String contents,
         String messageType,
