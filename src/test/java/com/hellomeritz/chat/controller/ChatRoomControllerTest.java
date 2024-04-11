@@ -39,5 +39,18 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
+    @DisplayName("chatRoomId가 0이거나 음수인 경우를 검증한다.")
+    @ParameterizedTest
+    @ValueSource(longs = {-1L, 0L})
+    void getChatMessage_invalid_chatRoomId(Long chatRoomId) throws Exception {
+        mockMvc.perform(get("/chat-rooms/{chtRoomId}/messages", chatRoomId)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageGetRequest(
+                                1L,
+                                ""
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
 
 }
