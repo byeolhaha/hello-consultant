@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.audio;
+package com.hellomeritz.chat.global.uploader;
 
 public record AudioUploadResponse(
         String audioUrl

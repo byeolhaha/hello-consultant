@@ -1,7 +1,6 @@
-package com.hellomeritz.chat.global.audio;
+package com.hellomeritz.chat.global.uploader;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
