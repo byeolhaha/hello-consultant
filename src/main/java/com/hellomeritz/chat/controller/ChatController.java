@@ -22,7 +22,19 @@ public class ChatController {
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ChatMessageTranslateResponse> translateText(
+    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessage(
+            @RequestBody ChatMessageTranslateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ChatMessageTranslateResponse.to(
+                        chatService.translateText(request.toChatMessageTextParam())
+                ));
+    }
+
+    @PostMapping(
+            path = "/audios",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ChatMessageTranslateResponse> sendAudioChatMessage(
             @RequestBody ChatMessageTranslateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ChatMessageTranslateResponse.to(
