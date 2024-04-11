@@ -2,6 +2,7 @@ package com.hellomeritz.chat.repository.chatmessage;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class ChatMessageRepositoryImpl implements ChatMessageRepository {
     }
 
     @Override
-    public List<ChatMessage> getChatMessageByCursor(ChatMessageGetRepositoryRequest request) {
+    public ChatMessageGetRepositoryResponses getChatMessageByCursor(ChatMessageGetRepositoryRequest request) {
         return chatMessageMongoRepository.getChatMessageByCursor(request);
     }
 

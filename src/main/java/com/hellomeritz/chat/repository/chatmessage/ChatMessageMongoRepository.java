@@ -2,6 +2,7 @@ package com.hellomeritz.chat.repository.chatmessage;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -24,7 +25,7 @@ public class ChatMessageMongoRepository {
         return mongoTemplate.save(chatMessage);
     }
 
-    public List<ChatMessage> getChatMessageByCursor(ChatMessageGetRepositoryRequest request) {
+    public ChatMessageGetRepositoryResponses getChatMessageByCursor(ChatMessageGetRepositoryRequest request) {
         Query query = new Query(
             Criteria.where("_id")
                 .gt(new ObjectId(request.nextChatMessageId()))
@@ -32,7 +33,9 @@ public class ChatMessageMongoRepository {
             .limit(request.pageSize())
             .with(Sort.by(Sort.Direction.DESC, "_id"));
 
-        return mongoTemplate.find(query, ChatMessage.class);
+        List<ChatMessage> chatMessages = mongoTemplate.find(query, ChatMessage.class);
+
+        return ChatMessageGetRepositoryResponses.to(chatMessages, request.pageSize());
     }
 
     public void deleteAll() {
