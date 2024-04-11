@@ -26,7 +26,7 @@ public class ChatRoomController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ChatRoomCreateResponse> createChatRoom(
-            @RequestBody ChatRoomCreateRequest request) {
+            @RequestBody @Valid ChatRoomCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ChatRoomCreateResponse.to(
                                 chatService.createChatRoom(request.toChatRoomCreateRequest())
