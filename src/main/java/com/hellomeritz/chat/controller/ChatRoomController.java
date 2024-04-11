@@ -5,6 +5,8 @@ import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
 import com.hellomeritz.chat.controller.dto.response.ChatMessageGetResponses;
 import com.hellomeritz.chat.controller.dto.response.ChatRoomCreateResponse;
 import com.hellomeritz.chat.service.ChatService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +35,12 @@ public class ChatRoomController {
     }
 
     @GetMapping(
-            path = "/{chatRoomId}",
+            path = "/{chatRoomId}/messages",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ChatMessageGetResponses> getChatMessages(
-            @PathVariable Long chatRoomId,
-            @ModelAttribute ChatMessageGetRequest request
+            @PathVariable @Positive Long chatRoomId,
+            @ModelAttribute @Valid ChatMessageGetRequest request
     ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ChatMessageGetResponses.to(
