@@ -4,5 +4,5 @@ import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
 
 public interface SttManager {
 
-    SttResponse asyncRecognizeGcs(AudioUploadResponse audioUploadResponse, String sourceLang);
+    SttResponse asyncRecognizeGcs(SttRequest request);
 }

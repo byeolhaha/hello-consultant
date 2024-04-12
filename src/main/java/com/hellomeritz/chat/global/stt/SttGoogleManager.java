@@ -18,8 +18,8 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class SttGoogleManager implements SttManager {
 
-    public SttResponse asyncRecognizeGcs(AudioUploadResponse audioUploadResponse, String sourceLang) {
-        String gcsUri = audioUploadResponse.audioUrl().replace("https://storage.googleapis.com/", "gs://");
+    public SttResponse asyncRecognizeGcs(SttRequest request) {
+        String gcsUri = request.audioUrl().replace("https://storage.googleapis.com/", "gs://");
 
         // Configure polling algorithm
         SpeechSettings.Builder speechSettings = SpeechSettings.newBuilder();
@@ -43,7 +43,7 @@ public class SttGoogleManager implements SttManager {
             RecognitionConfig config =
                     RecognitionConfig.newBuilder()
                             .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
-                            .setLanguageCode(sourceLang)
+                            .setLanguageCode(request.sourceLang())
                             .setSampleRateHertz(16000)
                             .build();
             RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
