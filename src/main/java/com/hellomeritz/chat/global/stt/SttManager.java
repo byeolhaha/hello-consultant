@@ -1,4 +1,8 @@
 package com.hellomeritz.chat.global.stt;
 
-public class SttManager {
+import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
+
+public interface SttManager {
+
+    SttResponse asyncRecognizeGcs(AudioUploadResponse audioUploadResponse, String sourceLang);
 }

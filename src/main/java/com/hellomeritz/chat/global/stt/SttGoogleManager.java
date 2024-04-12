@@ -6,18 +6,16 @@ import com.google.api.gax.retrying.RetrySettings;
 import com.google.api.gax.retrying.TimedRetryAlgorithm;
 import com.google.cloud.speech.v1.*;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
+import org.springframework.stereotype.Component;
 import org.threeten.bp.Duration;
 
 import java.sql.SQLOutput;
 import java.util.List;
 
-public class SttGoogleManager {
+@Component
+public class SttGoogleManager implements SttManager{
 
-    private SttGoogleManager() {
-        throw new AssertionError("해당 클래스는 생성자로 인스턴스를 생성할 수 없습니다.");
-    }
-
-    public static String asyncRecognizeGcs(AudioUploadResponse audioUploadResponse, String sourceLang) {
+    public SttResponse asyncRecognizeGcs(AudioUploadResponse audioUploadResponse, String sourceLang) {
         String gcsUri = audioUploadResponse.audioUrl().replace("https://storage.googleapis.com/", "gs://");
 
         // Configure polling algorithm
@@ -60,12 +58,12 @@ public class SttGoogleManager {
                 // There can be several alternative transcripts for a given chunk of speech. Just use the
                 // first (most likely) one here.
                 SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
-                return alternative.getTranscript();
+                return new SttResponse(alternative.getTranscript());
             }
         } catch (Exception e) {
 
         }
-        return "";
+        return SttResponse.emptySttResponse();
     }
 
 }
