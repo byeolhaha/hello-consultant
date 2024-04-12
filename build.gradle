@@ -50,6 +50,12 @@ dependencies {
 	//gcp
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+
+	// Google Speech To Text
+	implementation(platform("com.google.cloud:libraries-bom:26.1.4"))
+	implementation("com.google.cloud:google-cloud-speech")
+	implementation("com.google.protobuf:protobuf-java:3.21.12")
+	implementation("com.fasterxml.jackson.core:jackson-databind")
 }
 
 tasks.named('bootBuildImage') {

@@ -2,9 +2,7 @@ package com.hellomeritz.chat.service.dto.param;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
-import com.hellomeritz.chat.global.client.TranslationRequest;
-
-import java.util.Locale;
+import com.hellomeritz.chat.global.translator.TranslationRequest;
 
 public record ChatMessageTextParam(
     String contents,
