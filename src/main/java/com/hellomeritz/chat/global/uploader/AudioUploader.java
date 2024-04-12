@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface AudioUploader {
 
-    AudioUploadResponse upload(MultipartFile multipartFile) throws IOException;
+    AudioUploadResponse upload(MultipartFile multipartFile);
 }
