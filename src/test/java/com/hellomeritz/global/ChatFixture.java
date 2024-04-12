@@ -8,6 +8,7 @@ import com.hellomeritz.chat.domain.ChatMessageType;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
+import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 
@@ -144,6 +145,12 @@ public class ChatFixture {
 
     public static ChatRoomCreateRequest chatRoomCreateRequest() {
         return new ChatRoomCreateRequest(1L, 2L);
+    }
+
+    public static ChatAudioUploadResult chatAudioUploadResult() {
+        return new ChatAudioUploadResult(
+                "https://gcp//meritz-audio/china",
+                LocalDateTime.now().toString());
     }
 
 }

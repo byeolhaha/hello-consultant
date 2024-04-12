@@ -13,8 +13,9 @@ include::{snippets}/get-chat-messages/query-parameters.adoc[]
 include::{snippets}/get-chat-messages/http-response.adoc[]
 include::{snippets}/get-chat-messages/response-fields.adoc[]
 
-== 텃밭 채팅방 생성하기
+==  채팅방 생성하기
 채팅방을 생성한다.
+
 === Request
 include::{snippets}/create-chat-rooms/http-request.adoc[]
 include::{snippets}/create-chat-rooms/request-fields.adoc[]
@@ -22,3 +23,16 @@ include::{snippets}/create-chat-rooms/request-fields.adoc[]
 === Response (Success)
 include::{snippets}/create-chat-rooms/http-response.adoc[]
 include::{snippets}/create-chat-rooms/response-fields.adoc[]
+
+== 음성파일 업로드하기
+녹음한 음성 파일 업로드 하기
+
+=== Request
+include::{snippets}/upload-audios/request-parts.adoc[]
+===== request의 json 필드는 아래와 같다.
+include::{snippets}/upload-audios/request-part-request-fields.adoc[]
+include::{snippets}/upload-audios/path-parameters.adoc[]
+
+=== Response (Success)
+include::{snippets}/upload-audios/http-response.adoc[]
+include::{snippets}/upload-audios/response-fields.adoc[]
