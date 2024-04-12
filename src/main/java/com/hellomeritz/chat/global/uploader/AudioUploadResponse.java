@@ -2,6 +2,7 @@ package com.hellomeritz.chat.global.uploader;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
+import com.hellomeritz.chat.service.dto.param.ChatAudioUploadParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageSttParam;
 
 public record AudioUploadResponse(
@@ -12,7 +13,7 @@ public record AudioUploadResponse(
         return new AudioUploadResponse(audioUrl);
     }
 
-    public ChatMessage toChatMessage(ChatMessageSttParam param) {
+    public ChatMessage toChatMessage(ChatAudioUploadParam param) {
         return ChatMessage.of(
             audioUrl,
             ChatMessageType.AUDIO.name(),
