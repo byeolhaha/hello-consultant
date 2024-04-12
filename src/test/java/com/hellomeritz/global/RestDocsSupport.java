@@ -23,13 +23,13 @@ public abstract class RestDocsSupport {
     @BeforeEach
     void setUp(RestDocumentationContextProvider provider) {
         this.mockMvc = MockMvcBuilders.standaloneSetup(initController())
-            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-            .addFilter(new CharacterEncodingFilter("UTF-8", true))
-            .apply(documentationConfiguration(provider)
-                .operationPreprocessors()
-                .withRequestDefaults(prettyPrint())
-                .withResponseDefaults(prettyPrint()))
-            .build();
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                .addFilter(new CharacterEncodingFilter("UTF-8", true))
+                .apply(documentationConfiguration(provider)
+                        .operationPreprocessors()
+                        .withRequestDefaults(prettyPrint())
+                        .withResponseDefaults(prettyPrint()))
+                .build();
     }
 
     protected abstract Object initController();
