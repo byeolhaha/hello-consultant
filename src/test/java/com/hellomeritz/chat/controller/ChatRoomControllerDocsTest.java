@@ -6,6 +6,7 @@ import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.nio.charset.StandardCharsets;
@@ -20,13 +21,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ChatRoomControllerTest extends RestDocsSupport {
+class ChatRoomControllerDocsTest extends RestDocsSupport {
 
     ChatService chatService = mock(ChatService.class);
 
     @Override
     protected Object initController() {
-        return new ChatController(chatService);
+        return new ChatRoomController(chatService);
     }
 
     @DisplayName("채팅메세지를 무한스크롤로 확인하는 API")
@@ -36,9 +37,10 @@ class ChatRoomControllerTest extends RestDocsSupport {
         ChatMessageGetResults results = ChatFixture.chatMessageGetResults();
         given(chatService.getChatMessages(any())).willReturn(results);
 
-        mockMvc.perform(get("/chat-rooms/{chatRoomId}/messages", chatRoomId)
+        mockMvc.perform(get("/chat-rooms/{chatRoomId}/messages", 1L)
                         .param("myId", String.valueOf(1L))
                         .param("nextChatMessageId", "000000000000000000000000")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8)
                 )
                 .andDo(print())
@@ -52,11 +54,11 @@ class ChatRoomControllerTest extends RestDocsSupport {
                                         parameterWithName("nextChatMessageId").description("무한스크롤 검색을 위한 다음 채팅메시지 ID")
                                 ),
                                 responseFields(
-                                        fieldWithPath("chatMessageGetResponses[].chatMessageId").type(JsonFieldType.STRING).description("메세지 아이디"),
-                                        fieldWithPath("chatMessageGetResponses[].contents").type(JsonFieldType.STRING).description("메세지 내용"),
-                                        fieldWithPath("chatMessageGetResponses[].createdAt").type(JsonFieldType.STRING).description("생성 일자"),
-                                        fieldWithPath("chatMessageGetResponses[].isMine").type(JsonFieldType.STRING).description("내가 보낸 메세지 여부"),
-                                        fieldWithPath("nextChatMessageId").type(JsonFieldType.BOOLEAN).description("다음 페이지를 불러오기 위한 nextKey 값"),
+                                        fieldWithPath("chatMessages[].chatMessageId").type(JsonFieldType.STRING).description("메세지 아이디"),
+                                        fieldWithPath("chatMessages[].contents").type(JsonFieldType.STRING).description("메세지 내용"),
+                                        fieldWithPath("chatMessages[].createdAt").type(JsonFieldType.STRING).description("생성 일자"),
+                                        fieldWithPath("chatMessages[].isMine").type(JsonFieldType.BOOLEAN).description("내가 보낸 메세지 여부"),
+                                        fieldWithPath("nextChatMessageId").type(JsonFieldType.STRING).description("다음 페이지를 불러오기 위한 nextKey 값"),
                                         fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN).description("다음 페이지 존재 여부"))
                         )
                 );

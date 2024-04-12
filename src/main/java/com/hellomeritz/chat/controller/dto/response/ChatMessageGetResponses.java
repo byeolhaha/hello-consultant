@@ -7,7 +7,7 @@ import java.util.List;
 public record ChatMessageGetResponses(
         List<ChatMessageGetResponse> chatMessages,
         String nextChatMessageId,
-        boolean hasNest
+        boolean hasNext
 
 ) {
     public static ChatMessageGetResponses to(ChatMessageGetResults results) {

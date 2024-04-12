@@ -1,0 +1,13 @@
+= HELLO-MERITZ API Document
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+= HELLO-MERITZ REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+include::chats.adoc[]
