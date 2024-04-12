@@ -51,7 +51,6 @@ public class ChatController {
             @Positive(message = "chatRoomId는 음수이거나 0일 수 없습니다.")
             Long chatRoomId,
             @RequestPart
-            @NotNull(message = "audioFile은 필수값입니다.")
             MultipartFile audioFile,
             @RequestPart
             @Valid
