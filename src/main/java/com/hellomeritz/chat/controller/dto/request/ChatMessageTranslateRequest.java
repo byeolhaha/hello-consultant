@@ -6,11 +6,10 @@ public record ChatMessageTranslateRequest(
     String contents,
     long userId,
     boolean isFC,
-    long chatRoomId,
     String targetLang,
     String sourceLang
 ) {
-    public ChatMessageTextParam toChatMessageTextParam() {
+    public ChatMessageTextParam toChatMessageTextParam(long chatRoomId) {
         return new ChatMessageTextParam(
             contents,
             userId,
