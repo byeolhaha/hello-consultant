@@ -7,10 +7,9 @@ public record ChatMessageSttRequest(
         String audioUrl,
         long userId,
         boolean isFC,
-        long chatRoomId,
         String sourceLang
 ) {
-    public ChatMessageSttParam toChatMessageSttParam() {
+    public ChatMessageSttParam toChatMessageSttParam(long chatRoomId) {
         return new ChatMessageSttParam(
                 audioUrl,
                 userId,
