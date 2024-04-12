@@ -4,18 +4,19 @@ import com.hellomeritz.chat.service.dto.param.ChatMessageSttParam;
 import org.springframework.web.multipart.MultipartFile;
 
 public record ChatMessageSttRequest(
+        String audioUrl,
         long userId,
         boolean isFC,
         long chatRoomId,
         String sourceLang
 ) {
-    public ChatMessageSttParam toChatMessageSttParam(MultipartFile file) {
+    public ChatMessageSttParam toChatMessageSttParam() {
         return new ChatMessageSttParam(
-            file,
-            userId,
-            isFC,
-            chatRoomId,
-            sourceLang
+                audioUrl,
+                userId,
+                isFC,
+                chatRoomId,
+                sourceLang
         );
     }
 }
