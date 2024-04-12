@@ -12,3 +12,13 @@ include::{snippets}/get-chat-messages/query-parameters.adoc[]
 === Response (Success)
 include::{snippets}/get-chat-messages/http-response.adoc[]
 include::{snippets}/get-chat-messages/response-fields.adoc[]
+
+== 텃밭 채팅방 생성하기
+채팅방을 생성한다.
+=== Request
+include::{snippets}/create-chat-rooms/http-request.adoc[]
+include::{snippets}/create-chat-rooms/request-fields.adoc[]
+
+=== Response (Success)
+include::{snippets}/create-chat-rooms/http-response.adoc[]
+include::{snippets}/create-chat-rooms/response-fields.adoc[]

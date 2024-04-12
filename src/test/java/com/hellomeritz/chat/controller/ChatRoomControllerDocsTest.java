@@ -2,6 +2,7 @@ package com.hellomeritz.chat.controller;
 
 import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
+import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -62,7 +63,29 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
                                         fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN).description("다음 페이지 존재 여부"))
                         )
                 );
+    }
 
+    @DisplayName("채팅방을 생성하는 API")
+    @Test
+    void createChatRoom() throws Exception {
+        ChatRoomCreateResult result = ChatFixture.chatRoomCreateResult();
+        given(chatService.createChatRoom(any())).willReturn(result);
+
+        mockMvc.perform(post("/chat-rooms")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(ChatFixture.chatRoomCreateRequest()))
+                )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(document("create-chat-rooms",
+                        requestFields(
+                                fieldWithPath("fcId").type(JsonFieldType.NUMBER).description("설계사 ID"),
+                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("외국인 유저 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("chatRoomId").type(JsonFieldType.NUMBER).description("생성된 채팅방 ID")
+                        )
+                ));
     }
 }
 
