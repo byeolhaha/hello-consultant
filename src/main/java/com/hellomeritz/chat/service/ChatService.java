@@ -2,7 +2,6 @@ package com.hellomeritz.chat.service;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
-import com.hellomeritz.chat.global.stt.SttGoogleManager;
 import com.hellomeritz.chat.global.stt.SttManager;
 import com.hellomeritz.chat.global.stt.SttResponse;
 import com.hellomeritz.chat.global.translator.Translator;
@@ -36,10 +35,10 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatMessageTranslateTextResult translateText(ChatMessageTextParam param) {
+    public ChatMessageTranslateResult translateText(ChatMessageTextParam param) {
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
-        return ChatMessageTranslateTextResult.to(
+        return ChatMessageTranslateResult.to(
                 chatMessageRepository.save(param.toChatMessage()),
                 chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
         );
