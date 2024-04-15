@@ -1,6 +1,7 @@
 package com.hellomeritz.global;
 
 import com.hellomeritz.chat.controller.dto.request.ChatAudioUploadRequest;
+import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
 import com.hellomeritz.chat.controller.dto.response.ChatMessageGetResponses;
 import com.hellomeritz.chat.domain.ChatMessage;
@@ -10,7 +11,10 @@ import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
 import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
+import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -151,6 +155,23 @@ public class ChatFixture {
         return new ChatAudioUploadResult(
                 "https://gcp//meritz-audio/china",
                 LocalDateTime.now().toString());
+    }
+
+    public static ChatMessageSttResult chatMessageSttResult() {
+        return new ChatMessageSttResult(
+                "Hello my name is byeol",
+                LocalDateTime.now().toString()
+        );
+    }
+
+    public static ChatMessageSttRequest chatMessageSttRequest() {
+        return new ChatMessageSttRequest(
+                "gs://meritz/audio",
+                1L,
+                true,
+                "EN"
+        );
+
     }
 
 }
