@@ -1,13 +1,13 @@
 package com.hellomeritz.chat.controller.dto.response;
 
-import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateTextResult;
+import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
 
 public record ChatMessageTranslateResponse(
-    String contents,
+    String originContents,
     String translatedContents,
     String createdAt
 ) {
-    public static ChatMessageTranslateResponse to(ChatMessageTranslateTextResult result) {
+    public static ChatMessageTranslateResponse to(ChatMessageTranslateResult result) {
         return new ChatMessageTranslateResponse(
             result.originContents(),
             result.translatedContents(),
