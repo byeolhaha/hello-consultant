@@ -89,6 +89,3 @@ jobs:
         with:
           name: test-report
           path: build/reports/tests/test
-
-      - name: Openapi3 Documentation
-        run: ./gradlew openapi3
