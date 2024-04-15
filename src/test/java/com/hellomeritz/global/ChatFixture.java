@@ -1,16 +1,15 @@
 package com.hellomeritz.global;
 
 import com.hellomeritz.chat.controller.dto.request.ChatAudioUploadRequest;
+import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
+import com.hellomeritz.chat.controller.dto.request.ChatMessageTranslateRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
-import com.hellomeritz.chat.controller.dto.response.ChatMessageGetResponses;
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
-import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
-import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
-import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
+import com.hellomeritz.chat.service.dto.result.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -151,6 +150,41 @@ public class ChatFixture {
         return new ChatAudioUploadResult(
                 "https://gcp//meritz-audio/china",
                 LocalDateTime.now().toString());
+    }
+
+    public static ChatMessageSttResult chatMessageSttResult() {
+        return new ChatMessageSttResult(
+                "Hello my name is byeol",
+                LocalDateTime.now().toString()
+        );
+    }
+
+    public static ChatMessageSttRequest chatMessageSttRequest() {
+        return new ChatMessageSttRequest(
+                "gs://meritz/audio",
+                1L,
+                true,
+                "EN"
+        );
+
+    }
+
+    public static ChatMessageTranslateResult chatMessageTranslateResult() {
+        return new ChatMessageTranslateResult(
+                "hello my name is kim byeol",
+                "안녕하세요 내 이름은 김별입니다",
+                LocalDateTime.now()
+        );
+    }
+
+    public static ChatMessageTranslateRequest chatMessageTranslateRequest() {
+        return new ChatMessageTranslateRequest(
+                "hello my name is kim byeol",
+                1L,
+                true,
+                "ko",
+                "en"
+        );
     }
 
 }

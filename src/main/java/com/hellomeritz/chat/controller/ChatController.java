@@ -10,7 +10,6 @@ import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +32,7 @@ public class ChatController {
 
     @MessageMapping("/chats/{chatRoomId}")
     @SendTo("/queue/chats/{chatRoomId}")
-    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessage(
+    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessageWithSocket(
             @DestinationVariable("chatRoomId") Long chatRoomId,
             @Payload ChatMessageTranslateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -43,13 +42,13 @@ public class ChatController {
     }
 
     @PostMapping("/chats/{chatRoomId}")
-    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessageRest(
-        @PathVariable Long chatRoomId,
-        @RequestBody ChatMessageTranslateRequest request) {
+    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessage(
+            @PathVariable @Positive(message = "chatRoomId는 양수여야 합니다.") Long chatRoomId,
+            @RequestBody @Valid ChatMessageTranslateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ChatMessageTranslateResponse.to(
-                chatService.translateText(request.toChatMessageTextParam(chatRoomId))
-            ));
+                .body(ChatMessageTranslateResponse.to(
+                        chatService.translateText(request.toChatMessageTextParam(chatRoomId))
+                ));
     }
 
     @PostMapping(
@@ -71,11 +70,20 @@ public class ChatController {
                 .body(ChatAudioUploadResponse.to(result));
     }
 
-    @MessageMapping("/chats/{chatRoomId}/audios")
-    @SendTo("/queue/chats/{chatRoomId}/audios")
-    public ResponseEntity<ChatMessageSttResponse> sendAudioChatMessage(
+    @MessageMapping("/chats/{chatRoomId}/stt")
+    @SendTo("/queue/chats/{chatRoomId}/stt")
+    public ResponseEntity<ChatMessageSttResponse> sendAudioChatMessageWithSocket(
             @DestinationVariable("chatRoomId") Long chatRoomId,
             @Payload ChatMessageSttRequest request) {
+        ChatMessageSttResult result = chatService.sendAudioMessage(request.toChatMessageSttParam(chatRoomId));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ChatMessageSttResponse.to(result));
+    }
+
+    @PostMapping("/chats/{chatRoomId}/stt")
+    public ResponseEntity<ChatMessageSttResponse> sendAudioChatMessage(
+            @PathVariable @Positive(message = "chatRoomId는 양수여야 합니다.") Long chatRoomId,
+            @RequestBody @Valid ChatMessageSttRequest request) {
         ChatMessageSttResult result = chatService.sendAudioMessage(request.toChatMessageSttParam(chatRoomId));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ChatMessageSttResponse.to(result));

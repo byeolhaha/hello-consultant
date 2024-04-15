@@ -4,16 +4,16 @@ import com.hellomeritz.chat.domain.ChatMessage;
 
 import java.time.LocalDateTime;
 
-public record ChatMessageTranslateTextResult(
+public record ChatMessageTranslateResult(
     String originContents,
     String translatedContents,
     LocalDateTime createdAt
 ) {
 
-    public static ChatMessageTranslateTextResult to(
+    public static ChatMessageTranslateResult to(
         ChatMessage chatMessage,
         ChatMessage translatedChatMessage) {
-        return new ChatMessageTranslateTextResult(
+        return new ChatMessageTranslateResult(
             chatMessage.getContents(),
             translatedChatMessage.getContents(),
             chatMessage.getCreatedAt()

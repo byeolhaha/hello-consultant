@@ -8,7 +8,7 @@ import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
-import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateTextResult;
+import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import com.hellomeritz.global.ChatFixture;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +42,7 @@ class ChatServiceTest {
         ChatMessageTextParam chatMessageTextParam = ChatFixture.chatMessageTextParamByFC();
 
         // when
-        ChatMessageTranslateTextResult result = chatService.translateText(chatMessageTextParam);
+        ChatMessageTranslateResult result = chatService.translateText(chatMessageTextParam);
 
         // then
         assertThat(result.originContents()).isEqualTo(chatMessageTextParam.contents());
