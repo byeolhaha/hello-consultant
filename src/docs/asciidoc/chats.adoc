@@ -36,3 +36,15 @@ include::{snippets}/upload-audios/path-parameters.adoc[]
 === Response (Success)
 include::{snippets}/upload-audios/http-response.adoc[]
 include::{snippets}/upload-audios/response-fields.adoc[]
+
+
+== 음성파일을 TEXT로 바꾸기
+음성파일을 TEXT로 바꾸기
+
+=== Request
+include::{snippets}/change-audiofile-to-text/http-request.adoc[]
+include::{snippets}/change-audiofile-to-text/path-parameters.adoc[]
+
+=== Response (Success)
+include::{snippets}/change-audiofile-to-text/http-response.adoc[]
+include::{snippets}/change-audiofile-to-text/response-fields.adoc[]
