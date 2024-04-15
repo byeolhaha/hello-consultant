@@ -1,6 +1,7 @@
 package com.hellomeritz.chat.controller;
 
 import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
+import com.hellomeritz.chat.controller.dto.request.ChatMessageTranslateRequest;
 import com.hellomeritz.global.ControllerTestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -68,6 +69,70 @@ class ChatControllerTest extends ControllerTestSupport {
                                 1L,
                                 true,
                                 "EN"
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("chatRoomId가 음수 혹은 0인 경우 검증한다.")
+    @ParameterizedTest
+    @ValueSource(longs = {-1L, 0L})
+    void sendMessage_minusOrZero_chatRoomId(long chatRoomId) throws Exception {
+        mockMvc.perform(post("/chats/{chtRoomId}", chatRoomId)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageTranslateRequest(
+                                "안녕하세요",
+                                1L,
+                                true,
+                                "EN",
+                                "KO"
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("contents가 빈값인 경우를 검증한다.")
+    @ParameterizedTest
+    @NullSource
+    void sendMessage_nullOrEmpty_contents(String contents) throws Exception {
+        mockMvc.perform(post("/chats/{chtRoomId}", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageTranslateRequest(
+                                contents,
+                                1L,
+                                true,
+                                "EN",
+                                "KO"
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("targetLang가 빈값인 경우를 검증한다.")
+    @ParameterizedTest
+    @NullSource
+    void sendMessage_nullOrEmpty_targetLang(String targetLang) throws Exception {
+        mockMvc.perform(post("/chats/{chtRoomId}", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageTranslateRequest(
+                                "안녕하세요",
+                                1L,
+                                true,
+                                targetLang,
+                                "KO"
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("sourceLang가 빈값인 경우를 검증한다.")
+    @ParameterizedTest
+    @NullSource
+    void sendMessage_nullOrEmpty_sourceLang(String sourceLang) throws Exception {
+        mockMvc.perform(post("/chats/{chtRoomId}", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageTranslateRequest(
+                                "안녕하세요",
+                                1L,
+                                true,
+                                "EN",
+                                sourceLang
                         )
                 ))).andExpect(status().is4xxClientError());
     }
