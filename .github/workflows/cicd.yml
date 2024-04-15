@@ -54,7 +54,6 @@ jobs:
           echo "${{ secrets.APPLICATION_YML_CONTENT }}" > src/main/resources/application.yml
           echo "${{ secrets.APPLICATION_TEST_YML_CONTENT }}" > src/test/resources/application.yml
           echo "${{ secrets.GCP_BUCKET_CONTENT }}" > src/test/resources/meritz-420004-93e56cbdf236.json
-          echo "${{ secrets.GOOGLE_STT_CONTENT }}" > src/test/resources/meritz-420004-bf05ee4e2548.json
 
       - name: Build with gradle
         run: ./gradlew build
