@@ -56,6 +56,9 @@ dependencies {
 	implementation("com.google.cloud:google-cloud-speech")
 	implementation("com.google.protobuf:protobuf-java:3.21.12")
 	implementation("com.fasterxml.jackson.core:jackson-databind")
+
+	// h2
+	runtimeOnly 'com.h2database:h2'
 }
 
 

@@ -42,6 +42,16 @@ public class ChatController {
                 ));
     }
 
+    @PostMapping("/chats/{chatRoomId}")
+    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessageRest(
+        @PathVariable Long chatRoomId,
+        @RequestBody ChatMessageTranslateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ChatMessageTranslateResponse.to(
+                chatService.translateText(request.toChatMessageTextParam(chatRoomId))
+            ));
+    }
+
     @PostMapping(
             path = "/chats/{chatRoomId}/audios",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
