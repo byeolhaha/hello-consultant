@@ -2,8 +2,11 @@ package com.hellomeritz.chat.controller;
 
 import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageTranslateRequest;
+import com.hellomeritz.chat.global.SourceLanguage;
+import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.global.ControllerTestSupport;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -43,7 +46,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("audioUrl이 빈값인 경우 검증한다.")
+    @DisplayName("sourceLang이 빈값인 경우 검증한다.")
     @ParameterizedTest
     @NullSource
     void sendSttMessage_nullOrEmpty_sourceLang(String sourceLang) throws Exception {
@@ -54,6 +57,20 @@ class ChatControllerTest extends ControllerTestSupport {
                                 1L,
                                 true,
                                 sourceLang
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("sourceLang이 Enum 형식에 맞니 경우 검증한다.")
+    @Test
+    void sendSttMessage_notMeetFormat_sourceLang() throws Exception {
+        mockMvc.perform(post("/chats/{chtRoomId}/stt", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageSttRequest(
+                                "gs://meritz.com/uuid",
+                                1L,
+                                true,
+                                SourceLanguage.미국.getGoogleSttLang() + "메롱"
                         )
                 ))).andExpect(status().is4xxClientError());
     }
@@ -121,6 +138,21 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
+    @DisplayName("targetLang이 enum 형식에 맞지 않는 경우 검증한다.")
+    @Test
+    void sendMessage_notMeetFormat_targetLang() throws Exception {
+        mockMvc.perform(post("/chats/{chtRoomId}", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageTranslateRequest(
+                                "안녕하세요",
+                                1L,
+                                true,
+                                TargetLanguage.미국.getDeeplLang() + "메롱",
+                                "KO"
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
     @DisplayName("sourceLang가 빈값인 경우를 검증한다.")
     @ParameterizedTest
     @NullSource
@@ -133,6 +165,21 @@ class ChatControllerTest extends ControllerTestSupport {
                                 true,
                                 "EN",
                                 sourceLang
+                        )
+                ))).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("sourceLang가 enum 형식에 맞지 앉는 경우를 검증한다.")
+    @Test
+    void sendMessage_notMeetFormat_sourceLang() throws Exception {
+        mockMvc.perform(post("/chats/{chtRoomId}", 1L)
+                .content(objectMapper.writeValueAsString(
+                        new ChatMessageTranslateRequest(
+                                "안녕하세요",
+                                1L,
+                                true,
+                                "EN",
+                                SourceLanguage.미국.getDeeplLang()
                         )
                 ))).andExpect(status().is4xxClientError());
     }
