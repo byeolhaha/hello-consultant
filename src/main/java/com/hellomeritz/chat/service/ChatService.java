@@ -86,4 +86,9 @@ public class ChatService {
         );
     }
 
+    public void saveForeignInfo() {
+
+    }
+
+
 }
