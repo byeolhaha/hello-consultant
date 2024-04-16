@@ -34,4 +34,18 @@ public enum SourceLanguage {
         return Arrays.stream(SourceLanguage.values())
                 .noneMatch(sourceLanguage -> sourceLanguage.googleSttLang.equals(sourceLang));
     }
+
+    public static SourceLanguage findSttSourceLanguage(String language) {
+        return Arrays.stream(SourceLanguage.values())
+                .filter(sourceLanguage -> sourceLanguage.googleSttLang.equals(language))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
+    }
+
+    public static SourceLanguage findTranslatorSourceLanguage(String language) {
+        return Arrays.stream(SourceLanguage.values())
+                .filter(sourceLanguage -> sourceLanguage.deeplLang.equals(language))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
+    }
 }

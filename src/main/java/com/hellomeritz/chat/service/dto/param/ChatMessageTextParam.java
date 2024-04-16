@@ -2,6 +2,8 @@ package com.hellomeritz.chat.service.dto.param;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
+import com.hellomeritz.chat.global.SourceLanguage;
+import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.global.translator.TranslationRequest;
 
 public record ChatMessageTextParam(
@@ -9,8 +11,8 @@ public record ChatMessageTextParam(
     long userId,
     boolean isFC,
     long chatRoomId,
-    String targetLang,
-    String sourceLang
+    TargetLanguage targetLang,
+    SourceLanguage sourceLang
 ) {
     public ChatMessage toChatMessage() {
         return ChatMessage.of(

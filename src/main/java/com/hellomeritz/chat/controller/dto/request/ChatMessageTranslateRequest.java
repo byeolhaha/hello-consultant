@@ -38,8 +38,8 @@ public record ChatMessageTranslateRequest(
                 userId,
                 isFC,
                 chatRoomId,
-                targetLang,
-                sourceLang
+                TargetLanguage.findTranslatorTargetLanguage(targetLang),
+                SourceLanguage.findTranslatorSourceLanguage(sourceLang)
         );
     }
 }

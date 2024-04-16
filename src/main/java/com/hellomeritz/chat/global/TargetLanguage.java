@@ -27,4 +27,11 @@ public enum TargetLanguage {
                 .noneMatch(targetLanguage -> targetLanguage.deeplLang.equals(targetLang));
     }
 
+    public static TargetLanguage findTranslatorTargetLanguage(String language) {
+        return Arrays.stream(TargetLanguage.values())
+                .filter(targetLanguage -> targetLanguage.deeplLang.equals(language))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
+    }
+
 }

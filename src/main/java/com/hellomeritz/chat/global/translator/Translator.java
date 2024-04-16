@@ -21,8 +21,8 @@ public class Translator {
     public TranslationResponse translate(TranslationRequest request) {
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
         parameters.add("text", request.contents());
-        parameters.add("target_lang", request.targetLang());
-        parameters.add("source_lang", request.sourceLang());
+        parameters.add("target_lang", request.targetLang().getDeeplLang());
+        parameters.add("source_lang", request.sourceLang().getDeeplLang());
 
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", secretKey);
