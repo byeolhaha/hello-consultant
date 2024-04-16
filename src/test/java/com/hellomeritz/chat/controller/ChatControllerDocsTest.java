@@ -2,6 +2,8 @@ package com.hellomeritz.chat.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hellomeritz.chat.controller.dto.request.ChatAudioUploadRequest;
+import com.hellomeritz.chat.global.SourceLanguage;
+import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
@@ -18,6 +20,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -101,7 +105,10 @@ public class ChatControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("audioUrl").type(JsonFieldType.STRING).description("audio Url"),
                                 fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 ID"),
                                 fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사 여부"),
-                                fieldWithPath("sourceLang").type(JsonFieldType.STRING).description("audio file의 해당 언어")
+                                fieldWithPath("sourceLang").type(JsonFieldType.STRING).description("audio file의 해당 언어"
+                                        + Arrays.stream(SourceLanguage.values())
+                                        .map(SourceLanguage::getGoogleSttLang)
+                                        .collect(Collectors.joining(", ")))
                         ),
                         responseFields(
                                 fieldWithPath("textBySpeech").type(JsonFieldType.STRING).description("음성 파일에서 TEXT로 반환된 내용"),
@@ -130,8 +137,14 @@ public class ChatControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("contents").type(JsonFieldType.STRING).description("채팅을 통해 보낸 text"),
                                 fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 ID"),
                                 fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사 여부"),
-                                fieldWithPath("targetLang").type(JsonFieldType.STRING).description("번역되고자 하는 언어"),
-                                fieldWithPath("sourceLang").type(JsonFieldType.STRING).description("사용자가 보낸 text의 해당 언어")
+                                fieldWithPath("targetLang").type(JsonFieldType.STRING).description(
+                                        "번역되고자 하는 언어:" + Arrays.stream(TargetLanguage.values())
+                                                .map(TargetLanguage::getDeeplLang)
+                                                .collect(Collectors.joining(", "))),
+                                fieldWithPath("sourceLang").type(JsonFieldType.STRING).description(
+                                        "사용자가 보낸 text의 해당 언어:" + Arrays.stream(SourceLanguage.values())
+                                                .map(SourceLanguage::getDeeplLang)
+                                                .collect(Collectors.joining(", ")))
                         ),
                         responseFields(
                                 fieldWithPath("originContents").type(JsonFieldType.STRING).description("원본 text"),

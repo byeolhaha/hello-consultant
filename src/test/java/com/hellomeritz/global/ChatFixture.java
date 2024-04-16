@@ -164,7 +164,7 @@ public class ChatFixture {
                 "gs://meritz/audio",
                 1L,
                 true,
-                "EN"
+                "zh"
         );
 
     }
@@ -182,8 +182,8 @@ public class ChatFixture {
                 "hello my name is kim byeol",
                 1L,
                 true,
-                "ko",
-                "en"
+                "KO",
+                "EN"
         );
     }
 
