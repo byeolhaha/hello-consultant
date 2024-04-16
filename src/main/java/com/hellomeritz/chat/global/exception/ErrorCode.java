@@ -20,6 +20,8 @@ public enum ErrorCode {
     // stt
     STT_IO_ERROR("S001", "stt 해당 파일이 존재하지 않거나 경로가 잘못되었습니다."),
     STT_EXECUTION_ERROR("S001", "stt 응답을 받을 때 관련 설정 파일에 오류가 있습니다."),
+    STT_CREDENTIAL_ERROR("S002","stt의 credential이 유효하지 않습니다."),
+    STT_SPEECH_ERROR("S003","stt speech setting 중에 오류가 발생하였습니다."),
 
     //bucket
     FILE_UPLOAD_ERROR("F001", "Internal Server Error");
