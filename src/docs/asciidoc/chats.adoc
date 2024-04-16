@@ -53,6 +53,7 @@ include::{snippets}/upload-audios/response-fields.adoc[]
 === Request
 
 include::{snippets}/change-audiofile-to-text/http-request.adoc[]
+include::{snippets}/change-audiofile-to-text/request-fields.adoc[]
 include::{snippets}/change-audiofile-to-text/path-parameters.adoc[]
 
 === Response (Success)
@@ -67,6 +68,7 @@ TEXT 번역하기
 === Request
 
 include::{snippets}/translate-text/http-request.adoc[]
+include::{snippets}/translate-text/request-fields.adoc[]
 include::{snippets}/translate-text/path-parameters.adoc[]
 
 === Response (Success)

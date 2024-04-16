@@ -6,6 +6,8 @@ import com.hellomeritz.chat.controller.dto.request.ChatMessageTranslateRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
+import com.hellomeritz.chat.global.SourceLanguage;
+import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
@@ -30,8 +32,8 @@ public class ChatFixture {
                 FC_ID,
                 true,
                 1,
-                "EN",
-                "KO"
+                TargetLanguage.findTranslatorTargetLanguage("EN-US"),
+                SourceLanguage.findTranslatorSourceLanguage("KO")
         );
     }
 
@@ -81,8 +83,8 @@ public class ChatFixture {
                 USER_ID,
                 false,
                 1,
-                "KO",
-                "EN"
+                TargetLanguage.findTranslatorTargetLanguage("KO"),
+                SourceLanguage.findTranslatorSourceLanguage("EN")
         );
     }
 
@@ -164,7 +166,7 @@ public class ChatFixture {
                 "gs://meritz/audio",
                 1L,
                 true,
-                "EN"
+                "zh"
         );
 
     }
@@ -182,8 +184,8 @@ public class ChatFixture {
                 "hello my name is kim byeol",
                 1L,
                 true,
-                "ko",
-                "en"
+                "KO",
+                "EN"
         );
     }
 
