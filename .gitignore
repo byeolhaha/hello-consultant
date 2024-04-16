@@ -38,3 +38,4 @@ out/
 
 ### yml 설정 파일 ###
 application*.yml
+*.json
