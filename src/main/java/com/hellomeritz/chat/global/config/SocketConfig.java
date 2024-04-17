@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global;
+package com.hellomeritz.chat.global.config;
 
 import com.hellomeritz.chat.global.handler.ChatErrorHandler;
 import org.springframework.context.annotation.Configuration;

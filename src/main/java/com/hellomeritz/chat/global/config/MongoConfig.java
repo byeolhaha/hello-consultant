@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global;
+package com.hellomeritz.chat.global.config;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;

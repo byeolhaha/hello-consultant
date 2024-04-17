@@ -9,10 +9,6 @@ public record ForeignInfoSaveParam(
         SourceLanguage language,
         VisaType visaType,
         boolean hasResidentCard,
-        List<String> interestedInsurances,
-        boolean isFemale,
-        String birth
-
-
+        String birthDate
 ) {
 }
