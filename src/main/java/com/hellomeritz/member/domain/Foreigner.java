@@ -16,7 +16,7 @@ public class Foreigner {
     private static final LocalDate MAX_BIRTH_DATE = LocalDate.now();
     private static final LocalDate MIN_BIRTH_DATE = LocalDate.of(1800, 1, 1);
 
-    @Column(name = "chat_room_id", nullable = false)
+    @Column(name = "foreigner_id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
