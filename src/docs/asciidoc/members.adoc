@@ -1,0 +1,13 @@
+[[Member]]
+== 외국인 회원 생성하기
+
+외국인 회원을 생성합니다.
+
+=== Request
+
+include::{snippets}/create-foreigner/http-request.adoc[]
+
+=== Response (Success)
+
+include::{snippets}/create-foreigner/http-response.adoc[]
+include::{snippets}/create-foreigner/response-fields.adoc[]

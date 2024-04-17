@@ -11,3 +11,4 @@ endif::[]
 :sectlinks:
 
 include::chats.adoc[]
+include::members.adoc[]
