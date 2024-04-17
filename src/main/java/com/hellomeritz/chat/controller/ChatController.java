@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ChatController {
     private final ChatService chatService;
 
-    public ChatController(ChatService chatService) {
+    public ChatController(ChatService chatService) - {
         this.chatService = chatService;
     }
 
@@ -51,7 +51,6 @@ public class ChatController {
                 ));
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping(
             path = "/chats/{chatRoomId}/audios",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
