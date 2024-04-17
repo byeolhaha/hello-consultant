@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ChatController {
     private final ChatService chatService;
 
-    public ChatController(ChatService chatService) - {
+    public ChatController(ChatService chatService) {
         this.chatService = chatService;
     }
 
