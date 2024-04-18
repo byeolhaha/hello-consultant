@@ -1,6 +1,6 @@
 package com.hellomeritz.member.service;
 
-import com.hellomeritz.chat.global.MacAddressGenerator;
+import com.hellomeritz.member.global.IpSensor;
 import com.hellomeritz.member.domain.Foreigner;
 import com.hellomeritz.member.repository.ForeignRepository;
 import com.hellomeritz.member.service.dto.param.ForeignInfoSaveParam;
@@ -13,28 +13,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberService {
 
-    private final MacAddressGenerator macAddressGenerator;
+    private final IpSensor ipSensor;
 
     private final ForeignRepository foreignRepository;
 
-    public MemberService(MacAddressGenerator macAddressGenerator, ForeignRepository foreignRepository) {
-        this.macAddressGenerator = macAddressGenerator;
+    public MemberService(IpSensor ipSensor, ForeignRepository foreignRepository) {
+        this.ipSensor = ipSensor;
         this.foreignRepository = foreignRepository;
     }
 
     @Transactional
     public ForeignInfoSaveResult saveForeignInfo(ForeignInfoSaveParam param) {
-        String macAddress = macAddressGenerator.get();
-        Foreigner foreigner = foreignRepository.save(param.toForeigner(macAddress));
+        Foreigner foreigner = foreignRepository.save(param.toForeigner());
 
-        return ForeignInfoSaveResult.to(
-                foreigner.getId(),
-                macAddress
-        );
+        return ForeignInfoSaveResult.to(foreigner.getId());
     }
 
     public ForeignUserIdResult getForeignUserId() {
-        String macAddress = macAddressGenerator.get();
+        String macAddress = ipSensor.getClientIP();
         Long userId = foreignRepository.getUserId(macAddress);
 
         return ForeignUserIdResult.to(

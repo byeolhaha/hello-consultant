@@ -14,12 +14,9 @@ public record ForeignInfoSaveParam(
         boolean hasResidentCard,
         BirthDate birthDate
 ) {
-    public Foreigner toForeigner(
-            String macAddress
-    ) {
+    public Foreigner toForeigner() {
         return Foreigner.of(
                 userId,
-                macAddress,
                 language,
                 visaType,
                 hasResidentCard,

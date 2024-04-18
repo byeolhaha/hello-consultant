@@ -1,16 +1,13 @@
 package com.hellomeritz.member.service.dto.result;
 
 public record ForeignInfoSaveResult(
-        Long userId,
-        String macAddress
+        Long userId
 ) {
     public static ForeignInfoSaveResult to(
-            Long userId,
-            String macAddress
+            Long userId
     ) {
         return new ForeignInfoSaveResult(
-                userId,
-                macAddress
+                userId
         );
     }
 }
