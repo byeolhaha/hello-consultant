@@ -524,7 +524,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_request"><a class="link" href="#_request">Request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /chat-rooms/1/messages?myId=1&amp;nextChatMessageId=000000000000000000000000 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /chat-rooms/1/messages?myId=1&amp;nextChatMessageId=000000000000000000000000&amp;isFC=true HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Host: localhost:8080</code></pre>
 </div>
@@ -567,6 +567,10 @@ Host: localhost:8080</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nextChatMessageId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">무한스크롤 검색을 위한 다음 채팅메시지 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isFC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설계사인지 여부</p></td>
 </tr>
 </tbody>
 </table>
@@ -847,7 +851,7 @@ Content-Length: 104
 
 {
   "audioUrl" : "https://gcp//meritz-audio/china",
-  "createdAt" : "2024-04-18T18:05:13.348623100"
+  "createdAt" : "2024-04-18T18:25:46.044684800"
 }</code></pre>
 </div>
 </div>
@@ -969,7 +973,7 @@ Content-Length: 99
 
 {
   "textBySpeech" : "Hello my name is byeol",
-  "createdAt" : "2024-04-18T18:05:12.922029300"
+  "createdAt" : "2024-04-18T18:25:45.928365100"
 }</code></pre>
 </div>
 </div>
@@ -1098,7 +1102,7 @@ Content-Length: 180
 {
   "originContents" : "hello my name is kim byeol",
   "translatedContents" : "안녕하세요 내 이름은 김별입니다",
-  "createdAt" : "2024-04-18T18:05:13.417415900"
+  "createdAt" : "2024-04-18T18:25:46.158093200"
 }</code></pre>
 </div>
 </div>

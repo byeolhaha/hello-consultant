@@ -42,6 +42,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
         mockMvc.perform(get("/chat-rooms/{chatRoomId}/messages", 1L)
                         .param("myId", String.valueOf(1L))
                         .param("nextChatMessageId", "000000000000000000000000")
+                        .param("isFC", "true")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8)
                 )
@@ -53,7 +54,8 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
                                 ),
                                 queryParameters(
                                         parameterWithName("myId").description("유저 ID"),
-                                        parameterWithName("nextChatMessageId").description("무한스크롤 검색을 위한 다음 채팅메시지 ID")
+                                        parameterWithName("nextChatMessageId").description("무한스크롤 검색을 위한 다음 채팅메시지 ID"),
+                                        parameterWithName("isFC").description("설계사인지 여부")
                                 ),
                                 responseFields(
                                         fieldWithPath("chatMessages[].chatMessageId").type(JsonFieldType.STRING).description("메세지 아이디"),

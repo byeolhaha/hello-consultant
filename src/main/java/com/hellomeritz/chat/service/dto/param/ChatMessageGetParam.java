@@ -5,7 +5,8 @@ import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryR
 public record ChatMessageGetParam(
     long myId,
     String nextChatMessageId,
-    long chatRoomId
+    long chatRoomId,
+    boolean isFC
 ) {
     public ChatMessageGetRepositoryRequest toChatMessageGetRepositoryRequest(int pageSize) {
         return new ChatMessageGetRepositoryRequest(
