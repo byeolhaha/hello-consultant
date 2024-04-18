@@ -58,8 +58,7 @@ public class MemberController {
     }
 
     @PatchMapping(
-            path = "/{userId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            path = "/{userId}"
     )
     public ResponseEntity<ForeignSaveIpAddressResponse> saveForeignIpAddress(
             @PathVariable @Positive(message = "userId는 양수여야 합니다.") Long userId
