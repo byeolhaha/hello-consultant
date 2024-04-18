@@ -80,4 +80,9 @@ public class Foreigner {
         return new Foreigner();
     }
 
+    public void updateIpAddress(String ipAddress) {
+        Assert.hasLength(ipAddress, "ipAddress는 null이거나 빈값일 수 없습니다.");
+        this.ipAddress = ipAddress;
+    }
+
 }

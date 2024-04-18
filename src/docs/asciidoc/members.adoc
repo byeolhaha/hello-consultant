@@ -26,3 +26,17 @@ include::{snippets}/save-foreignerInfo/path-parameters.adoc[]
 
 include::{snippets}/save-foreignerInfo/http-response.adoc[]
 include::{snippets}/save-foreignerInfo/response-fields.adoc[]
+
+
+== 외국인 IP 저장
+
+외국인이 IP 주소를 저장합니다.
+
+=== Request
+
+include::{snippets}/save-foreigner-ipAddress/http-request.adoc[]
+include::{snippets}/save-foreigner-ipAddress/path-parameters.adoc[]
+=== Response (Success)
+
+include::{snippets}/save-foreigner-ipAddress/http-response.adoc[]
+include::{snippets}/save-foreigner-ipAddress/response-fields.adoc[]

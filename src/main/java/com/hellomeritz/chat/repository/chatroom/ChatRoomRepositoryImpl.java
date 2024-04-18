@@ -28,6 +28,8 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 
     @Override
     public ChatRoomUserInfo getChatRoomUserInfo(Long chatRoomId) {
-        return chatRoomJpaRepository.getChatRoomUserInfo(chatRoomId);
+        return chatRoomJpaRepository
+                .findChatRoomUserInfo(chatRoomId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 채팅방은 존재하지 않습니다."));
     }
 }

@@ -14,5 +14,5 @@ public interface ChatRoomJpaRepository extends JpaRepository<ChatRoom, Long> {
 
 
     @Query("select cr.userId as userId , cr.fcId as fcId from ChatRoom as cr where cr.chatRoomId =:chatRoomId")
-    ChatRoomUserInfo getChatRoomUserInfo(@Param(value = "chatRoomId") Long chatRoomId);
+    Optional<ChatRoomUserInfo> findChatRoomUserInfo(@Param(value = "chatRoomId") Long chatRoomId);
 }
