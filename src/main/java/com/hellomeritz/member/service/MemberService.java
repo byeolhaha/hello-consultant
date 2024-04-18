@@ -5,9 +5,11 @@ import com.hellomeritz.member.global.IpSensor;
 import com.hellomeritz.member.repository.ForeignRepository;
 import com.hellomeritz.member.service.dto.param.ForeignInfoSaveParam;
 import com.hellomeritz.member.service.dto.param.ForeignSaveIpAddressParam;
+import com.hellomeritz.member.service.dto.param.UserCheckIsFcParam;
 import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
 import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
 import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
+import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,11 @@ public class MemberService {
         foreigner.updateIpAddress(clientIp);
 
         return ForeignSaveIpAddressResult.to(clientIp);
+    }
+
+    public UserCheckIsFcResult checkUserIsFc(UserCheckIsFcParam param) {
+        String clientIP = ipSensor.getClientIP();
+        return UserCheckIsFcResult.to(foreignRepository.isFc(clientIP, param.userId()));
     }
 
 }
