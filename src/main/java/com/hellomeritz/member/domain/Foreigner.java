@@ -22,7 +22,7 @@ public class Foreigner {
     private Long id;
 
     @Column(name = "mac_address")
-    private String macAddress;
+    private String ipAddress;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "language")
@@ -44,19 +44,16 @@ public class Foreigner {
 
     private Foreigner(
             Long userId,
-            String macAddress,
             SourceLanguage sourceLanguage,
             VisaType visaType,
             boolean hasResidentCard,
             BirthDate birthDate
     ) {
         Assert.isTrue(userId >= MIN_USER_ID, "user id는 양수여야 합니다.");
-        Assert.hasLength(macAddress, "mac address는 빈값일 수 없습니다.");
         Assert.notNull(sourceLanguage, "외국인의 언어는 null일 수 없습니다.");
         Assert.notNull(visaType, "외국인의 visa type은 null일 수 없습니다.");
 
         this.id = userId;
-        this.macAddress = macAddress;
         this.language = sourceLanguage;
         this.birthDate = birthDate;
         this.visaType = visaType;
@@ -65,7 +62,6 @@ public class Foreigner {
 
     public static Foreigner of(
             Long userId,
-            String macAddress,
             SourceLanguage sourceLanguage,
             VisaType visaType,
             boolean hasResidentCard,
@@ -73,7 +69,6 @@ public class Foreigner {
     ) {
         return new Foreigner(
                 userId,
-                macAddress,
                 sourceLanguage,
                 visaType,
                 hasResidentCard,
@@ -81,9 +76,7 @@ public class Foreigner {
         );
     }
 
-    public static Foreigner of(
-
-    ) {
+    public static Foreigner of() {
         return new Foreigner();
     }
 
