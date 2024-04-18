@@ -36,7 +36,8 @@ public class Foreigner {
     private boolean hasResidentCard;
 
     @Column(name = "birth_date")
-    private LocalDate birthDate;
+    @Embedded
+    private BirthDate birthDate;
 
     protected Foreigner() {
     }
@@ -47,16 +48,12 @@ public class Foreigner {
             SourceLanguage sourceLanguage,
             VisaType visaType,
             boolean hasResidentCard,
-            LocalDate birthDate
+            BirthDate birthDate
     ) {
         Assert.isTrue(userId >= MIN_USER_ID, "user id는 양수여야 합니다.");
         Assert.hasLength(macAddress, "mac address는 빈값일 수 없습니다.");
         Assert.notNull(sourceLanguage, "외국인의 언어는 null일 수 없습니다.");
         Assert.notNull(visaType, "외국인의 visa type은 null일 수 없습니다.");
-        Assert.isTrue(birthDate.isAfter(MAX_BIRTH_DATE),
-                String.format("생일은 %s를 넘길 수 없습니다.", MAX_BIRTH_DATE));
-        Assert.isTrue(birthDate.isBefore(MIN_BIRTH_DATE),
-                String.format("생일은 %s보다 작을 수 없습니다.", MIN_BIRTH_DATE));
 
         this.id = userId;
         this.macAddress = macAddress;
@@ -72,7 +69,7 @@ public class Foreigner {
             SourceLanguage sourceLanguage,
             VisaType visaType,
             boolean hasResidentCard,
-            LocalDate birthDate
+            BirthDate birthDate
     ) {
         return new Foreigner(
                 userId,
