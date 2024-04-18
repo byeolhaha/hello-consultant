@@ -3,10 +3,13 @@ package com.hellomeritz.member.controller;
 import com.hellomeritz.member.controller.dto.ForeignCreateResponse;
 import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
 import com.hellomeritz.member.controller.dto.ForeignInfoSaveResponse;
+import com.hellomeritz.member.controller.dto.ForeignSaveIpAddressResponse;
 import com.hellomeritz.member.service.MemberService;
+import com.hellomeritz.member.service.dto.param.ForeignSaveIpAddressParam;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +55,19 @@ public class MemberController {
                                 request.toForeignInfoSaveParam(userId)
                         ))
                 );
+    }
+
+    @PatchMapping(
+            path = "/{userId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ForeignSaveIpAddressResponse> saveForeignIpAddress(
+            @PathVariable @Positive(message = "userId는 양수여야 합니다.") Long userId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ForeignSaveIpAddressResponse.to(
+                        memberService.saveForeignIpAddress(ForeignSaveIpAddressParam.to(userId))
+                ));
     }
 
 }
