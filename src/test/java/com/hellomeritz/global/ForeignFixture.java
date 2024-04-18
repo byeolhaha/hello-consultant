@@ -3,6 +3,7 @@ package com.hellomeritz.global;
 import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
 import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
 import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
+import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
 import jakarta.validation.constraints.NotBlank;
 
 public class ForeignFixture {
@@ -27,6 +28,12 @@ public class ForeignFixture {
                 "E1",
                 true,
                 "19970121"
+        );
+    }
+
+    public static ForeignSaveIpAddressResult foreignSaveIpAddressResult() {
+        return new ForeignSaveIpAddressResult(
+                "127.0.0.1"
         );
     }
 }
