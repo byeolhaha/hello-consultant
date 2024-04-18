@@ -1,11 +1,20 @@
 package com.hellomeritz.global;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hellomeritz.member.global.IpSensor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    private final ObjectMapper objectMapper;
+
+    public WebConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -14,4 +23,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                 .maxAge(3600);
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(new IpSensor(objectMapper))
+                .addPathPatterns("/users/*");
+    }
+
+
 }
