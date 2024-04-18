@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ChatRoomControllerTest extends ControllerTestSupport {
 
-    @DisplayName("myId가 null이거나 빈값인 경우를 검증한다.")
+    @DisplayName("myId가 null이거나 빈값인 경우를 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void getChatMessage_nullOrEmpty_myId(Long myId) throws Exception {
@@ -32,7 +32,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("myId가 0이거나 음수인 경우를 검증한다.")
+    @DisplayName("myId가 0이거나 음수인 경우를 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_myId(Long myId) throws Exception {
@@ -45,7 +45,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("chatRoomId가 0이거나 음수인 경우를 검증한다.")
+    @DisplayName("chatRoomId가 0이거나 음수인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_chatRoomId(Long chatRoomId) throws Exception {
@@ -58,7 +58,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("fcId가 null이거나 빈값인 경우를 검증한다.")
+    @DisplayName("fcId가 null이거나 빈값인 경우 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void getChatMessage_nullOrEmpty_fcId(Long fcId) throws Exception {
@@ -71,7 +71,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("fcId가 0이거나 음수인 경우를 검증한다.")
+    @DisplayName("fcId가 0이거나 음수인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_fcId(Long fcId) throws Exception {
@@ -84,7 +84,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("userId가 null이거나 빈값인 경우를 검증한다.")
+    @DisplayName("userId가 null이거나 빈값인 경우 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void getChatMessage_nullOrEmpty_userId(Long userId) throws Exception {
@@ -97,7 +97,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("fcId가 0이거나 음수인 경우를 검증한다.")
+    @DisplayName("fcId가 0이거나 음수인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_userId(Long userId) throws Exception {
@@ -110,7 +110,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("userId가 0이거나 음수인 경우를 검증한다.")
+    @DisplayName("userId가 0이거나 음수인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void uploadAudio_userId(long userId) throws Exception {
@@ -134,7 +134,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 .contentType(MediaType.MULTIPART_FORM_DATA)).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("userId가 0이거나 음수인 경우를 검증한다.")
+    @DisplayName("userId가 0이거나 음수인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void uploadAudio_chatRoomId(long chatRoomId) throws Exception {

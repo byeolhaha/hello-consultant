@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,7 @@ class ForeignerTest {
                         SourceLanguage.미국,
                         VisaType.E1,
                         true,
-                        LocalDate.of(1997, 1, 21)
+                        BirthDate.of("19970121")
                 ));
     }
 
@@ -40,7 +41,7 @@ class ForeignerTest {
                         sourceLanguage,
                         VisaType.E1,
                         true,
-                        LocalDate.of(1997, 1, 21)
+                        BirthDate.of("19970121")
                 ));
     }
 
@@ -55,13 +56,14 @@ class ForeignerTest {
                         SourceLanguage.미국,
                         visaType,
                         true,
-                        LocalDate.of(1997, 1, 21)
+                        BirthDate.of("19970121")
                 ));
     }
 
     @DisplayName("birthDate의 범위가 최대 범위를 벗어나면 예외를 던진다.")
     @Test
     void testExceedMaxBirthDate( ) {
+        DateTimeFormatter yyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
@@ -69,13 +71,14 @@ class ForeignerTest {
                         SourceLanguage.미국,
                         VisaType.E1,
                         true,
-                        LocalDate.now().plusDays(7)
+                        BirthDate.of(LocalDate.now().plusDays(10).format(yyMMdd))
                 ));
     }
 
     @DisplayName("birthDate의 범위가 최소 범위보다 작으면 예외를 던진다.")
     @Test
     void testExceedMinBirthDate( ) {
+        DateTimeFormatter yyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
@@ -83,7 +86,7 @@ class ForeignerTest {
                         SourceLanguage.미국,
                         VisaType.E1,
                         true,
-                        LocalDate.of(1799,1,1)
+                        BirthDate.of("11111111")
                 ));
     }
 

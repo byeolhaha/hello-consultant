@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ChatControllerTest extends ControllerTestSupport {
 
-    @DisplayName("audioUrl이 빈값인 경우 검증한다.")
+    @DisplayName("audioUrl이 빈값인 경우 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void sendSttMessage_nullOrEmpty_audioUrl(String audioUrl) throws Exception {
@@ -31,7 +31,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("userId가 음수 또는 0인 경우 검증한다.")
+    @DisplayName("userId가 음수 또는 0인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void sendSttMessage_minusOrZero_userId(long userId) throws Exception {
@@ -46,7 +46,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("sourceLang이 빈값인 경우 검증한다.")
+    @DisplayName("sourceLang이 빈값인 경우 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void sendSttMessage_nullOrEmpty_sourceLang(String sourceLang) throws Exception {
@@ -61,7 +61,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("sourceLang이 Enum 형식에 맞니 경우 검증한다.")
+    @DisplayName("sourceLang이 Enum 형식에 맞니 경우 예외를 던진다.")
     @Test
     void sendSttMessage_notMeetFormat_sourceLang() throws Exception {
         mockMvc.perform(post("/chats/{chtRoomId}/stt", 1L)
@@ -75,7 +75,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("chatRoomId가 음수 혹은 0인 경우 검증한다.")
+    @DisplayName("chatRoomId가 음수 혹은 0인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void sendSttMessage_minusOrZero_chatRoomId(long chatRoomId) throws Exception {
@@ -90,7 +90,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("chatRoomId가 음수 혹은 0인 경우 검증한다.")
+    @DisplayName("chatRoomId가 음수 혹은 0인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void sendMessage_minusOrZero_chatRoomId(long chatRoomId) throws Exception {
@@ -106,7 +106,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("contents가 빈값인 경우를 검증한다.")
+    @DisplayName("contents가 빈값인 경우를 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void sendMessage_nullOrEmpty_contents(String contents) throws Exception {
@@ -122,7 +122,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("targetLang가 빈값인 경우를 검증한다.")
+    @DisplayName("targetLang가 빈값인 경우를 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void sendMessage_nullOrEmpty_targetLang(String targetLang) throws Exception {
@@ -138,7 +138,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("targetLang이 enum 형식에 맞지 않는 경우 검증한다.")
+    @DisplayName("targetLang이 enum 형식에 맞지 않는 경우 예외를 던진다.")
     @Test
     void sendMessage_notMeetFormat_targetLang() throws Exception {
         mockMvc.perform(post("/chats/{chtRoomId}", 1L)
@@ -153,7 +153,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("sourceLang가 빈값인 경우를 검증한다.")
+    @DisplayName("sourceLang가 빈값인 경우를 예외를 던진다.")
     @ParameterizedTest
     @NullSource
     void sendMessage_nullOrEmpty_sourceLang(String sourceLang) throws Exception {
@@ -169,7 +169,7 @@ class ChatControllerTest extends ControllerTestSupport {
                 ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("sourceLang가 enum 형식에 맞지 앉는 경우를 검증한다.")
+    @DisplayName("sourceLang가 enum 형식에 맞지 앉는 경우 예외를 던진다.")
     @Test
     void sendMessage_notMeetFormat_sourceLang() throws Exception {
         mockMvc.perform(post("/chats/{chtRoomId}", 1L)

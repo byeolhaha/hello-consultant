@@ -1,6 +1,9 @@
 package com.hellomeritz.global;
 
+import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
 import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
+import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
+import jakarta.validation.constraints.NotBlank;
 
 public class ForeignFixture {
 
@@ -10,5 +13,21 @@ public class ForeignFixture {
 
     public static ForeignCreateResult foreignCreateResult() {
         return new ForeignCreateResult(1L);
+    }
+
+    public static ForeignInfoSaveResult foreignInfoSaveResult() {
+        return new ForeignInfoSaveResult(
+                1L,
+                "06-00-00-00-00-00"
+        );
+    }
+
+    public static ForeignInfoSaveRequest foreignInfoSaveRequest() {
+        return new ForeignInfoSaveRequest(
+                "en-US",
+                "E1",
+                true,
+                "19970121"
+        );
     }
 }
