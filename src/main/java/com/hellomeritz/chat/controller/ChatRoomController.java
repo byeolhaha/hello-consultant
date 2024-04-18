@@ -4,7 +4,9 @@ import com.hellomeritz.chat.controller.dto.request.ChatMessageGetRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
 import com.hellomeritz.chat.controller.dto.response.ChatMessageGetResponses;
 import com.hellomeritz.chat.controller.dto.response.ChatRoomCreateResponse;
+import com.hellomeritz.chat.controller.dto.response.ChatRoomUserInfoResponse;
 import com.hellomeritz.chat.service.ChatService;
+import com.hellomeritz.chat.service.dto.param.ChatRoomUserInfoParam;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
@@ -45,6 +47,19 @@ public class ChatRoomController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ChatMessageGetResponses.to(
                         chatService.getChatMessages(request.toChatMessageGetParam(chatRoomId))
+                ));
+    }
+
+    @GetMapping(
+            path = "/{chatRoomId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ChatRoomUserInfoResponse> getChatRoomUserInfo(
+            @PathVariable @Positive Long chatRoomId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ChatRoomUserInfoResponse.to(
+                        chatService.getChatRoomUserInfo(ChatRoomUserInfoParam.to(chatRoomId))
                 ));
     }
 }
