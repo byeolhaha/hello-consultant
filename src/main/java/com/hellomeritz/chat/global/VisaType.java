@@ -1,5 +1,7 @@
 package com.hellomeritz.chat.global;
 
+import java.util.Arrays;
+
 public enum VisaType {
     D1,
     D2,
@@ -25,6 +27,19 @@ public enum VisaType {
     F2,
     F3,
     F5,
-    F6
+    F6;
+
+    public static boolean checkTranslatorFormat(String visaType) {
+        return Arrays.stream(VisaType.values())
+                .noneMatch(visa -> visa.name().equals(visaType));
+    }
+
+    public static VisaType findVisaType(String visaType) {
+        return Arrays.stream(VisaType.values())
+                .filter(visa -> visa.name().equals(visaType))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 visa type이 없습니다."));
+    }
+
 
 }

@@ -51,7 +51,8 @@ public class SttGoogleManager implements SttManager {
                     RecognitionConfig.newBuilder()
                             .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
                             .setLanguageCode(request.sourceLang().getGoogleSttLang())
-                            .setSampleRateHertz(16000)
+                            //.setSampleRateHertz(16000)
+                            .setEnableSeparateRecognitionPerChannel(false)
                             .build();
             RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
 

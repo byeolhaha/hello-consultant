@@ -51,7 +51,6 @@ public class ChatController {
                 ));
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping(
             path = "/chats/{chatRoomId}/audios",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
