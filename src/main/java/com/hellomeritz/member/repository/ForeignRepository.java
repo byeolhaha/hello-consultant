@@ -7,4 +7,6 @@ public interface ForeignRepository {
     Foreigner save(Foreigner foreigner);
 
     Long getUserId(String macAddress);
+
+    Foreigner getById(Long userId);
 }
