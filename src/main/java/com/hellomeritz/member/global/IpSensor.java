@@ -49,7 +49,7 @@ public class IpSensor implements HandlerInterceptor {
         clientIPThreadLocal.remove();
     }
 
-    public ThreadLocal<String> getClientIP() {
-        return clientIPThreadLocal;
+    public String getClientIP() {
+        return clientIPThreadLocal.get();
     }
 }
