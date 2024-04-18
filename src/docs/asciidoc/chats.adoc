@@ -34,7 +34,7 @@ include::{snippets}/create-chat-rooms/response-fields.adoc[]
 녹음한 음성 파일 업로드 하기
 
 === Request
-
+include::{snippets}/upload-audios/http-request.adoc[]
 include::{snippets}/upload-audios/request-parts.adoc[]
 ===== request의 json 필드는 아래와 같다.
 

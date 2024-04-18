@@ -11,3 +11,18 @@ include::{snippets}/create-foreigner/http-request.adoc[]
 
 include::{snippets}/create-foreigner/http-response.adoc[]
 include::{snippets}/create-foreigner/response-fields.adoc[]
+
+== 외국인 설문 내용 저장
+
+외국인이 채팅을 시작하기 전 작성하는 설문 내용을 저장합니다.
+
+=== Request
+
+include::{snippets}/save-foreignerInfo/http-request.adoc[]
+include::{snippets}/save-foreignerInfo/request-fields.adoc[]
+
+include::{snippets}/save-foreignerInfo/path-parameters.adoc[]
+=== Response (Success)
+
+include::{snippets}/save-foreignerInfo/http-response.adoc[]
+include::{snippets}/save-foreignerInfo/response-fields.adoc[]

@@ -21,10 +21,10 @@ public class BirthDate {
 
     private BirthDate(String birthDate) {
         LocalDate birthDateToTypo = parseBirthDate(birthDate);
-        Assert.isTrue(birthDateToTypo.isAfter(MAX_BIRTH_DATE),
-                String.format("생일은 %s를 넘길 수 없습니다.", MAX_BIRTH_DATE));
-        Assert.isTrue(birthDateToTypo.isBefore(MIN_BIRTH_DATE),
-                String.format("생일은 %s보다 작을 수 없습니다.", MIN_BIRTH_DATE));
+        Assert.isTrue(birthDateToTypo.isBefore(MAX_BIRTH_DATE),
+                String.format("%s 생일은 %s를 넘길 수 없습니다.", birthDate, MAX_BIRTH_DATE));
+        Assert.isTrue(birthDateToTypo.isAfter(MIN_BIRTH_DATE),
+                String.format("%s 생일은 %s보다 작을 수 없습니다.", birthDate, MIN_BIRTH_DATE));
 
         this.birthDate = birthDateToTypo;
     }
