@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface ForeignJpaRepository extends JpaRepository<Foreigner, Long> {
 
-    @Query("select coalesce(f.id, 0) from Foreigner f where f.macAddress = :macAddress")
-    Long getUserId(@Param(value = "macAddress") String macAddress);
+    @Query("select coalesce(f.id, 0) from Foreigner f where f.ipAddress = :ipAddress")
+    Long getUserId(@Param(value = "ipAddress") String ipAddress);
 }

@@ -7,9 +7,11 @@ import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
+import com.hellomeritz.chat.service.dto.param.ChatRoomUserInfoParam;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
 import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
+import com.hellomeritz.chat.service.dto.result.ChatRoomUserInfoResult;
 import com.hellomeritz.global.ChatFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,8 +59,8 @@ class ChatServiceTest {
         // when
         ChatRoomCreateResult result = chatService.createChatRoom(chatRoomCreateParam);
         ChatRoom chatRoom = chatRoomRepository.getChatRoom(
-            chatRoomCreateParam.fcId(),
-            chatRoomCreateParam.userId());
+                chatRoomCreateParam.fcId(),
+                chatRoomCreateParam.userId());
 
         // then
         assertThat(result.chatRoomId()).isEqualTo(chatRoom.getChatRoomId());
@@ -88,6 +90,21 @@ class ChatServiceTest {
             assertThat(current).isBeforeOrEqualTo(next);
         }
 
+    }
+
+    @DisplayName("채팅방에 있는 유저들의 정보를 확인할 수 있다.")
+    @Test
+    void getChatRoomUserInfo() {
+        // given
+        ChatRoom chatRoom = ChatFixture.chatRoom();
+        ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+
+        // when
+        ChatRoomUserInfoResult result = chatService.getChatRoomUserInfo(new ChatRoomUserInfoParam(savedChatRoom.getChatRoomId()));
+
+        // then
+        assertThat(result.fcId()).isEqualTo(chatRoom.getFcId());
+        assertThat(result.userId()).isEqualTo(chatRoom.getUserId());
     }
 
 }

@@ -17,8 +17,7 @@ public class ForeignFixture {
 
     public static ForeignInfoSaveResult foreignInfoSaveResult() {
         return new ForeignInfoSaveResult(
-                1L,
-                "06-00-00-00-00-00"
+                1L
         );
     }
 

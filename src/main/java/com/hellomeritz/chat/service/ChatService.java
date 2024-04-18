@@ -11,8 +11,10 @@ import com.hellomeritz.chat.global.uploader.AudioUploader;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
+import com.hellomeritz.member.global.IpSensor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +28,15 @@ public class ChatService {
     private final AudioUploader audioUploader;
     private final SttManager sttManager;
 
-    public ChatService(ChatMessageRepository chatMessageRepository, ChatRoomRepository chatRoomRepository, Translator translator, AudioUploader audioUploader, SttManager sttManager) {
+    private final IpSensor ipSensor;
+
+    public ChatService(ChatMessageRepository chatMessageRepository, ChatRoomRepository chatRoomRepository, Translator translator, AudioUploader audioUploader, SttManager sttManager, IpSensor ipSensor) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
         this.translator = translator;
         this.audioUploader = audioUploader;
         this.sttManager = sttManager;
+        this.ipSensor = ipSensor;
     }
 
     @Transactional
@@ -84,6 +89,12 @@ public class ChatService {
                 textBySpeech.textBySpeech(),
                 chatMessage.getCreatedAt()
         );
+    }
+
+    public ChatRoomUserInfoResult getChatRoomUserInfo(ChatRoomUserInfoParam param) {
+        ChatRoomUserInfo chatRoomUserInfo = chatRoomRepository.getChatRoomUserInfo(param.chatRoomId());
+
+        return ChatRoomUserInfoResult.to(chatRoomUserInfo);
     }
 
 }

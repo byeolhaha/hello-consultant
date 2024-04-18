@@ -516,16 +516,6 @@ Host: localhost:8080
 }</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-json" data-lang="json">{
-  "language" : "en-US",
-  "visaType" : "E1",
-  "hasResidentCard" : true,
-  "birthDate" : "19970121"
-}</code></pre>
-</div>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -588,11 +578,10 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 59
+Content-Length: 20
 
 {
-  "userId" : 1,
-  "macAddress" : "06-00-00-00-00-00"
+  "userId" : 1
 }</code></pre>
 </div>
 </div>
@@ -615,11 +604,6 @@ Content-Length: 59
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 ID</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>macAddress</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자의 MAC 주소</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -629,7 +613,7 @@ Content-Length: 59
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-18 10:52:10 +0900
+Last updated 2024-04-18 10:53:00 +0900
 </div>
 </div>
 </body>

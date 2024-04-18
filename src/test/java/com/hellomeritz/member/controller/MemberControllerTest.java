@@ -1,6 +1,5 @@
 package com.hellomeritz.member.controller;
 
-import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.global.ControllerTestSupport;
 import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
 import org.junit.jupiter.api.DisplayName;

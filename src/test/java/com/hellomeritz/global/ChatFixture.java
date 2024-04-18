@@ -4,8 +4,10 @@ import com.hellomeritz.chat.controller.dto.request.ChatAudioUploadRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageTranslateRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
+import com.hellomeritz.chat.controller.dto.response.ChatRoomUserInfoResponse;
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
+import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
@@ -186,6 +188,27 @@ public class ChatFixture {
                 true,
                 "KO",
                 "EN"
+        );
+    }
+
+    public static ChatRoom chatRoom() {
+        return ChatRoom.of(
+                1L,
+                1L
+        );
+    }
+
+    public static ChatRoomUserInfoResponse chatRoomUserInfoResponse() {
+        return new ChatRoomUserInfoResponse(
+                1L,
+                1L
+        );
+    }
+
+    public static ChatRoomUserInfoResult chatRoomUserInfoResult() {
+        return new ChatRoomUserInfoResult(
+                1L,
+                1L
         );
     }
 
