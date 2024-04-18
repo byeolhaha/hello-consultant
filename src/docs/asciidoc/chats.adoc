@@ -75,3 +75,17 @@ include::{snippets}/translate-text/path-parameters.adoc[]
 
 include::{snippets}/translate-text/http-response.adoc[]
 include::{snippets}/translate-text/response-fields.adoc[]
+
+== 채팅방 유저 정보 조회
+
+채팅방 유저 정보 조회
+
+=== Request
+
+include::{snippets}/get-chat-room-userInfo/http-request.adoc[]
+include::{snippets}/get-chat-room-userInfo/path-parameters.adoc[]
+
+=== Response (Success)
+
+include::{snippets}/get-chat-room-userInfo/http-response.adoc[]
+include::{snippets}/get-chat-room-userInfo/response-fields.adoc[]

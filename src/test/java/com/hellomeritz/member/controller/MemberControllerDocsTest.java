@@ -90,8 +90,7 @@ public class MemberControllerDocsTest extends RestDocsSupport {
 
                         ),
                         responseFields(
-                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("사용자 ID"),
-                                fieldWithPath("macAddress").type(JsonFieldType.STRING).description("사용자의 MAC 주소")
+                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("사용자 ID")
                         )
                 ));
     }

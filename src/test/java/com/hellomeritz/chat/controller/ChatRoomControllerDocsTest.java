@@ -3,6 +3,7 @@ package com.hellomeritz.chat.controller;
 import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
+import com.hellomeritz.chat.service.dto.result.ChatRoomUserInfoResult;
 import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -87,6 +88,32 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
                         )
                 ));
     }
+
+    @DisplayName("채팅방의 유저 정보를 확인하는 API")
+    @Test
+    void getChatRoomUserInfo() throws Exception {
+        Long chatRoomId = 1L;
+        ChatRoomUserInfoResult result = ChatFixture.chatRoomUserInfoResult();
+        given(chatService.getChatRoomUserInfo(any())).willReturn(result);
+
+        mockMvc.perform(get("/chat-rooms/{chatRoomId}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("get-chat-room-userInfo",
+                                pathParameters(
+                                        parameterWithName("chatRoomId").description("채팅방 id")
+                                ),
+                                responseFields(
+                                        fieldWithPath("userId").type(JsonFieldType.NUMBER).description("외국인 유저 ID"),
+                                        fieldWithPath("fcId").type(JsonFieldType.NUMBER).description("설계사 ID")
+                                )
+                        )
+                );
+    }
+
 }
 
 
