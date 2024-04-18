@@ -22,7 +22,6 @@ class ForeignerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         userId,
-                        "06-00-00-00-00-00",
                         SourceLanguage.미국,
                         VisaType.E1,
                         true,
@@ -37,7 +36,6 @@ class ForeignerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
-                        "06-00-00-00-00-00",
                         sourceLanguage,
                         VisaType.E1,
                         true,
@@ -52,7 +50,6 @@ class ForeignerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
-                        "06-00-00-00-00-00",
                         SourceLanguage.미국,
                         visaType,
                         true,
@@ -62,12 +59,11 @@ class ForeignerTest {
 
     @DisplayName("birthDate의 범위가 최대 범위를 벗어나면 예외를 던진다.")
     @Test
-    void testExceedMaxBirthDate( ) {
+    void testExceedMaxBirthDate() {
         DateTimeFormatter yyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
-                        "06-00-00-00-00-00",
                         SourceLanguage.미국,
                         VisaType.E1,
                         true,
@@ -77,12 +73,11 @@ class ForeignerTest {
 
     @DisplayName("birthDate의 범위가 최소 범위보다 작으면 예외를 던진다.")
     @Test
-    void testExceedMinBirthDate( ) {
+    void testExceedMinBirthDate() {
         DateTimeFormatter yyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
-                        "06-00-00-00-00-00",
                         SourceLanguage.미국,
                         VisaType.E1,
                         true,
