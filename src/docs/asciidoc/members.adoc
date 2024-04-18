@@ -40,3 +40,16 @@ include::{snippets}/save-foreigner-ipAddress/path-parameters.adoc[]
 
 include::{snippets}/save-foreigner-ipAddress/http-response.adoc[]
 include::{snippets}/save-foreigner-ipAddress/response-fields.adoc[]
+
+
+== 설계사인지 외국인인지 확인 하는 API
+설계사인지 외국인인지 확인 하는 API
+
+=== Request
+
+include::{snippets}/check-isFc/http-request.adoc[]
+include::{snippets}/check-isFc/path-parameters.adoc[]
+=== Response (Success)
+
+include::{snippets}/check-isFc/http-response.adoc[]
+include::{snippets}/check-isFc/response-fields.adoc[]

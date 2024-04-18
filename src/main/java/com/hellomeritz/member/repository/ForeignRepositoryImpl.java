@@ -19,8 +19,8 @@ public class ForeignRepositoryImpl implements ForeignRepository {
     }
 
     @Override
-    public Long getUserId(String macAddress) {
-        return foreignJpaRepository.getUserId(macAddress);
+    public boolean isFc(String ipAddress, Long userId) {
+        return foreignJpaRepository.isFc(ipAddress, userId);
     }
 
     @Override

@@ -1,11 +1,9 @@
 package com.hellomeritz.member.controller;
 
-import com.hellomeritz.member.controller.dto.ForeignCreateResponse;
-import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
-import com.hellomeritz.member.controller.dto.ForeignInfoSaveResponse;
-import com.hellomeritz.member.controller.dto.ForeignSaveIpAddressResponse;
+import com.hellomeritz.member.controller.dto.*;
 import com.hellomeritz.member.service.MemberService;
 import com.hellomeritz.member.service.dto.param.ForeignSaveIpAddressParam;
+import com.hellomeritz.member.service.dto.param.UserCheckIsFcParam;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -58,7 +56,8 @@ public class MemberController {
     }
 
     @PatchMapping(
-            path = "/{userId}"
+            path = "/{userId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ForeignSaveIpAddressResponse> saveForeignIpAddress(
             @PathVariable @Positive(message = "userId는 양수여야 합니다.") Long userId
@@ -66,6 +65,19 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ForeignSaveIpAddressResponse.to(
                         memberService.saveForeignIpAddress(ForeignSaveIpAddressParam.to(userId))
+                ));
+    }
+
+    @GetMapping(
+            path = "/{userId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<UserCheckIsFcResponse> checkUserIsFc(
+            @PathVariable @Positive(message = "userId는 양수여야 합니다.") Long userId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(UserCheckIsFcResponse.to(
+                        memberService.checkUserIsFc(UserCheckIsFcParam.to(userId))
                 ));
     }
 

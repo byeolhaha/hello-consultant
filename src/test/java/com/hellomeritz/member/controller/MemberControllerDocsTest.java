@@ -12,6 +12,7 @@ import com.hellomeritz.member.service.MemberService;
 import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
 import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
 import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
+import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
 import jakarta.validation.constraints.NotBlank;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -115,4 +116,26 @@ public class MemberControllerDocsTest extends RestDocsSupport {
                         )
                 ));
     }
+
+    @DisplayName("해당 유저가 외국인인지 확인하는 API")
+    @Test
+    void checkUserIsFc() throws Exception {
+        UserCheckIsFcResult result = ForeignFixture.userCheckIsFcResult();
+        given(memberService.checkUserIsFc(any())).willReturn(result);
+
+        mockMvc.perform(get("/users/{userId}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("check-isFc",
+                        pathParameters(
+                                parameterWithName("userId").description("사용자의 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사인가? true, false")
+                        )
+                ));
+    }
+
 }

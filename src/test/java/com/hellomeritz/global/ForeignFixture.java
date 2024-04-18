@@ -4,6 +4,7 @@ import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
 import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
 import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
 import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
+import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
 import jakarta.validation.constraints.NotBlank;
 
 public class ForeignFixture {
@@ -35,5 +36,9 @@ public class ForeignFixture {
         return new ForeignSaveIpAddressResult(
                 "127.0.0.1"
         );
+    }
+
+    public static UserCheckIsFcResult userCheckIsFcResult() {
+        return new UserCheckIsFcResult(true);
     }
 }
