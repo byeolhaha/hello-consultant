@@ -5,6 +5,8 @@ import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
 import com.hellomeritz.member.controller.dto.ForeignInfoSaveResponse;
 import com.hellomeritz.member.service.MemberService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +38,18 @@ public class MemberController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ForeignInfoSaveResponse> saveForeignInfo(
-            @RequestBody @Valid ForeignInfoSaveRequest request
+            @RequestBody
+            @Valid
+            ForeignInfoSaveRequest request,
+            @PathVariable
+            @NotNull(message = "userId는 null일 수 없습니다.")
+            @Positive(message = "userId는 양수여야 합니다.")
+            Long userId
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ForeignInfoSaveResponse.to(
                         memberService.saveForeignInfo(
-                                request.toForeignInfoSaveParam()
+                                request.toForeignInfoSaveParam(userId)
                         ))
                 );
     }
