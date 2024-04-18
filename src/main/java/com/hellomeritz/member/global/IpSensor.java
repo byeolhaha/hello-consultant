@@ -6,16 +6,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 @Configuration
-public class IpSensorInterceptor implements HandlerInterceptor {
+public class IpSensor implements HandlerInterceptor {
 
     private static final ThreadLocal<String> clientIPThreadLocal = new ThreadLocal<>();
     private final ObjectMapper objectMapper;
 
-    public IpSensorInterceptor(ObjectMapper objectMapper) {
+    private String[] headerTypes =
+            {"X-Forwarded-For", "Proxy-Client-IP",
+            "WL-Proxy-Client-IP", "HTTP_CLIENT_IP",
+                    "HTTP_X_FORWARDED_FOR"};
+
+    public IpSensor(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
@@ -41,13 +43,13 @@ public class IpSensorInterceptor implements HandlerInterceptor {
     public void afterCompletion(
             HttpServletRequest request,
             HttpServletResponse response,
-            handler, Exception ex)
+            Object handler,
+            Exception ex)
             throws Exception {
-        // 스레드 로컬 초기화
         clientIPThreadLocal.remove();
     }
 
-    public ThreadLocal<String> getClientIPThreadLocal() {
+    public ThreadLocal<String> getClientIP() {
         return clientIPThreadLocal;
     }
 }
