@@ -104,7 +104,7 @@ class ChatServiceTest {
 
         // then
         assertThat(result.fcId()).isEqualTo(chatRoom.getFcId());
-        assertThat(result.userId()).isEqualTo(chatRoom.getChatRoomId());
+        assertThat(result.userId()).isEqualTo(chatRoom.getUserId());
     }
 
 }
