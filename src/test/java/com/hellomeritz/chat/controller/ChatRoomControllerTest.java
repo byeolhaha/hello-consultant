@@ -27,7 +27,8 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageGetRequest(
                                 myId,
-                                ""
+                                "",
+                                true
                         )
                 ))).andExpect(status().is4xxClientError());
     }
@@ -40,7 +41,8 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageGetRequest(
                                 myId,
-                                ""
+                                "",
+                                true
                         )
                 ))).andExpect(status().is4xxClientError());
     }
@@ -53,7 +55,8 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageGetRequest(
                                 1L,
-                                ""
+                                "",
+                                true
                         )
                 ))).andExpect(status().is4xxClientError());
     }

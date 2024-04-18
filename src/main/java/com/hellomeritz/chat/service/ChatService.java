@@ -65,7 +65,7 @@ public class ChatService {
 
         return ChatMessageGetResults.to(
                 chatMessages,
-                param.myId());
+                param);
     }
 
     @Transactional

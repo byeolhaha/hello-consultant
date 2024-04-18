@@ -101,7 +101,8 @@ public class ChatFixture {
         return new ChatMessageGetParam(
                 FC_ID,
                 CHAT_MESSAGE_ID_MIN_VALUE,
-                1
+                1,
+                true
         );
     }
 

@@ -10,7 +10,8 @@ public record ChatMessageGetRequest(
         @NotNull(message = "myId는 null이거나 빈값일 수 없습니다.")
         @Positive(message = "myId는 0이거나 음수 일 수 없습니다.")
         Long myId,
-        String nextChatMessageId
+        String nextChatMessageId,
+        boolean isFC
 ) {
     private static final String CHAT_MESSAGE_ID_MIN_VALUE = "000000000000000000000000";
 
@@ -18,7 +19,8 @@ public record ChatMessageGetRequest(
         return new ChatMessageGetParam(
                 myId,
                 isFirstPage(),
-                chatRoomId
+                chatRoomId,
+                isFC
         );
     }
 
