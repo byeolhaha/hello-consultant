@@ -10,13 +10,14 @@ import java.time.format.DateTimeParseException;
 @Embeddable
 public class BirthDate {
 
-    private static String BITH_DATE_FORMAT = "yyMMdd";
+    private static String BITH_DATE_FORMAT = "yyyyMMdd";
     private static final LocalDate MAX_BIRTH_DATE = LocalDate.now();
     private static final LocalDate MIN_BIRTH_DATE = LocalDate.of(1800, 1, 1);
 
     private LocalDate birthDate;
 
-    protected BirthDate() {}
+    protected BirthDate() {
+    }
 
     private BirthDate(String birthDate) {
         LocalDate birthDateToTypo = parseBirthDate(birthDate);
@@ -26,6 +27,10 @@ public class BirthDate {
                 String.format("생일은 %s보다 작을 수 없습니다.", MIN_BIRTH_DATE));
 
         this.birthDate = birthDateToTypo;
+    }
+
+    public static BirthDate of(String birthDate) {
+        return new BirthDate(birthDate);
     }
 
     public LocalDate parseBirthDate(String birthDate) {

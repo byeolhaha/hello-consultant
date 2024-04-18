@@ -2,6 +2,7 @@ package com.hellomeritz.member.controller.dto;
 
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.VisaType;
+import com.hellomeritz.member.domain.BirthDate;
 import com.hellomeritz.member.service.dto.param.ForeignInfoSaveParam;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -30,7 +31,7 @@ public record ForeignInfoSaveRequest(
                 SourceLanguage.findSttSourceLanguage(language),
                 VisaType.findVisaType(visaType),
                 hasResidentCard,
-                birthDate
+                BirthDate.of(birthDate)
         );
     }
 
