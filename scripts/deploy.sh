@@ -18,5 +18,4 @@ if [ -n "$CURRENT_PID" ]; then
 fi
 
 # 애플리케이션 실행
-#nohup java -jar "$JAR_PATH" &>/dev/null &
-nohup java -jar "$JAR_PATH" --logging.file.path=/home/ec2-user/ --logging.level.org.hibernate.SQL=DEBUG >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
+nohup java -jar "$JAR_PATH" &>/dev/null &
