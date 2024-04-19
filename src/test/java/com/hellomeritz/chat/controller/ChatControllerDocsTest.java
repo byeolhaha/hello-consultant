@@ -63,7 +63,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
                 "audio-files".getBytes()
         );
 
-        mockMvc.perform(multipart("/chats/{chatRoomId}/audios", 1L)
+        mockMvc.perform(multipart("/api/chats/{chatRoomId}/audios", 1L)
                         .file(mockRequest)
                         .file(mockAudioFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
@@ -94,7 +94,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
         ChatMessageSttResult result = ChatFixture.chatMessageSttResult();
         given(chatService.sendAudioMessage(any())).willReturn(result);
 
-        mockMvc.perform(post("/chats/{chatRoomId}/stt", 1L)
+        mockMvc.perform(post("/api/chats/{chatRoomId}/stt", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ChatFixture.chatMessageSttRequest()))
                 )
@@ -126,7 +126,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
         ChatMessageTranslateResult result = ChatFixture.chatMessageTranslateResult();
         given(chatService.translateText(any())).willReturn(result);
 
-        mockMvc.perform(post("/chats/{chatRoomId}", 1L)
+        mockMvc.perform(post("/api/chats/{chatRoomId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ChatFixture.chatMessageTranslateRequest()))
                 )

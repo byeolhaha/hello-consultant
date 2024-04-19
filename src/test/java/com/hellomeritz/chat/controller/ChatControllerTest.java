@@ -20,7 +20,7 @@ class ChatControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @NullSource
     void sendSttMessage_nullOrEmpty_audioUrl(String audioUrl) throws Exception {
-        mockMvc.perform(post("/chats/{chtRoomId}/stt", 1L)
+        mockMvc.perform(post("/api/chats/{chtRoomId}/stt", 1L)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageSttRequest(
                                 audioUrl,
@@ -35,7 +35,7 @@ class ChatControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void sendSttMessage_minusOrZero_userId(long userId) throws Exception {
-        mockMvc.perform(post("/chats/{chtRoomId}/stt", 1L)
+        mockMvc.perform(post("/api/chats/{chtRoomId}/stt", 1L)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageSttRequest(
                                 "gs://meritz.com/uuid",
@@ -50,7 +50,7 @@ class ChatControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @NullSource
     void sendSttMessage_nullOrEmpty_sourceLang(String sourceLang) throws Exception {
-        mockMvc.perform(post("/chats/{chtRoomId}/stt", 1L)
+        mockMvc.perform(post("/api/chats/{chtRoomId}/stt", 1L)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageSttRequest(
                                 "gs://meritz.com/uuid",
@@ -64,7 +64,7 @@ class ChatControllerTest extends ControllerTestSupport {
     @DisplayName("sourceLang이 Enum 형식에 맞니 경우 예외를 던진다.")
     @Test
     void sendSttMessage_notMeetFormat_sourceLang() throws Exception {
-        mockMvc.perform(post("/chats/{chtRoomId}/stt", 1L)
+        mockMvc.perform(post("/api/chats/{chtRoomId}/stt", 1L)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageSttRequest(
                                 "gs://meritz.com/uuid",
@@ -79,7 +79,7 @@ class ChatControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void sendSttMessage_minusOrZero_chatRoomId(long chatRoomId) throws Exception {
-        mockMvc.perform(post("/chats/{chtRoomId}/stt", chatRoomId)
+        mockMvc.perform(post("/api/chats/{chtRoomId}/stt", chatRoomId)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageSttRequest(
                                 "gs://meritz.com/uuid",
