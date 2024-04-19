@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/chat-rooms")
+@RequestMapping("/chat-rooms")
 @RestController
 public class ChatRoomController {
 
