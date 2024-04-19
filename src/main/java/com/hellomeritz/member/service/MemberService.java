@@ -28,14 +28,14 @@ public class MemberService {
     public ForeignInfoSaveResult saveForeignInfo(ForeignInfoSaveParam param) {
         Foreigner foreigner = foreignRepository.save(param.toForeigner());
 
-        return ForeignInfoSaveResult.to(foreigner.getId());
+        return ForeignInfoSaveResult.to(foreigner.getForeignerId());
     }
 
     @Transactional
     public ForeignCreateResult createForeignMember() {
         Foreigner foreigner = foreignRepository.save(Foreigner.of());
 
-        return ForeignCreateResult.of(foreigner.getId());
+        return ForeignCreateResult.of(foreigner.getForeignerId());
     }
 
     @Transactional

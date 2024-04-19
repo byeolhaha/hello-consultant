@@ -59,6 +59,9 @@ dependencies {
 
 	// h2
 	runtimeOnly 'com.h2database:h2'
+
+	//coolsms
+	implementation 'net.nurigo:sdk:4.3.0'
 }
 
 

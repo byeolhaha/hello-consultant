@@ -19,7 +19,7 @@ public class Foreigner {
     @Column(name = "foreigner_id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long foreignerId;
 
     @Column(name = "mac_address")
     private String ipAddress;
@@ -53,7 +53,7 @@ public class Foreigner {
         Assert.notNull(sourceLanguage, "외국인의 언어는 null일 수 없습니다.");
         Assert.notNull(visaType, "외국인의 visa type은 null일 수 없습니다.");
 
-        this.id = userId;
+        this.foreignerId = userId;
         this.language = sourceLanguage;
         this.birthDate = birthDate;
         this.visaType = visaType;

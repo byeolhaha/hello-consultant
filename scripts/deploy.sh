@@ -7,6 +7,10 @@ JAR_PATH="/home/ubuntu/meritz/build/libs/hellomeritz-0.0.1-SNAPSHOT.jar"
 CURRENT_PID=$(pgrep -f "java -jar $JAR_PATH")
 
 # 실행 중인 애플리케이션이 있으면 종료
+# 8080 포트에 대한 PID 확인
+CURRENT_PID=$(lsof -ti :8080)
+
+# 실행 중인 어플리케이션이 있으면 종료
 if [ -n "$CURRENT_PID" ]; then
   echo "종료할 프로세스 PID: $CURRENT_PID"
   sudo kill "$CURRENT_PID"
