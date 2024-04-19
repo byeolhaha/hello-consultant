@@ -50,7 +50,7 @@ public class MemberControllerDocsTest extends RestDocsSupport {
         ForeignCreateResult result = ForeignFixture.foreignCreateResult();
         given(memberService.createForeignMember()).willReturn(result);
 
-        mockMvc.perform(post("/api/users"))
+        mockMvc.perform(post("/users"))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andDo(document("create-foreigner",
@@ -66,7 +66,7 @@ public class MemberControllerDocsTest extends RestDocsSupport {
         ForeignInfoSaveResult result = ForeignFixture.foreignInfoSaveResult();
         given(memberService.saveForeignInfo(any())).willReturn(result);
 
-        mockMvc.perform(put("/api/users/{userId}", 1L)
+        mockMvc.perform(put("/users/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .content(objectMapper.writeValueAsString(ForeignFixture.foreignInfoSaveRequest())))
@@ -102,7 +102,7 @@ public class MemberControllerDocsTest extends RestDocsSupport {
         ForeignSaveIpAddressResult result = ForeignFixture.foreignSaveIpAddressResult();
         given(memberService.saveForeignIpAddress(any())).willReturn(result);
 
-        mockMvc.perform(patch("/api/users/{userId}", 1L)
+        mockMvc.perform(patch("/users/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8))
                 .andDo(print())
@@ -123,7 +123,7 @@ public class MemberControllerDocsTest extends RestDocsSupport {
         UserCheckIsFcResult result = ForeignFixture.userCheckIsFcResult();
         given(memberService.checkUserIsFc(any())).willReturn(result);
 
-        mockMvc.perform(get("/api/users/{userId}", 1L)
+        mockMvc.perform(get("/users/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8))
                 .andDo(print())

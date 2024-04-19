@@ -39,7 +39,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
         ChatMessageGetResults results = ChatFixture.chatMessageGetResults();
         given(chatService.getChatMessages(any())).willReturn(results);
 
-        mockMvc.perform(get("/api/chat-rooms/{chatRoomId}/messages", 1L)
+        mockMvc.perform(get("/chat-rooms/{chatRoomId}/messages", 1L)
                         .param("myId", String.valueOf(1L))
                         .param("nextChatMessageId", "000000000000000000000000")
                         .param("isFC", "true")
@@ -74,7 +74,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
         ChatRoomCreateResult result = ChatFixture.chatRoomCreateResult();
         given(chatService.createChatRoom(any())).willReturn(result);
 
-        mockMvc.perform(post("/api/chat-rooms")
+        mockMvc.perform(post("/chat-rooms")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ChatFixture.chatRoomCreateRequest()))
                 )
@@ -98,7 +98,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
         ChatRoomUserInfoResult result = ChatFixture.chatRoomUserInfoResult();
         given(chatService.getChatRoomUserInfo(any())).willReturn(result);
 
-        mockMvc.perform(get("/api/chat-rooms/{chatRoomId}", 1L)
+        mockMvc.perform(get("/chat-rooms/{chatRoomId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8)
                 )

@@ -21,7 +21,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RequestMapping("/api")
 @RestController
 public class ChatController {
     private final ChatService chatService;
