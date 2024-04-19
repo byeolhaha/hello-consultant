@@ -23,7 +23,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @NullSource
     void getChatMessage_nullOrEmpty_myId(Long myId) throws Exception {
-        mockMvc.perform(get("/chat-rooms/{chtRoomId}/messages", 1L)
+        mockMvc.perform(get("/api/chat-rooms/{chtRoomId}/messages", 1L)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageGetRequest(
                                 myId,
@@ -37,7 +37,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_myId(Long myId) throws Exception {
-        mockMvc.perform(get("/chat-rooms/{chtRoomId}/messages", 1L)
+        mockMvc.perform(get("/api/chat-rooms/{chtRoomId}/messages", 1L)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageGetRequest(
                                 myId,
@@ -51,7 +51,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_chatRoomId(Long chatRoomId) throws Exception {
-        mockMvc.perform(get("/chat-rooms/{chtRoomId}/messages", chatRoomId)
+        mockMvc.perform(get("/api/chat-rooms/{chtRoomId}/messages", chatRoomId)
                 .content(objectMapper.writeValueAsString(
                         new ChatMessageGetRequest(
                                 1L,
@@ -65,7 +65,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @NullSource
     void getChatMessage_nullOrEmpty_fcId(Long fcId) throws Exception {
-        mockMvc.perform(post("/chat-rooms")
+        mockMvc.perform(post("/api/chat-rooms")
                 .content(objectMapper.writeValueAsString(
                         new ChatRoomCreateRequest(
                                 fcId,
@@ -78,7 +78,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_fcId(Long fcId) throws Exception {
-        mockMvc.perform(post("/chat-rooms")
+        mockMvc.perform(post("/api/chat-rooms")
                 .content(objectMapper.writeValueAsString(
                         new ChatRoomCreateRequest(
                                 fcId,
@@ -91,7 +91,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @NullSource
     void getChatMessage_nullOrEmpty_userId(Long userId) throws Exception {
-        mockMvc.perform(post("/chat-rooms")
+        mockMvc.perform(post("/api/chat-rooms")
                 .content(objectMapper.writeValueAsString(
                         new ChatRoomCreateRequest(
                                 1L,
@@ -104,7 +104,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
     void getChatMessage_invalid_userId(Long userId) throws Exception {
-        mockMvc.perform(post("/chat-rooms")
+        mockMvc.perform(post("/api/chat-rooms")
                 .content(objectMapper.writeValueAsString(
                         new ChatRoomCreateRequest(
                                 1L,
@@ -131,7 +131,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 "audio-files".getBytes()
         );
 
-        mockMvc.perform(multipart("/chat/{chatRoomId}/audio", 1L)
+        mockMvc.perform(multipart("/api/chat/{chatRoomId}/audio", 1L)
                 .file(mockAudioFile)
                 .file(mockRequest)
                 .contentType(MediaType.MULTIPART_FORM_DATA)).andExpect(status().is4xxClientError());
@@ -155,7 +155,7 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
                 "audio-files".getBytes()
         );
 
-        mockMvc.perform(multipart("/chat/{chatRoomId}/audio", chatRoomId)
+        mockMvc.perform(multipart("/api/chat/{chatRoomId}/audio", chatRoomId)
                 .file(mockAudioFile)
                 .file(mockRequest)
                 .contentType(MediaType.MULTIPART_FORM_DATA)).andExpect(status().is4xxClientError());

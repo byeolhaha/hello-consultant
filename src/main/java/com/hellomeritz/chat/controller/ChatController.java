@@ -21,7 +21,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
+@RequestMapping("/api")
 @RestController
 public class ChatController {
     private final ChatService chatService;
@@ -39,6 +39,16 @@ public class ChatController {
                 .body(ChatMessageTranslateResponse.to(
                         chatService.translateText(request.toChatMessageTextParam(chatRoomId))
                 ));
+    }
+
+    @MessageMapping("/chats/{chatRoomId}/stt")
+    @SendTo("/queue/chats/{chatRoomId}/stt")
+    public ResponseEntity<ChatMessageSttResponse> sendAudioChatMessageWithSocket(
+            @DestinationVariable("chatRoomId") Long chatRoomId,
+            @Payload ChatMessageSttRequest request) {
+        ChatMessageSttResult result = chatService.sendAudioMessage(request.toChatMessageSttParam(chatRoomId));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ChatMessageSttResponse.to(result));
     }
 
     @PostMapping("/chats/{chatRoomId}")
@@ -68,16 +78,6 @@ public class ChatController {
                 = chatService.uploadAudioFile(request.toChatAudioUploadParam(audioFile, chatRoomId));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ChatAudioUploadResponse.to(result));
-    }
-
-    @MessageMapping("/chats/{chatRoomId}/stt")
-    @SendTo("/queue/chats/{chatRoomId}/stt")
-    public ResponseEntity<ChatMessageSttResponse> sendAudioChatMessageWithSocket(
-            @DestinationVariable("chatRoomId") Long chatRoomId,
-            @Payload ChatMessageSttRequest request) {
-        ChatMessageSttResult result = chatService.sendAudioMessage(request.toChatMessageSttParam(chatRoomId));
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ChatMessageSttResponse.to(result));
     }
 
     @PostMapping("/chats/{chatRoomId}/stt")
