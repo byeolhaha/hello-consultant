@@ -13,10 +13,7 @@ public class IpSensor implements HandlerInterceptor {
     private static final ThreadLocal<String> clientIPThreadLocal = new ThreadLocal<>();
     private final ObjectMapper objectMapper;
 
-    private String[] headerTypes =
-            {"X-Forwarded-For", "Proxy-Client-IP",
-            "WL-Proxy-Client-IP", "HTTP_CLIENT_IP",
-                    "HTTP_X_FORWARDED_FOR"};
+    private final String headerType = "X-Forwarded-For";
 
     public IpSensor(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -27,14 +24,7 @@ public class IpSensor implements HandlerInterceptor {
             HttpServletRequest request,
             HttpServletResponse response,
             Object handler) throws Exception {
-        String ip = null;
-        for (String headerType : headerTypes) {
-            ip = request.getHeader(headerType);
-            if (ip != null) break;
-        }
-        if (ip == null) ip = request.getRemoteAddr();
-
-        // 스레드 로컬에 IP 값을 저장
+        String ip = request.getHeader(headerType);
         clientIPThreadLocal.set(ip);
 
         return true;
