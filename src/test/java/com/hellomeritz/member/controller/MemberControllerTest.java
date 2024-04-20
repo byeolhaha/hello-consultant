@@ -6,11 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -125,7 +128,7 @@ public class MemberControllerTest extends ControllerTestSupport {
     @Test
     void saveForeignInfo_min_birthDate() throws Exception {
 
-        mockMvc.perform(put("/users/{chtRoomId}", 1L)
+        mockMvc.perform(put("/users/{userId}", 1L)
                 .content(objectMapper.writeValueAsString(
                         new ForeignInfoSaveRequest(
                                 "en_US",
@@ -134,6 +137,26 @@ public class MemberControllerTest extends ControllerTestSupport {
                                 "11111111"
                         )
                 ))).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("설계사에게 알람을 보낼 때 chatRoomId가 음수 또는 0인 경우 예외를 던진다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"-1", "0"})
+    void notifyForeignerArrival_minusOrZero_chatRoomId(String chatRoomId) throws Exception {
+
+        mockMvc.perform(get("/users/{userId}/alarm", 1L)
+            .param("chatRoomId",chatRoomId)
+        ).andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("설계사에게 알람을 보낼 때 fcId가 음수 또는 0인 경우 예외를 던진다.")
+    @ParameterizedTest
+    @ValueSource(longs = {-1L, 0L})
+    void notifyForeignerArrival_minusOrZero_fcId(long fcId) throws Exception {
+
+        mockMvc.perform(get("/users/{userId}/alarm", fcId)
+            .param("chatRoomId","1")
+        ).andExpect(status().is4xxClientError());
     }
 
 
