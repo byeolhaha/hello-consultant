@@ -1,7 +1,7 @@
-package com.hellomeritz.member.global;
+package com.hellomeritz.member.global.sms;
 
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 
 public interface SmsManager {
-    SingleMessageSentResponse sendMessage(String outgoingPhoneNumber, String content);
+    SingleMessageSentResponse sendAlarmMessage(SmsAlarmToFcRequest request);
 }
