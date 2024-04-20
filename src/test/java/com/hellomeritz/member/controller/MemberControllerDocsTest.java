@@ -30,8 +30,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -137,5 +137,24 @@ public class MemberControllerDocsTest extends RestDocsSupport {
                         )
                 ));
     }
+
+    @DisplayName("외국인 채팅방에 입장했을 때 설계사에게 알람을 주는 API")
+    @Test
+    void notifyForeignerArrival() throws Exception {
+
+        mockMvc.perform(get("/users/{fcId}/alarm", 1L)
+                .param("chatRoomId","1"))
+            .andDo(print())
+            .andExpect(status().isNoContent())
+            .andDo(document("notify-foreigner-arrival-to-fc",
+                pathParameters(
+                    parameterWithName("fcId").description("설계사의 ID")
+                ),
+                queryParameters(
+                    parameterWithName("chatRoomId").description("외국인이 입장한 채팅방의 번호")
+                )
+            ));
+    }
+
 
 }
