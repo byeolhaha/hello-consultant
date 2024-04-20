@@ -1,4 +1,4 @@
-package com.hellomeritz.member.controller.dto;
+package com.hellomeritz.member.controller.dto.request;
 
 import jakarta.validation.constraints.Positive;
 

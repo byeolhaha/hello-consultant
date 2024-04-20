@@ -1,13 +1,12 @@
 package com.hellomeritz.member.controller;
 
 import com.hellomeritz.global.ControllerTestSupport;
-import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
+import com.hellomeritz.member.controller.dto.request.ForeignInfoSaveRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 
 import java.time.LocalDate;

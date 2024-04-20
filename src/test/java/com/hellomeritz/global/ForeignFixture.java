@@ -1,11 +1,10 @@
 package com.hellomeritz.global;
 
-import com.hellomeritz.member.controller.dto.ForeignInfoSaveRequest;
+import com.hellomeritz.member.controller.dto.request.ForeignInfoSaveRequest;
 import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
 import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
 import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
 import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
-import jakarta.validation.constraints.NotBlank;
 
 public class ForeignFixture {
 

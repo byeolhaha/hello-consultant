@@ -1,4 +1,4 @@
-package com.hellomeritz.member.controller.dto;
+package com.hellomeritz.member.controller.dto.request;
 
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.VisaType;

@@ -1,6 +1,10 @@
 package com.hellomeritz.member.controller;
 
-import com.hellomeritz.member.controller.dto.*;
+import com.hellomeritz.member.controller.dto.request.ForeignInfoSaveRequest;
+import com.hellomeritz.member.controller.dto.response.ForeignCreateResponse;
+import com.hellomeritz.member.controller.dto.response.ForeignInfoSaveResponse;
+import com.hellomeritz.member.controller.dto.response.ForeignSaveIpAddressResponse;
+import com.hellomeritz.member.controller.dto.response.UserCheckIsFcResponse;
 import com.hellomeritz.member.service.MemberService;
 import com.hellomeritz.member.service.dto.param.AlarmToFcParam;
 import com.hellomeritz.member.service.dto.param.ForeignSaveIpAddressParam;
@@ -8,7 +12,6 @@ import com.hellomeritz.member.service.dto.param.UserCheckIsFcParam;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
