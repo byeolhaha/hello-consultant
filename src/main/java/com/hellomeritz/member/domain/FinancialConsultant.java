@@ -10,9 +10,15 @@ public class FinancialPlanner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long financialPlannerId;
 
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "profile_url")
     private String profileUrl;
+
+    @Column(name = "introduce_message")
     private String introduceMessage;
 }

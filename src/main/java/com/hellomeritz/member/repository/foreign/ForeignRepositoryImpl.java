@@ -1,6 +1,8 @@
-package com.hellomeritz.member.repository;
+package com.hellomeritz.member.repository.foreign;
 
 import com.hellomeritz.member.domain.Foreigner;
+import com.hellomeritz.member.repository.foreign.ForeignJpaRepository;
+import com.hellomeritz.member.repository.foreign.ForeignRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
