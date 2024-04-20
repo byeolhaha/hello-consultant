@@ -1,4 +1,4 @@
-package com.hellomeritz.member.repository;
+package com.hellomeritz.member.repository.foreign;
 
 import com.hellomeritz.member.domain.Foreigner;
 import org.springframework.data.repository.query.Param;

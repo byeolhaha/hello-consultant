@@ -753,11 +753,56 @@ Content-Length: 21
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_설계사에게_외국인_채팅방에_입장했음을_알리는_api">설계사에게 외국인 채팅방에 입장했음을 알리는 API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>채팅은 계속 유지되기 때문에 같은 채팅방을 다른 날에 들어와
+외국인 채팅을 보낼 수 있음으로 이에 대해서 설계사에게 알람을 보냅니다.</p>
+</div>
+<div class="sect2">
+<h3 id="_request_5">Request</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/1/alarm?chatRoomId=1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. /users/{fcId}/alarm</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fcId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설계사의 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_5">Response (Success)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-19 20:12:28 +0900
+Last updated 2024-04-20 20:13:37 +0900
 </div>
 </div>
 </body>

@@ -1,4 +1,4 @@
-package com.hellomeritz.member.controller.dto;
+package com.hellomeritz.member.controller.dto.response;
 
 import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
 

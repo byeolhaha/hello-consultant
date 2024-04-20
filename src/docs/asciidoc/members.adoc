@@ -53,3 +53,15 @@ include::{snippets}/check-isFc/path-parameters.adoc[]
 
 include::{snippets}/check-isFc/http-response.adoc[]
 include::{snippets}/check-isFc/response-fields.adoc[]
+
+== 설계사에게 외국인 채팅방에 입장했음을 알리는 API
+채팅은 계속 유지되기 때문에 같은 채팅방을 다른 날에 들어와
+외국인 채팅을 보낼 수 있음으로 이에 대해서 설계사에게 알람을 보냅니다.
+
+=== Request
+
+include::{snippets}/notify-foreigner-arrival-to-fc/http-request.adoc[]
+include::{snippets}/notify-foreigner-arrival-to-fc/path-parameters.adoc[]
+=== Response (Success)
+
+include::{snippets}/notify-foreigner-arrival-to-fc/http-response.adoc[]

@@ -1,8 +1,12 @@
 package com.hellomeritz.member.service;
 
+import com.hellomeritz.member.domain.FinancialConsultant;
 import com.hellomeritz.member.domain.Foreigner;
 import com.hellomeritz.member.global.IpSensor;
-import com.hellomeritz.member.repository.ForeignRepository;
+import com.hellomeritz.member.global.sms.SmsManager;
+import com.hellomeritz.member.repository.fc.FinancialConsultantRepository;
+import com.hellomeritz.member.repository.foreign.ForeignRepository;
+import com.hellomeritz.member.service.dto.param.AlarmToFcParam;
 import com.hellomeritz.member.service.dto.param.ForeignInfoSaveParam;
 import com.hellomeritz.member.service.dto.param.ForeignSaveIpAddressParam;
 import com.hellomeritz.member.service.dto.param.UserCheckIsFcParam;
@@ -17,11 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final ForeignRepository foreignRepository;
+    private final FinancialConsultantRepository financialConsultantRepository;
     private final IpSensor ipSensor;
+    private final SmsManager smsManager;
 
-    public MemberService(ForeignRepository foreignRepository, IpSensor ipSensor) {
+    public MemberService(ForeignRepository foreignRepository, FinancialConsultantRepository financialConsultantRepository, IpSensor ipSensor, SmsManager smsManager) {
         this.foreignRepository = foreignRepository;
+        this.financialConsultantRepository = financialConsultantRepository;
         this.ipSensor = ipSensor;
+        this.smsManager = smsManager;
     }
 
     @Transactional
@@ -51,6 +59,12 @@ public class MemberService {
     public UserCheckIsFcResult checkUserIsFc(UserCheckIsFcParam param) {
         String clientIP = ipSensor.getClientIP();
         return UserCheckIsFcResult.to(foreignRepository.isFc(clientIP, param.userId()));
+    }
+
+    @Transactional
+    public void notifyForeignerArrival(AlarmToFcParam param) {
+        FinancialConsultant financialConsultant = financialConsultantRepository.getFinancialConsultant(param.fcId());
+        smsManager.sendAlarmMessage(param.t0SmsSendRequest(financialConsultant.getPhoneNumber()));
     }
 
 }
