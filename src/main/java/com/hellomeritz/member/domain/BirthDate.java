@@ -1,12 +1,13 @@
 package com.hellomeritz.member.domain;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
+@Getter
 @Embeddable
 public class BirthDate {
 

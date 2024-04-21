@@ -1,10 +1,12 @@
 package com.hellomeritz.global;
 
+import com.hellomeritz.chat.global.SourceLanguage;
+import com.hellomeritz.chat.global.VisaType;
 import com.hellomeritz.member.controller.dto.request.ForeignInfoSaveRequest;
-import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
-import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
-import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
-import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
+import com.hellomeritz.member.domain.BirthDate;
+import com.hellomeritz.member.domain.Foreigner;
+import com.hellomeritz.member.service.dto.param.ForeignerInfoGetParam;
+import com.hellomeritz.member.service.dto.result.*;
 
 public class ForeignFixture {
 
@@ -18,26 +20,50 @@ public class ForeignFixture {
 
     public static ForeignInfoSaveResult foreignInfoSaveResult() {
         return new ForeignInfoSaveResult(
-                1L
+            1L
         );
     }
 
     public static ForeignInfoSaveRequest foreignInfoSaveRequest() {
         return new ForeignInfoSaveRequest(
-                "US",
-                "E1",
-                true,
-                "19970121"
+            "US",
+            "E1",
+            true,
+            "19970121"
         );
     }
 
     public static ForeignSaveIpAddressResult foreignSaveIpAddressResult() {
         return new ForeignSaveIpAddressResult(
-                "127.0.0.1"
+            "127.0.0.1"
         );
     }
 
     public static UserCheckIsFcResult userCheckIsFcResult() {
         return new UserCheckIsFcResult(true);
     }
+
+    public static Foreigner foreigner() {
+        return Foreigner.of(
+            SourceLanguage.CHINA,
+            VisaType.D1,
+            false,
+            BirthDate.of("19970121")
+        );
+    }
+
+    public static ForeignerInfoGetParam foreignerInfoGetParam(long foreignerId) {
+        return new ForeignerInfoGetParam(foreignerId);
+    }
+
+    public static ForeignerInfoResult foreignerInfoResult() {
+        return new ForeignerInfoResult(
+            1L,
+            "US",
+            "E1",
+            true,
+            "1997-01-21"
+        );
+    }
+
 }

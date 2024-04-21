@@ -6,14 +6,8 @@ import com.hellomeritz.member.global.IpSensor;
 import com.hellomeritz.member.global.sms.SmsManager;
 import com.hellomeritz.member.repository.fc.FinancialConsultantRepository;
 import com.hellomeritz.member.repository.foreign.ForeignRepository;
-import com.hellomeritz.member.service.dto.param.AlarmToFcParam;
-import com.hellomeritz.member.service.dto.param.ForeignInfoSaveParam;
-import com.hellomeritz.member.service.dto.param.ForeignSaveIpAddressParam;
-import com.hellomeritz.member.service.dto.param.UserCheckIsFcParam;
-import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
-import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
-import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
-import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
+import com.hellomeritz.member.service.dto.param.*;
+import com.hellomeritz.member.service.dto.result.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,6 +59,16 @@ public class MemberService {
     public void notifyForeignerArrival(AlarmToFcParam param) {
         FinancialConsultant financialConsultant = financialConsultantRepository.getFinancialConsultant(param.fcId());
         smsManager.sendAlarmMessage(param.t0SmsSendRequest(financialConsultant.getPhoneNumber()));
+    }
+    public FcInfoResult getFinancialConsultantInfo(FinancialConsultantInfoGetParam param){
+        FinancialConsultant financialConsultant
+            = financialConsultantRepository.getFinancialConsultant(param.userId());
+        return FcInfoResult.of(financialConsultant);
+    }
+
+    public ForeignerInfoResult getForeignerInfo(ForeignerInfoGetParam param){
+        Foreigner foreigner = foreignRepository.getById(param.userId());
+        return ForeignerInfoResult.of(foreigner);
     }
 
 }
