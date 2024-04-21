@@ -66,5 +66,13 @@ public class MemberService {
         FinancialConsultant financialConsultant = financialConsultantRepository.getFinancialConsultant(param.fcId());
         smsManager.sendAlarmMessage(param.t0SmsSendRequest(financialConsultant.getPhoneNumber()));
     }
+    public FcInfoResult getFcInfo(FcInfoGetParam param){
+        FinancialConsultant financialConsultant = financialConsultantRepository.getById(param.userId());
+        return FcInfoResult.of(financialConsultant);
+    }
+    public ForeignerInfoResult getForeignerInfo(ForeignerInfoGetParam param){
+        Foreigner foreigner = foreignRepository.getById(param.userId());
+        return ForeignerInfoResult.of(foreigner);
+    }
 
 }

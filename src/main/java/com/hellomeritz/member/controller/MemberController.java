@@ -97,4 +97,26 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+
+    @GetMapping(
+            path = "/users/{fcId}/fc-info"
+    )
+    public ResoponseEntity<FcInfoGetResponse> getFcInfo(
+            @PathVariable @Positive(message = "fcId는 양수여야 합니다.") Long fcId,
+    ){
+        FcInfoResult fcInfoResult = memberService.getFcInfo(new FcInfoGetParam(fcId));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(FcInfoGetResponse.of(fcInfoResult));
+    }
+    @GetMapping(
+            path = "/users/{foreignerId}/foreigner-info"
+    )
+    public ResoponseEntity<ForeignerInfoGetResponse> getForeignerInfo(
+            @PathVariable @Positive(message = "userId는 양수여야 합니다.") Long foreignerId
+    ){
+        ForeignerInfoResult foreignerInfoResult = memberService.getForeignerInfo(new ForeignerInfoGetParam(foreignerId));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ForeignerInfoGetResponse.of(foreignerInfoResult));
+
+    }
 }
