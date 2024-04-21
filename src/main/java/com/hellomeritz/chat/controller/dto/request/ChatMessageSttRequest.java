@@ -4,11 +4,7 @@ import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.service.dto.param.ChatMessageSttParam;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.xml.transform.Source;
 
 public record ChatMessageSttRequest(
 
@@ -25,7 +21,7 @@ public record ChatMessageSttRequest(
 
     @AssertTrue(message = "sourceLang 형식이 enum 형식에 맞지 않습니다.")
     public boolean checkSourceLangFormat() {
-        return SourceLanguage.checkSttFormat(sourceLang);
+        return SourceLanguage.checkFormat(sourceLang);
     }
 
     public ChatMessageSttParam toChatMessageSttParam(long chatRoomId) {
@@ -34,7 +30,7 @@ public record ChatMessageSttRequest(
                 userId,
                 isFC,
                 chatRoomId,
-                SourceLanguage.findSttSourceLanguage(sourceLang)
+                SourceLanguage.findSourceLanguage(sourceLang)
         );
     }
 }

@@ -36,7 +36,8 @@ include::{snippets}/create-chat-rooms/response-fields.adoc[]
 === Request
 include::{snippets}/upload-audios/http-request.adoc[]
 include::{snippets}/upload-audios/request-parts.adoc[]
-===== request의 json 필드는 아래와 같다.
+
+request의 json 필드는 아래와 같다.
 
 include::{snippets}/upload-audios/request-part-request-fields.adoc[]
 include::{snippets}/upload-audios/path-parameters.adoc[]

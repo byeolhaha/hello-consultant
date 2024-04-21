@@ -1,11 +1,7 @@
 package com.hellomeritz.member.controller;
 
 import com.hellomeritz.chat.global.SourceLanguage;
-import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.global.VisaType;
-import com.hellomeritz.chat.service.ChatService;
-import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
-import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.ForeignFixture;
 import com.hellomeritz.global.RestDocsSupport;
 import com.hellomeritz.member.service.MemberService;
@@ -13,7 +9,6 @@ import com.hellomeritz.member.service.dto.result.ForeignCreateResult;
 import com.hellomeritz.member.service.dto.result.ForeignInfoSaveResult;
 import com.hellomeritz.member.service.dto.result.ForeignSaveIpAddressResult;
 import com.hellomeritz.member.service.dto.result.UserCheckIsFcResult;
-import jakarta.validation.constraints.NotBlank;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -79,7 +74,7 @@ public class MemberControllerDocsTest extends RestDocsSupport {
                         requestFields(
                                 fieldWithPath("language").type(JsonFieldType.STRING).description("사용자 언어: " +
                                         Arrays.stream(SourceLanguage.values())
-                                                .map(SourceLanguage::getGoogleSttLang)
+                                                .map(Enum::name)
                                                 .collect(Collectors.joining(", "))),
                                 fieldWithPath("visaType").type(JsonFieldType.STRING).description("비자 타입: " +
                                         Arrays.stream(VisaType.values())

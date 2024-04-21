@@ -24,12 +24,12 @@ public record ChatMessageTranslateRequest(
 
     @AssertTrue(message = "sourceLang이 enum 형식에 맞지 않습니다.")
     public boolean checkSourceLangFormat() {
-        return SourceLanguage.checkTranslatorFormat(sourceLang);
+        return SourceLanguage.checkFormat(sourceLang);
     }
 
     @AssertTrue(message = "targetLang이 enum 형식에 맞지 않습니다.")
     public boolean checkTargetLangFormat() {
-        return TargetLanguage.checkTranslatorFormat(targetLang);
+        return TargetLanguage.checkFormat(targetLang);
     }
 
     public ChatMessageTextParam toChatMessageTextParam(long chatRoomId) {
@@ -38,8 +38,8 @@ public record ChatMessageTranslateRequest(
                 userId,
                 isFC,
                 chatRoomId,
-                TargetLanguage.findTranslatorTargetLanguage(targetLang),
-                SourceLanguage.findTranslatorSourceLanguage(sourceLang)
+                TargetLanguage.findTargetLanguage(targetLang),
+                SourceLanguage.findSourceLanguage(sourceLang)
         );
     }
 }

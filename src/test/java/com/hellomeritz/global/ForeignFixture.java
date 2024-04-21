@@ -24,7 +24,7 @@ public class ForeignFixture {
 
     public static ForeignInfoSaveRequest foreignInfoSaveRequest() {
         return new ForeignInfoSaveRequest(
-                "en-US",
+                "US",
                 "E1",
                 true,
                 "19970121"

@@ -1,6 +1,5 @@
 package com.hellomeritz.chat.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hellomeritz.chat.controller.dto.request.ChatAudioUploadRequest;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
@@ -8,11 +7,8 @@ import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
-import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -107,7 +103,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사 여부"),
                                 fieldWithPath("sourceLang").type(JsonFieldType.STRING).description("audio file의 해당 언어"
                                         + Arrays.stream(SourceLanguage.values())
-                                        .map(SourceLanguage::getGoogleSttLang)
+                                        .map(SourceLanguage::name)
                                         .collect(Collectors.joining(", ")))
                         ),
                         responseFields(
@@ -139,11 +135,11 @@ public class ChatControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사 여부"),
                                 fieldWithPath("targetLang").type(JsonFieldType.STRING).description(
                                         "번역되고자 하는 언어:" + Arrays.stream(TargetLanguage.values())
-                                                .map(TargetLanguage::getDeeplLang)
+                                                .map(TargetLanguage::name)
                                                 .collect(Collectors.joining(", "))),
                                 fieldWithPath("sourceLang").type(JsonFieldType.STRING).description(
                                         "사용자가 보낸 text의 해당 언어:" + Arrays.stream(SourceLanguage.values())
-                                                .map(SourceLanguage::getDeeplLang)
+                                                .map(SourceLanguage::name)
                                                 .collect(Collectors.joining(", ")))
                         ),
                         responseFields(
