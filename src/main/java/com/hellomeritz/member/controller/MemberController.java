@@ -1,14 +1,11 @@
 package com.hellomeritz.member.controller;
 
 import com.hellomeritz.member.controller.dto.request.ForeignInfoSaveRequest;
-import com.hellomeritz.member.controller.dto.response.ForeignCreateResponse;
-import com.hellomeritz.member.controller.dto.response.ForeignInfoSaveResponse;
-import com.hellomeritz.member.controller.dto.response.ForeignSaveIpAddressResponse;
-import com.hellomeritz.member.controller.dto.response.UserCheckIsFcResponse;
+import com.hellomeritz.member.controller.dto.response.*;
 import com.hellomeritz.member.service.MemberService;
-import com.hellomeritz.member.service.dto.param.AlarmToFcParam;
-import com.hellomeritz.member.service.dto.param.ForeignSaveIpAddressParam;
-import com.hellomeritz.member.service.dto.param.UserCheckIsFcParam;
+import com.hellomeritz.member.service.dto.param.*;
+import com.hellomeritz.member.service.dto.result.FcInfoResult;
+import com.hellomeritz.member.service.dto.result.ForeignerInfoResult;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -99,24 +96,23 @@ public class MemberController {
 
 
     @GetMapping(
-            path = "/users/{fcId}/fc-info"
+            path = "/{fcId}/fc-info"
     )
-    public ResoponseEntity<FcInfoGetResponse> getFcInfo(
-            @PathVariable @Positive(message = "fcId는 양수여야 합니다.") Long fcId,
+    public ResponseEntity<FcInfoGetResponse> getFcInfo(
+            @PathVariable @Positive(message = "fcId는 양수여야 합니다.") Long fcId
     ){
-        FcInfoResult fcInfoResult = memberService.getFcInfo(new FcInfoGetParam(fcId));
+        FcInfoResult fcInfoResult = memberService.getFinancialConsultantInfo(new FinancialConsultantInfoGetParam(fcId));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(FcInfoGetResponse.of(fcInfoResult));
     }
     @GetMapping(
-            path = "/users/{foreignerId}/foreigner-info"
+            path = "/{foreignerId}/foreigner-info"
     )
-    public ResoponseEntity<ForeignerInfoGetResponse> getForeignerInfo(
-            @PathVariable @Positive(message = "userId는 양수여야 합니다.") Long foreignerId
+    public ResponseEntity<ForeignerInfoGetResponse> getForeignerInfo(
+            @PathVariable @Positive(message = "foreignerId는 양수여야 합니다.") Long foreignerId
     ){
         ForeignerInfoResult foreignerInfoResult = memberService.getForeignerInfo(new ForeignerInfoGetParam(foreignerId));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ForeignerInfoGetResponse.of(foreignerInfoResult));
-
     }
 }

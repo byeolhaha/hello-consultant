@@ -25,6 +25,33 @@ public class FinancialConsultant {
     @Column(name = "introduce_message")
     private String introduceMessage;
 
-    protected FinancialConsultant() { }
+    protected FinancialConsultant() {
+    }
+
+    private FinancialConsultant(
+        String phoneNumber,
+        String name,
+        String profileUrl,
+        String introduceMessage
+    ) {
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+        this.profileUrl = profileUrl;
+        this.introduceMessage = introduceMessage;
+    }
+
+    public static FinancialConsultant of(
+        String phoneNumber,
+        String name,
+        String profileUrl,
+        String introduceMessage
+    ) {
+        return new FinancialConsultant(
+            phoneNumber,
+            name,
+            profileUrl,
+            introduceMessage
+        );
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.hellomeritz.member.service.dto.result;
 
+import com.hellomeritz.member.domain.Foreigner;
+
 public record ForeignerInfoResult(
         Long userId,
         String sourceLanguage,
@@ -10,11 +12,11 @@ public record ForeignerInfoResult(
 
     public static ForeignerInfoResult of(Foreigner foreigner) {
         return new ForeignerInfoResult(
-                foreigner.getUserId(),
-                foreigner.getSourceLanguage().name(),
-                foreigner.getVisaType.name(),
-                foreigner.getHasResidentCard(),
-                LocalDate.parse(foreigner.getBirthDate())
+                foreigner.getForeignerId(),
+                foreigner.getLanguage().name(),
+                foreigner.getVisaType().name(),
+                foreigner.isHasResidentCard(),
+                foreigner.getBirthDate().toString()
         );
     }
 }

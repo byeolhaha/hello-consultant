@@ -1,3 +1,7 @@
+package com.hellomeritz.member.controller.dto.response;
+
+import com.hellomeritz.member.service.dto.result.ForeignerInfoResult;
+
 public record ForeignerInfoGetResponse(
         Long userId,
         String sourceLanguage,

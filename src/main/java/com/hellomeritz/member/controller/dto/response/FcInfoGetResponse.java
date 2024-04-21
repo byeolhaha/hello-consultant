@@ -1,3 +1,7 @@
+package com.hellomeritz.member.controller.dto.response;
+
+import com.hellomeritz.member.service.dto.result.FcInfoResult;
+
 public record FcInfoGetResponse(
         Long financialConsultantId,
         String phoneNumber,
@@ -7,13 +11,12 @@ public record FcInfoGetResponse(
 )
 {
     public static FcInfoGetResponse of(FcInfoResult result) {
-        return new FcInfoResult(
+        return new FcInfoGetResponse(
                 result.financialConsultantId(),
                 result.phoneNumber(),
                 result.name(),
                 result.profileUrl(),
                 result.introduceMessage()
-
         );
     }
 }
