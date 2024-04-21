@@ -79,7 +79,7 @@ public class MemberControllerDocsTest extends RestDocsSupport {
                         requestFields(
                                 fieldWithPath("language").type(JsonFieldType.STRING).description("사용자 언어: " +
                                         Arrays.stream(SourceLanguage.values())
-                                                .map(SourceLanguage::getGoogleSttLang)
+                                                .map(Enum::name)
                                                 .collect(Collectors.joining(", "))),
                                 fieldWithPath("visaType").type(JsonFieldType.STRING).description("비자 타입: " +
                                         Arrays.stream(VisaType.values())

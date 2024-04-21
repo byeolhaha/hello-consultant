@@ -7,15 +7,15 @@ import java.util.Arrays;
 @Getter
 public enum SourceLanguage {
 
-    중국("ZH", "zh"),
-    미국("EN", "en-US"),
-    영국("EN", "en-GB"),
-    러시아("RU", "ru-RU"),
-    일본("JA", "ja-JP"),
-    한국("KO", "ko-KR"),
-    프랑스("FR", "fr-BE"),
-    스페인("ES", "eu-ES"),
-    이탈리아("IT", "it-IT");
+    CHINA("ZH", "zh"),
+    US("EN", "en-US"),
+    UK("EN", "en-GB"),
+    RUSSIAN("RU", "ru-RU"),
+    JAPANESE("JA", "ja-JP"),
+    KOREAN("KO", "ko-KR"),
+    FRENCH("FR", "fr-BE"),
+    SPANISH("ES", "eu-ES"),
+    ITALIAN("IT", "it-IT");
 
     private String deeplLang;
     private String googleSttLang;
@@ -25,27 +25,16 @@ public enum SourceLanguage {
         this.googleSttLang = googleSttLang;
     }
 
-    public static boolean checkTranslatorFormat(String sourceLang) {
+    public static boolean checkFormat(String sourceLang) {
         return Arrays.stream(SourceLanguage.values())
-                .noneMatch(sourceLanguage -> sourceLanguage.deeplLang.equals(sourceLang));
+            .noneMatch(sourceLanguage -> sourceLanguage.name().equals(sourceLang));
     }
 
-    public static boolean checkSttFormat(String sourceLang) {
+    public static SourceLanguage findSourceLanguage(String language) {
         return Arrays.stream(SourceLanguage.values())
-                .noneMatch(sourceLanguage -> sourceLanguage.googleSttLang.equals(sourceLang));
+            .filter(sourceLanguage -> sourceLanguage.name().equals(language))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
     }
 
-    public static SourceLanguage findSttSourceLanguage(String language) {
-        return Arrays.stream(SourceLanguage.values())
-                .filter(sourceLanguage -> sourceLanguage.googleSttLang.equals(language))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
-    }
-
-    public static SourceLanguage findTranslatorSourceLanguage(String language) {
-        return Arrays.stream(SourceLanguage.values())
-                .filter(sourceLanguage -> sourceLanguage.deeplLang.equals(language))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
-    }
 }

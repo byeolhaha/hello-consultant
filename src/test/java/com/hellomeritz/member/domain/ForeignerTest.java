@@ -22,7 +22,7 @@ class ForeignerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         userId,
-                        SourceLanguage.미국,
+                        SourceLanguage.findSourceLanguage("UK"),
                         VisaType.E1,
                         true,
                         BirthDate.of("19970121")
@@ -50,7 +50,7 @@ class ForeignerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
-                        SourceLanguage.미국,
+                        SourceLanguage.findSourceLanguage("US"),
                         visaType,
                         true,
                         BirthDate.of("19970121")
@@ -64,7 +64,7 @@ class ForeignerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
-                        SourceLanguage.미국,
+                        SourceLanguage.findSourceLanguage("US"),
                         VisaType.E1,
                         true,
                         BirthDate.of(LocalDate.now().plusDays(10).format(yyMMdd))
@@ -78,7 +78,7 @@ class ForeignerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Foreigner.of(
                         1L,
-                        SourceLanguage.미국,
+                        SourceLanguage.findSourceLanguage("US"),
                         VisaType.E1,
                         true,
                         BirthDate.of("11111111")

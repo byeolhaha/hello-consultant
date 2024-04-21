@@ -22,7 +22,7 @@ public record ForeignInfoSaveRequest(
     public ForeignInfoSaveParam toForeignInfoSaveParam(Long userId) {
         return new ForeignInfoSaveParam(
                 userId,
-                SourceLanguage.findSttSourceLanguage(language),
+                SourceLanguage.findSourceLanguage(language),
                 VisaType.findVisaType(visaType),
                 hasResidentCard,
                 BirthDate.of(birthDate)
@@ -31,7 +31,7 @@ public record ForeignInfoSaveRequest(
 
     @AssertTrue(message = "sourceLang 형식이 enum 형식에 맞지 않습니다.")
     public boolean checkSourceLangFormat() {
-        return SourceLanguage.checkSttFormat(language);
+        return SourceLanguage.checkFormat(language);
     }
 
     @AssertTrue(message = "visaType 형식이 enum 형식에 맞지 않습니다.")

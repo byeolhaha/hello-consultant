@@ -6,15 +6,15 @@ import java.util.Arrays;
 
 @Getter
 public enum TargetLanguage {
-    중국("ZH"),
-    미국("EN-US"),
-    영국("EN-GB"),
-    러시아("RU"),
-    일본("JA"),
-    한국("KO"),
-    프랑스("FR"),
-    스페인("ES"),
-    이탈리아("IT");
+    CHINA("ZH"),
+    US("EN-US"),
+    UK("EN-GB"),
+    RUSSIAN("RU"),
+    JAPANESE("JA"),
+    KOREAN("KO"),
+    FRENCH("FR"),
+    SPANISH("ES"),
+    ITALIAN("IT");
 
     private String deeplLang;
 
@@ -22,16 +22,16 @@ public enum TargetLanguage {
         this.deeplLang = deeplLang;
     }
 
-    public static boolean checkTranslatorFormat(String targetLang) {
+    public static boolean checkFormat(String targetLang) {
         return Arrays.stream(TargetLanguage.values())
-                .noneMatch(targetLanguage -> targetLanguage.deeplLang.equals(targetLang));
+            .noneMatch(targetLanguage -> targetLanguage.name().equals(targetLang));
     }
 
-    public static TargetLanguage findTranslatorTargetLanguage(String language) {
+    public static TargetLanguage findTargetLanguage(String language) {
         return Arrays.stream(TargetLanguage.values())
-                .filter(targetLanguage -> targetLanguage.deeplLang.equals(language))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
+            .filter(targetLanguage -> targetLanguage.name().equals(language))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("해당하는 language가 없습니다."));
     }
 
 }

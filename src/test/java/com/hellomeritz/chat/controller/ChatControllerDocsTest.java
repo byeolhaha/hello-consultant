@@ -107,7 +107,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사 여부"),
                                 fieldWithPath("sourceLang").type(JsonFieldType.STRING).description("audio file의 해당 언어"
                                         + Arrays.stream(SourceLanguage.values())
-                                        .map(SourceLanguage::getGoogleSttLang)
+                                        .map(SourceLanguage::name)
                                         .collect(Collectors.joining(", ")))
                         ),
                         responseFields(
@@ -139,11 +139,11 @@ public class ChatControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사 여부"),
                                 fieldWithPath("targetLang").type(JsonFieldType.STRING).description(
                                         "번역되고자 하는 언어:" + Arrays.stream(TargetLanguage.values())
-                                                .map(TargetLanguage::getDeeplLang)
+                                                .map(TargetLanguage::name)
                                                 .collect(Collectors.joining(", "))),
                                 fieldWithPath("sourceLang").type(JsonFieldType.STRING).description(
                                         "사용자가 보낸 text의 해당 언어:" + Arrays.stream(SourceLanguage.values())
-                                                .map(SourceLanguage::getDeeplLang)
+                                                .map(SourceLanguage::name)
                                                 .collect(Collectors.joining(", ")))
                         ),
                         responseFields(
