@@ -5,8 +5,6 @@ import com.hellomeritz.chat.global.VisaType;
 import com.hellomeritz.member.domain.BirthDate;
 import com.hellomeritz.member.domain.Foreigner;
 
-import java.time.LocalDate;
-
 public record ForeignInfoSaveParam(
         Long userId,
         SourceLanguage language,

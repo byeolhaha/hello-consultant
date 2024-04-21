@@ -1,6 +1,5 @@
 package com.hellomeritz.chat.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hellomeritz.chat.controller.dto.request.ChatAudioUploadRequest;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
@@ -8,11 +7,8 @@ import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
-import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

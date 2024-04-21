@@ -4,11 +4,7 @@ import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.service.dto.param.ChatMessageSttParam;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.xml.transform.Source;
 
 public record ChatMessageSttRequest(
 
