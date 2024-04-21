@@ -76,6 +76,35 @@ public class Foreigner {
         );
     }
 
+    private Foreigner(
+        SourceLanguage sourceLanguage,
+        VisaType visaType,
+        boolean hasResidentCard,
+        BirthDate birthDate
+    ) {
+        Assert.notNull(sourceLanguage, "외국인의 언어는 null일 수 없습니다.");
+        Assert.notNull(visaType, "외국인의 visa type은 null일 수 없습니다.");
+
+        this.language = sourceLanguage;
+        this.birthDate = birthDate;
+        this.visaType = visaType;
+        this.hasResidentCard = hasResidentCard;
+    }
+
+    public static Foreigner of(
+        SourceLanguage sourceLanguage,
+        VisaType visaType,
+        boolean hasResidentCard,
+        BirthDate birthDate
+    ) {
+        return new Foreigner(
+            sourceLanguage,
+            visaType,
+            hasResidentCard,
+            birthDate
+        );
+    }
+
     public static Foreigner of() {
         return new Foreigner();
     }
@@ -83,6 +112,10 @@ public class Foreigner {
     public void updateIpAddress(String ipAddress) {
         Assert.hasLength(ipAddress, "ipAddress는 null이거나 빈값일 수 없습니다.");
         this.ipAddress = ipAddress;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate.getBirthDate();
     }
 
 }
