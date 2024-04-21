@@ -11,6 +11,7 @@ public record ChatMessageGetRepositoryResponses(
     String nextChatMessageId,
     boolean hasNext
 ) {
+    private static final String INITIAL_NEXT_CHAT_MESSAGE_ID = "";
 
     public static ChatMessageGetRepositoryResponses to(
         List<ChatMessage> chatMessages,
@@ -30,7 +31,7 @@ public record ChatMessageGetRepositoryResponses(
 
     private static String getNextChatMessageId(List<ChatMessage> chatMessages) {
         if (chatMessages.isEmpty()) {
-            return "";
+            return INITIAL_NEXT_CHAT_MESSAGE_ID;
         }
         return chatMessages.get(chatMessages.size() - 1).getId();
     }
