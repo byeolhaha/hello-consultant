@@ -7,4 +7,6 @@ public interface FinancialConsultantRepository {
 
     FinancialConsultant getFinancialConsultant(long fcId);
 
+    FinancialConsultant save(FinancialConsultant financialConsultant);
+
 }

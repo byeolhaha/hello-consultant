@@ -65,3 +65,29 @@ include::{snippets}/notify-foreigner-arrival-to-fc/path-parameters.adoc[]
 === Response (Success)
 
 include::{snippets}/notify-foreigner-arrival-to-fc/http-response.adoc[]
+
+
+== 설계사의 정보를 조회하는 API
+설계사의 정보를 조회하는 API
+
+=== Request
+
+include::{snippets}/get-fc-info/http-request.adoc[]
+include::{snippets}/get-fc-info/path-parameters.adoc[]
+=== Response (Success)
+
+include::{snippets}/get-fc-info/http-response.adoc[]
+include::{snippets}/get-fc-info/response-fields.adoc[]
+
+
+== 외국인 정보를 조회하는 API
+외국인 정보를 조회하는 API
+
+=== Request
+
+include::{snippets}/get-foreigner-info/http-request.adoc[]
+include::{snippets}/get-foreigner-info/path-parameters.adoc[]
+=== Response (Success)
+
+include::{snippets}/get-foreigner-info/http-response.adoc[]
+include::{snippets}/get-foreigner-info/response-fields.adoc[]
