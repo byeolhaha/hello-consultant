@@ -13,7 +13,7 @@ public record ChatMessageTranslateRequest(
 
         @Positive(message = "userId는 양수여야 합니다.")
         long userId,
-        boolean isFC,
+        Boolean isFC,
 
         @NotBlank(message = "targetLang는 빈값일 수 없습니다.")
         String targetLang,
