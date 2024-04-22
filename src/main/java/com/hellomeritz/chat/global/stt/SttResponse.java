@@ -20,4 +20,8 @@ public record SttResponse(
     public static SttResponse emptySttResponse() {
         return new SttResponse("");
     }
+
+    public static SttResponse to(String textBySpeech) {
+        return new SttResponse(textBySpeech);
+    }
 }

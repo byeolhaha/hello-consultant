@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.threeten.bp.Duration;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +28,7 @@ public class SttGoogleManager implements SttManager {
     @Value("${google.stt.credential.path}")
     private String credentialsPath;
 
-    public SttResponse asyncRecognizeGcs(SttRequest request) {
+    public SttResponse asyncRecognizeAudio(SttRequest request) {
         String gcsUri = request.audioUrl().replace(GOOGLE_BUCKET_PATH, GOOGLE_BUCKET_HOST);
 
         SpeechSettings.Builder speechSettingsBuilder = getCredentials();
@@ -67,10 +66,11 @@ public class SttGoogleManager implements SttManager {
 
             for (SpeechRecognitionResult result : results) {
                 SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
-                return new SttResponse(alternative.getTranscript());
+                return SttResponse.to(alternative.getTranscript());
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            return SttResponse.emptySttResponse();
         } catch (IOException e) {
             throw new SttException(ErrorCode.STT_IO_ERROR);
         } catch (ExecutionException e) {

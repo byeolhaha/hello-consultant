@@ -1,8 +1,8 @@
 package com.hellomeritz.chat.global.stt;
 
-import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
+import java.io.IOException;
 
 public interface SttManager {
 
-    SttResponse asyncRecognizeGcs(SttRequest request);
+    SttResponse asyncRecognizeAudio (SttRequest request);
 }
