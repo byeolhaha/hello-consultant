@@ -20,4 +20,9 @@ public class FinancialConsultantRepositoryImpl implements FinancialConsultantRep
         return financialConsultantJapRepository.findById(fcId).orElseThrow(() -> new EntityNotFoundException("해당 설계사는 존재하지 않습니다."));
     }
 
+    @Override
+    public FinancialConsultant save(FinancialConsultant financialConsultant) {
+        return financialConsultantJapRepository.save(financialConsultant);
+    }
+
 }

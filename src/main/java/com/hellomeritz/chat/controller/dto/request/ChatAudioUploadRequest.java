@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public record ChatAudioUploadRequest(
         @Positive(message = "userId는 음수이거나 0일 수 없습니다.")
         long userId,
-        boolean isFC
+        Boolean isFC
 ) {
 
     public ChatAudioUploadParam toChatAudioUploadParam(

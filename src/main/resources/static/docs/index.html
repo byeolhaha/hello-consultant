@@ -515,6 +515,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_success_11">Response (Success)</a></li>
 </ul>
 </li>
+<li><a href="#_설계사의_정보를_조회하는_api">설계사의 정보를 조회하는 API</a>
+<ul class="sectlevel2">
+<li><a href="#_request_12">Request</a></li>
+<li><a href="#_response_success_12">Response (Success)</a></li>
+</ul>
+</li>
+<li><a href="#_외국인_정보를_조회하는_api">외국인 정보를 조회하는 API</a>
+<ul class="sectlevel2">
+<li><a href="#_request_13">Request</a></li>
+<li><a href="#_response_success_13">Response (Success)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -857,7 +869,7 @@ Content-Length: 104
 
 {
   "audioUrl" : "https://gcp//meritz-audio/china",
-  "createdAt" : "2024-04-21T15:57:00.204708800"
+  "createdAt" : "2024-04-21T19:05:57.195193500"
 }</code></pre>
 </div>
 </div>
@@ -979,7 +991,7 @@ Content-Length: 96
 
 {
   "textBySpeech" : "Hello my name is byeol",
-  "createdAt" : "2024-04-21T15:56:59.625601"
+  "createdAt" : "2024-04-21T19:05:56.729296"
 }</code></pre>
 </div>
 </div>
@@ -1103,12 +1115,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json;charset=UTF-8
-Content-Length: 177
+Content-Length: 180
 
 {
   "originContents" : "hello my name is kim byeol",
   "translatedContents" : "안녕하세요 내 이름은 김별입니다",
-  "createdAt" : "2024-04-21T15:57:00.280629"
+  "createdAt" : "2024-04-21T19:05:57.252031600"
 }</code></pre>
 </div>
 </div>
@@ -1582,11 +1594,201 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_설계사의_정보를_조회하는_api"><a class="link" href="#_설계사의_정보를_조회하는_api">설계사의 정보를 조회하는 API</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>설계사의 정보를 조회하는 API</p>
+</div>
+<div class="sect2">
+<h3 id="_request_12"><a class="link" href="#_request_12">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/fc-info HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. /users/{fcId}/fc-info</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fcId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설계사의 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_12"><a class="link" href="#_response_success_12">Response (Success)</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 252
+
+{
+  "financialConsultantId" : 1,
+  "phoneNumber" : "010-1234-6789",
+  "name" : "김별",
+  "profileUrl" : "https://gcp//meritz-profile/mypicture",
+  "introduceMessage" : "안녕하세요 저는 박지호이고 자동차 보험 전문입니다."
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>financialConsultantId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설계사 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설계사의 전화번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설계사의 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 사진</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduceMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소개 인사</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_외국인_정보를_조회하는_api"><a class="link" href="#_외국인_정보를_조회하는_api">외국인 정보를 조회하는 API</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>외국인 정보를 조회하는 API</p>
+</div>
+<div class="sect2">
+<h3 id="_request_13"><a class="link" href="#_request_13">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/foreigner-info HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. /users/{foreignerId}/foreigner-info</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>foreignerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">외국인의 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_13"><a class="link" href="#_response_success_13">Response (Success)</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 130
+
+{
+  "userId" : 1,
+  "sourceLanguage" : "US",
+  "visaType" : "E1",
+  "hasResidentCard" : true,
+  "birthDate" : "1997-01-21"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">외국인 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sourceLanguage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자신의 언어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>visaType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비자타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasResidentCard</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">외국인 거주증 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birthDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생년월일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-19 20:12:28 +0900
+Last updated 2024-04-21 17:39:50 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
