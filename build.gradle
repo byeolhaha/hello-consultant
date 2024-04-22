@@ -48,8 +48,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	//gcp
-	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
-	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.8.RELEASE'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.8.RELEASE'
 
 	// Google Speech To Text
 	implementation(platform("com.google.cloud:libraries-bom:26.1.4"))
@@ -62,6 +62,12 @@ dependencies {
 
 	//coolsms
 	implementation 'net.nurigo:sdk:4.3.0'
+
+	// 서킷브레이커
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter-aop")
+	implementation "io.github.resilience4j:resilience4j-spring-boot3:2.2.0"
+	implementation "io.github.resilience4j:resilience4j-all:2.2.0"
 }
 
 
