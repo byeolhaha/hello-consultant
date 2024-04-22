@@ -83,7 +83,7 @@ public class ChatController {
     public ResponseEntity<ChatMessageSttResponse> sendAudioChatMessage(
             @PathVariable @Positive(message = "chatRoomId는 양수여야 합니다.") Long chatRoomId,
             @RequestBody @Valid ChatMessageSttRequest request) {
-        System.out.println(request.isFC());
+        System.out.println("iSFC:"+request.isFC());
         ChatMessageSttResult result = chatService.sendAudioMessage(request.toChatMessageSttParam(chatRoomId));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ChatMessageSttResponse.to(result));
