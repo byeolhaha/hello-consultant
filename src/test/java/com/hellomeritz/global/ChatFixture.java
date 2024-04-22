@@ -10,6 +10,7 @@ import com.hellomeritz.chat.domain.ChatMessageType;
 import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
+import com.hellomeritz.chat.global.stt.SttProvider;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
@@ -160,7 +161,8 @@ public class ChatFixture {
     public static ChatMessageSttResult chatMessageSttResult() {
         return new ChatMessageSttResult(
             "Hello my name is byeol",
-            LocalDateTime.now().toString()
+            LocalDateTime.now().toString(),
+            SttProvider.WHISPER.name()
         );
     }
 
