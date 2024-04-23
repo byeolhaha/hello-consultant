@@ -28,7 +28,7 @@ public class ChatMessageMongoRepository {
     public ChatMessageGetRepositoryResponses getChatMessageByCursor(ChatMessageGetRepositoryRequest request) {
         Query query = new Query(
             Criteria.where("_id")
-                .lt(new ObjectId(request.nextChatMessageId()))
+                .gt(new ObjectId(request.nextChatMessageId()))
                 .and("chatRoomId").is(request.chatRoomId())
                 .and("messageType").ne("AUDIO"))
             .limit(request.pageSize())
