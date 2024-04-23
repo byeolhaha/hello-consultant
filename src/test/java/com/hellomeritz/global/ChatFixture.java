@@ -1,6 +1,5 @@
 package com.hellomeritz.global;
 
-import com.hellomeritz.chat.controller.dto.request.ChatAudioUploadRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageTranslateRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
@@ -10,6 +9,7 @@ import com.hellomeritz.chat.domain.ChatMessageType;
 import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
+import com.hellomeritz.chat.global.stt.SttProvider;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
@@ -139,8 +139,8 @@ public class ChatFixture {
         );
     }
 
-    public static ChatAudioUploadRequest chatAudioUploadRequest() {
-        return new ChatAudioUploadRequest(1L, true);
+    public static ChatMessageSttRequest chatAudioUploadRequest() {
+        return new ChatMessageSttRequest(1L, true, "US");
     }
 
     public static ChatRoomCreateResult chatRoomCreateResult() {
@@ -151,28 +151,15 @@ public class ChatFixture {
         return new ChatRoomCreateRequest(1L, 2L);
     }
 
-    public static ChatAudioUploadResult chatAudioUploadResult() {
-        return new ChatAudioUploadResult(
-            "https://gcp//meritz-audio/china",
-            LocalDateTime.now().toString());
-    }
 
     public static ChatMessageSttResult chatMessageSttResult() {
         return new ChatMessageSttResult(
             "Hello my name is byeol",
-            LocalDateTime.now().toString()
+            LocalDateTime.now().toString(),
+            SttProvider.WHISPER.name()
         );
     }
 
-    public static ChatMessageSttRequest chatMessageSttRequest() {
-        return new ChatMessageSttRequest(
-            "gs://meritz/audio",
-            1L,
-            true,
-            "CHINA"
-        );
-
-    }
 
     public static ChatMessageTranslateResult chatMessageTranslateResult() {
         return new ChatMessageTranslateResult(

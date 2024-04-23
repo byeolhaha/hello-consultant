@@ -1,9 +1,7 @@
 package com.hellomeritz.chat.global.uploader;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;

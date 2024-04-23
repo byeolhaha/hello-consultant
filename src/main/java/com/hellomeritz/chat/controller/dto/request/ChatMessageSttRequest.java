@@ -2,39 +2,33 @@ package com.hellomeritz.chat.controller.dto.request;
 
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.service.dto.param.ChatMessageSttParam;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.web.multipart.MultipartFile;
 
 public record ChatMessageSttRequest(
+    @Positive(message = "userId는 음수이거나 0일 수 없습니다.")
+    @NotNull(message = "userId는 null일 수 없습니다.")
+    Long userId,
 
-        @NotBlank(message = "audioUrl은 빈값일 수 없습니다.")
-        String audioUrl,
+    @NotNull(message = "isFC는 null일 수 없습니다.")
+    Boolean isFC,
 
-        @Positive(message = "userId는 양수여야 합니다.")
-        @NotNull(message = "userId는 null일 수 없습니다.")
-        Long userId,
-
-        @NotNull(message = "isFC는 null일 수 없습니다.")
-        Boolean isFC,
-
-        @NotBlank(message = "sourceLang은 빈값일 수 없습니다.")
-        String sourceLang
+    @NotBlank(message = "sourceLang은 빈값일 수 없습니다.")
+    String sourceLang
 ) {
 
-    @AssertTrue(message = "sourceLang 형식이 enum 형식에 맞지 않습니다.")
-    public boolean checkSourceLangFormat() {
-        return SourceLanguage.checkFormat(sourceLang);
-    }
-
-    public ChatMessageSttParam toChatMessageSttParam(long chatRoomId) {
+    public ChatMessageSttParam toChatMessageSttParam(
+        MultipartFile audioFile,
+        long chatRoomId
+    ) {
         return new ChatMessageSttParam(
-                audioUrl,
-                userId,
-                isFC,
-                chatRoomId,
-                SourceLanguage.findSourceLanguage(sourceLang)
+            audioFile,
+            userId,
+            isFC,
+            chatRoomId,
+            SourceLanguage.findSourceLanguage(sourceLang)
         );
     }
 }

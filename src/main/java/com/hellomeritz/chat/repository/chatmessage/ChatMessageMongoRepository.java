@@ -29,7 +29,8 @@ public class ChatMessageMongoRepository {
         Query query = new Query(
             Criteria.where("_id")
                 .gt(new ObjectId(request.nextChatMessageId()))
-                .and("chatRoomId").is(request.chatRoomId()))
+                .and("chatRoomId").is(request.chatRoomId())
+                .and("messageType").ne("AUDIO"))
             .limit(request.pageSize())
             .with(Sort.by(Sort.Direction.DESC, "_id"));
 

@@ -2,6 +2,10 @@ package com.hellomeritz.chat.service;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
+import com.hellomeritz.chat.global.exception.ErrorCode;
+import com.hellomeritz.chat.global.exception.custom.SttException;
+import com.hellomeritz.chat.global.stt.SttManagerHandler;
+import com.hellomeritz.chat.global.stt.SttProvider;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
@@ -22,6 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
 @Transactional
@@ -36,6 +43,9 @@ class ChatServiceTest {
 
     @Autowired
     private ChatService chatService;
+
+    @Autowired
+    private SttManagerHandler sttManagerHandler;
 
     @DisplayName("채팅메세지를 저장할 수 있다.")
     @Test

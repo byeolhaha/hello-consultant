@@ -3,7 +3,9 @@ package com.hellomeritz.chat.service;
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.stt.SttManager;
-import com.hellomeritz.chat.global.stt.SttResponse;
+import com.hellomeritz.chat.global.stt.SttManagerHandler;
+import com.hellomeritz.chat.global.stt.SttProvider;
+import com.hellomeritz.chat.global.stt.dto.SttResponse;
 import com.hellomeritz.chat.global.translator.Translator;
 import com.hellomeritz.chat.global.translator.TranslationResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
@@ -14,19 +16,21 @@ import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
-import com.hellomeritz.member.global.IpSensor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 
 @Service
 public class ChatService {
+    private static final String SIMPLE_CIRCUIT_BREAKER_CONFIG = "simpleCircuitBreakerConfig";
     private static final int CHAT_PAGE_SIZE = 20;
+
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final Translator translator;
     private final AudioUploader audioUploader;
-    private final SttManager sttManager;
+    private final SttManagerHandler sttManagerHandler;
 
 
     public ChatService(
@@ -34,12 +38,12 @@ public class ChatService {
             ChatRoomRepository chatRoomRepository,
             Translator translator,
             AudioUploader audioUploader,
-            SttManager sttManager) {
+            SttManagerHandler sttManagerHandler) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
         this.translator = translator;
         this.audioUploader = audioUploader;
-        this.sttManager = sttManager;
+        this.sttManagerHandler = sttManagerHandler;
     }
 
     @Transactional
@@ -71,8 +75,7 @@ public class ChatService {
                 param);
     }
 
-    @Transactional
-    public ChatAudioUploadResult uploadAudioFile(ChatAudioUploadParam param) {
+    private ChatAudioUploadResult uploadAudioFile(ChatAudioUploadParam param) {
         AudioUploadResponse audioUploadResponse = audioUploader.upload(param.audioFile());
         ChatMessage chatMessageByStt = chatMessageRepository.save(audioUploadResponse.toChatMessage(param));
 
@@ -80,17 +83,34 @@ public class ChatService {
                 audioUploadResponse.audioUrl(),
                 chatMessageByStt.getCreatedAt()
         );
-
     }
 
+    @CircuitBreaker(name = SIMPLE_CIRCUIT_BREAKER_CONFIG, fallbackMethod = "fallbackSendAudioMessage")
     @Transactional
     public ChatMessageSttResult sendAudioMessage(ChatMessageSttParam param) {
-        SttResponse textBySpeech = sttManager.asyncRecognizeGcs(param.toSttRequest());
+        ChatAudioUploadResult chatAudioUploadResult = uploadAudioFile(param.toChatAudioUploadParam());
+
+        SttManager sttManager = sttManagerHandler.getSttManager(SttProvider.GOOGLE.name());
+        SttResponse textBySpeech
+            = sttManager.asyncRecognizeAudio(param.toSttRequest(chatAudioUploadResult.audioUrl()));
         ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
 
         return ChatMessageSttResult.to(
                 textBySpeech.textBySpeech(),
-                chatMessage.getCreatedAt()
+                chatMessage.getCreatedAt(),
+                SttProvider.GOOGLE.name()
+        );
+    }
+
+    private ChatMessageSttResult fallbackSendAudioMessage(ChatMessageSttParam param, Exception e) {
+        SttManager sttManager = sttManagerHandler.getSttManager(SttProvider.WHISPER.name());
+        SttResponse textBySpeech = sttManager.asyncRecognizeAudio(param.toEmptySttRequest());
+        ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
+
+        return ChatMessageSttResult.to(
+            textBySpeech.textBySpeech(),
+            chatMessage.getCreatedAt(),
+            SttProvider.WHISPER.name()
         );
     }
 

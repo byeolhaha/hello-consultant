@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.stt;
+package com.hellomeritz.chat.global.stt.dto;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
@@ -19,5 +19,9 @@ public record SttResponse(
 
     public static SttResponse emptySttResponse() {
         return new SttResponse("");
+    }
+
+    public static SttResponse to(String textBySpeech) {
+        return new SttResponse(textBySpeech);
     }
 }
