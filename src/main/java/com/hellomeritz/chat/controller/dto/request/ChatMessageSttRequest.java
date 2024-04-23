@@ -4,6 +4,7 @@ import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.service.dto.param.ChatMessageSttParam;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record ChatMessageSttRequest(
@@ -12,8 +13,11 @@ public record ChatMessageSttRequest(
         String audioUrl,
 
         @Positive(message = "userId는 양수여야 합니다.")
-        long userId,
-        boolean isFC,
+        @NotNull(message = "userId는 null일 수 없습니다.")
+        Long userId,
+
+        @NotNull(message = "isFC는 null일 수 없습니다.")
+        Boolean isFC,
 
         @NotBlank(message = "sourceLang은 빈값일 수 없습니다.")
         String sourceLang

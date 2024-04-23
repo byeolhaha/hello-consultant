@@ -5,6 +5,7 @@ import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record ChatMessageTranslateRequest(
@@ -12,7 +13,10 @@ public record ChatMessageTranslateRequest(
         String contents,
 
         @Positive(message = "userId는 양수여야 합니다.")
-        long userId,
+        @NotNull(message = "myId는 null이거나 빈값일 수 없습니다.")
+        Long userId,
+
+        @NotNull(message = "isFC는 null일 수 없습니다.")
         Boolean isFC,
 
         @NotBlank(message = "targetLang는 빈값일 수 없습니다.")
