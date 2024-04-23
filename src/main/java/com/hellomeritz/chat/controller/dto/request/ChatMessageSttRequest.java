@@ -1,25 +1,35 @@
 package com.hellomeritz.chat.controller.dto.request;
 
-import com.hellomeritz.chat.service.dto.param.ChatAudioUploadParam;
+import com.hellomeritz.chat.global.SourceLanguage;
+import com.hellomeritz.chat.service.dto.param.ChatMessageSttParam;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.web.multipart.MultipartFile;
 
-public record ChatAudioUploadRequest(
-        @Positive(message = "userId는 음수이거나 0일 수 없습니다.")
-        long userId,
-        Boolean isFC,
+public record ChatMessageSttRequest(
+    @Positive(message = "userId는 음수이거나 0일 수 없습니다.")
+    @NotNull(message = "userId는 null일 수 없습니다.")
+    Long userId,
+
+    @NotNull(message = "isFC는 null일 수 없습니다.")
+    Boolean isFC,
+
+    @NotBlank(message = "sourceLang은 빈값일 수 없습니다.")
+    String sourceLang
 
 ) {
 
-    public ChatAudioUploadParam toChatAudioUploadParam(
-            MultipartFile audioFile,
-            long chatRoomId
-    ){
-        return new ChatAudioUploadParam(
-                audioFile,
-                userId,
-                isFC,
-                chatRoomId
+    public ChatMessageSttParam toChatMessageSttParam(
+        MultipartFile audioFile,
+        long chatRoomId
+    ) {
+        return new ChatMessageSttParam(
+            audioFile,
+            userId,
+            isFC,
+            chatRoomId,
+            SourceLanguage.findSourceLanguage(sourceLang)
         );
     }
 }
