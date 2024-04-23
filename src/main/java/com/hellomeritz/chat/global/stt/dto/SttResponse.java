@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.stt;
+package com.hellomeritz.chat.global.stt.dto;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;

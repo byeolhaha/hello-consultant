@@ -1,6 +1,7 @@
 package com.hellomeritz.chat.global.stt;
 
-import java.io.IOException;
+import com.hellomeritz.chat.global.stt.dto.SttRequest;
+import com.hellomeritz.chat.global.stt.dto.SttResponse;
 
 public interface SttManager {
 

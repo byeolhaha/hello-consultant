@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.stt;
+package com.hellomeritz.chat.global.stt.dto;
 
 import com.hellomeritz.chat.global.SourceLanguage;
 import org.springframework.web.multipart.MultipartFile;

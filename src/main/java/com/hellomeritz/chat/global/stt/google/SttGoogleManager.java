@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.stt;
+package com.hellomeritz.chat.global.stt.google;
 
 import com.google.api.gax.longrunning.OperationFuture;
 import com.google.api.gax.longrunning.OperationTimedPollAlgorithm;
@@ -10,6 +10,9 @@ import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.cloud.speech.v1.*;
 import com.hellomeritz.chat.global.exception.ErrorCode;
 import com.hellomeritz.chat.global.exception.custom.SttException;
+import com.hellomeritz.chat.global.stt.SttManager;
+import com.hellomeritz.chat.global.stt.dto.SttRequest;
+import com.hellomeritz.chat.global.stt.dto.SttResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.threeten.bp.Duration;
 
@@ -23,7 +26,7 @@ public class SttGoogleManager implements SttManager {
     private static final String GOOGLE_BUCKET_PATH = "https://storage.googleapis.com/";
     private static final String GOOGLE_BUCKET_HOST = "gs://";
 
-    @Value("${google.stt.path}")
+    @Value("${google.stt.credential.path}")
     private String credentialsPath;
 
     public SttResponse asyncRecognizeAudio(SttRequest request) {
