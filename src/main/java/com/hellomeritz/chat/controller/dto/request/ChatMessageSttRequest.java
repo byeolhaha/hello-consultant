@@ -17,7 +17,6 @@ public record ChatMessageSttRequest(
 
     @NotBlank(message = "sourceLang은 빈값일 수 없습니다.")
     String sourceLang
-
 ) {
 
     public ChatMessageSttParam toChatMessageSttParam(

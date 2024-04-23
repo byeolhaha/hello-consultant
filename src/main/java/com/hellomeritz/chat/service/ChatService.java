@@ -24,7 +24,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 @Service
 public class ChatService {
     private static final String SIMPLE_CIRCUIT_BREAKER_CONFIG = "simpleCircuitBreakerConfig";
-    private static final int CHAT_PAGE_SIZE = 10;
+    private static final int CHAT_PAGE_SIZE = 20;
+
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final Translator translator;
@@ -33,11 +34,11 @@ public class ChatService {
 
 
     public ChatService(
-        ChatMessageRepository chatMessageRepository,
-        ChatRoomRepository chatRoomRepository,
-        Translator translator,
-        AudioUploader audioUploader,
-        SttManagerHandler sttManagerHandler) {
+            ChatMessageRepository chatMessageRepository,
+            ChatRoomRepository chatRoomRepository,
+            Translator translator,
+            AudioUploader audioUploader,
+            SttManagerHandler sttManagerHandler) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
         this.translator = translator;
