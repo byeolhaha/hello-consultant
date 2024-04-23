@@ -5,7 +5,7 @@ import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.stt.SttManager;
 import com.hellomeritz.chat.global.stt.SttManagerHandler;
 import com.hellomeritz.chat.global.stt.SttProvider;
-import com.hellomeritz.chat.global.stt.SttResponse;
+import com.hellomeritz.chat.global.stt.dto.SttResponse;
 import com.hellomeritz.chat.global.translator.Translator;
 import com.hellomeritz.chat.global.translator.TranslationResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
@@ -74,8 +74,7 @@ public class ChatService {
                 param);
     }
 
-    @Transactional
-    public ChatAudioUploadResult uploadAudioFile(ChatAudioUploadParam param) {
+    private ChatAudioUploadResult uploadAudioFile(ChatAudioUploadParam param) {
         AudioUploadResponse audioUploadResponse = audioUploader.upload(param.audioFile());
         ChatMessage chatMessageByStt = chatMessageRepository.save(audioUploadResponse.toChatMessage(param));
 
@@ -83,14 +82,16 @@ public class ChatService {
                 audioUploadResponse.audioUrl(),
                 chatMessageByStt.getCreatedAt()
         );
-
     }
 
     @CircuitBreaker(name = SIMPLE_CIRCUIT_BREAKER_CONFIG, fallbackMethod = "fallbackSendAudioMessage")
     @Transactional
     public ChatMessageSttResult sendAudioMessage(ChatMessageSttParam param) {
+        ChatAudioUploadResult chatAudioUploadResult = uploadAudioFile(param.toChatAudioUploadParam());
+
         SttManager sttManager = sttManagerHandler.getSttManager(SttProvider.GOOGLE.name());
-        SttResponse textBySpeech = sttManager.asyncRecognizeAudio(param.toSttRequest());
+        SttResponse textBySpeech
+            = sttManager.asyncRecognizeAudio(param.toSttRequest(chatAudioUploadResult.audioUrl()));
         ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
 
         return ChatMessageSttResult.to(
@@ -102,7 +103,7 @@ public class ChatService {
 
     private ChatMessageSttResult fallbackSendAudioMessage(ChatMessageSttParam param, Exception e) {
         SttManager sttManager = sttManagerHandler.getSttManager(SttProvider.WHISPER.name());
-        SttResponse textBySpeech = sttManager.asyncRecognizeAudio(param.toSttRequest());
+        SttResponse textBySpeech = sttManager.asyncRecognizeAudio(param.toEmptySttRequest());
         ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
 
         return ChatMessageSttResult.to(
