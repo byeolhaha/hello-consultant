@@ -72,10 +72,9 @@ class ChatServiceTest {
         // given
         chatMessageRepository.deleteAll();
 
-        ChatMessage firstChatMessage = chatMessageRepository.save(ChatFixture.originChatMessageByFC());
         chatMessageRepository.save(ChatFixture.translatedChatMessageByFC());
         chatMessageRepository.save(ChatFixture.originChatMessageByUser());
-        chatMessageRepository.save(ChatFixture.translatedChatMessageByUser());
+        ChatMessage lastChatMessage =chatMessageRepository.save(ChatFixture.translatedChatMessageByUser());
 
         ChatMessageGetParam chatMessageGetParam = ChatFixture.chatMessageGetParam();
 
@@ -83,7 +82,7 @@ class ChatServiceTest {
         ChatMessageGetResults results = chatService.getChatMessages(chatMessageGetParam);
 
         // then
-        assertThat(results.nextChatMessageId()).isEqualTo(firstChatMessage.getId());
+        assertThat(results.nextChatMessageId()).isEqualTo(lastChatMessage.getId());
         for (int i = 0; i < results.chatMessages().size() - 1; i++) {
             LocalDateTime current = LocalDateTime.parse(results.chatMessages().get(i).createdAt());
             LocalDateTime next = LocalDateTime.parse(results.chatMessages().get(i + 1).createdAt());
