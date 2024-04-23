@@ -21,22 +21,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ChatService {
-    private static final int CHAT_PAGE_SIZE = 10;
+    private static final int CHAT_PAGE_SIZE = 20;
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final Translator translator;
     private final AudioUploader audioUploader;
     private final SttManager sttManager;
 
-    private final IpSensor ipSensor;
 
-    public ChatService(ChatMessageRepository chatMessageRepository, ChatRoomRepository chatRoomRepository, Translator translator, AudioUploader audioUploader, SttManager sttManager, IpSensor ipSensor) {
+    public ChatService(
+            ChatMessageRepository chatMessageRepository,
+            ChatRoomRepository chatRoomRepository,
+            Translator translator,
+            AudioUploader audioUploader,
+            SttManager sttManager) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
         this.translator = translator;
         this.audioUploader = audioUploader;
         this.sttManager = sttManager;
-        this.ipSensor = ipSensor;
     }
 
     @Transactional

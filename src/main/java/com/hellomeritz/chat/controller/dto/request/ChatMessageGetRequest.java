@@ -11,7 +11,9 @@ public record ChatMessageGetRequest(
         @Positive(message = "myId는 0이거나 음수 일 수 없습니다.")
         Long myId,
         String nextChatMessageId,
-        boolean isFC
+
+        @NotNull(message = "isFC는 null일 수 없습니다.")
+        Boolean isFC
 ) {
     private static final String CHAT_MESSAGE_ID_MIN_VALUE = "000000000000000000000000";
 
