@@ -32,4 +32,11 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
                 .findChatRoomUserInfo(chatRoomId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 채팅방은 존재하지 않습니다."));
     }
+
+    @Override
+    public ChatRoom getChatRoom(long chatRoomId) {
+        return chatRoomJpaRepository
+                .findById(chatRoomId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 채팅방은 존재하지 않습니다."));
+    }
 }
