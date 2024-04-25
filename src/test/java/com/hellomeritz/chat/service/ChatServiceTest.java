@@ -2,16 +2,10 @@ package com.hellomeritz.chat.service;
 
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
-import com.hellomeritz.chat.global.exception.ErrorCode;
-import com.hellomeritz.chat.global.exception.custom.SttException;
 import com.hellomeritz.chat.global.stt.SttManagerHandler;
-import com.hellomeritz.chat.global.stt.SttProvider;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
-import com.hellomeritz.chat.service.dto.param.ChatMessageGetParam;
-import com.hellomeritz.chat.service.dto.param.ChatMessageTextParam;
-import com.hellomeritz.chat.service.dto.param.ChatRoomCreateParam;
-import com.hellomeritz.chat.service.dto.param.ChatRoomUserInfoParam;
+import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
 import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
@@ -28,7 +22,6 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
 @Transactional
@@ -114,6 +107,23 @@ class ChatServiceTest {
         // then
         assertThat(result.fcId()).isEqualTo(chatRoom.getFcId());
         assertThat(result.userId()).isEqualTo(chatRoom.getUserId());
+    }
+
+    @DisplayName("채팅방 페스워드를 생성하고 이에 대해 다시 채팅방에 입장하여 넣은 값에 대해 true를 리턴할 수 있다.")
+    @Test
+    void createPassword() {
+        // given
+        ChatRoom chatRoom = ChatFixture.chatRoom();
+        ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+        ChatRoomPasswordCreateParam request = ChatFixture.chatRoomPasswordCreateRequest(savedChatRoom.getChatRoomId());
+        chatService.createChatRoomPassword(request);
+        ChatRoomPasswordCheckParam chatRoomPasswordCheckParam = ChatFixture.chatRoomPasswordCheckRequest(savedChatRoom.getChatRoomId());
+
+        //when
+        boolean isAuthorized = chatService.checkChatRoomPassword(chatRoomPasswordCheckParam);
+
+        // then
+        assertThat(isAuthorized).isTrue();
     }
 
 }

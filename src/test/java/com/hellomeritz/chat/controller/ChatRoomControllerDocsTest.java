@@ -116,6 +116,48 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
                 );
     }
 
+    @DisplayName("채팅방 패스워드를 만드는 API")
+    @Test
+    void createChatRoomPassword() throws Exception {
+        mockMvc.perform(post("/chat-rooms/{chatRoomId}",1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(ChatFixture.chatRoomPasswordCreateRequest()))
+                )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(document("create-chat-room-password",
+                        pathParameters(
+                                parameterWithName("chatRoomId").description("채팅방 id")
+                        ),
+                        requestFields(
+                                fieldWithPath("chatRoomPassword").type(JsonFieldType.STRING).description("채팅방 password")
+                        )
+                ));
+    }
+
+    @DisplayName("채팅방 패스워드를 체크하는 API")
+    @Test
+    void checkChatRoomPassword() throws Exception {
+        given(chatService.checkChatRoomPassword(any())).willReturn(true);
+
+        mockMvc.perform(patch("/chat-rooms/{chatRoomId}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .content(objectMapper.writeValueAsString(ChatFixture.chatRoomPasswordCheckRequest()))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("check-chat-room-password",
+                                pathParameters(
+                                        parameterWithName("chatRoomId").description("채팅방 id")
+                                ),
+                                responseFields(
+                                        fieldWithPath("isMyUser").type(JsonFieldType.BOOLEAN).description("해당 유저의 채팅방인가?")
+                                )
+                        )
+                );
+    }
+
 }
 
 

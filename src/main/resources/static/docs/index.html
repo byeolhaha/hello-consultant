@@ -461,69 +461,74 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_success_2">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_음성파일_업로드하기">음성파일 업로드하기</a>
+<li><a href="#_음성파일을_text로_바꾸기stt">음성파일을 TEXT로 바꾸기(STT)</a>
 <ul class="sectlevel2">
 <li><a href="#_request_3">Request</a></li>
 <li><a href="#_response_success_3">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_음성파일을_text로_바꾸기stt">음성파일을 TEXT로 바꾸기(STT)</a>
+<li><a href="#_text_번역하기">TEXT 번역하기</a>
 <ul class="sectlevel2">
 <li><a href="#_request_4">Request</a></li>
 <li><a href="#_response_success_4">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_text_번역하기">TEXT 번역하기</a>
+<li><a href="#_채팅방_유저_정보_조회">채팅방 유저 정보 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_request_5">Request</a></li>
 <li><a href="#_response_success_5">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_채팅방_유저_정보_조회">채팅방 유저 정보 조회</a>
+<li><a href="#_채팅방_password를_저장">채팅방 password를 저장</a>
 <ul class="sectlevel2">
 <li><a href="#_request_6">Request</a></li>
 <li><a href="#_response_success_6">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#Member">외국인 회원 생성하기</a>
+<li><a href="#_채팅방_password_맞는지_체크">채팅방 password 맞는지 체크</a>
 <ul class="sectlevel2">
 <li><a href="#_request_7">Request</a></li>
 <li><a href="#_response_success_7">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_외국인_설문_내용_저장">외국인 설문 내용 저장</a>
+<li><a href="#Member">외국인 회원 생성하기</a>
 <ul class="sectlevel2">
 <li><a href="#_request_8">Request</a></li>
 <li><a href="#_response_success_8">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_외국인_ip_저장">외국인 IP 저장</a>
+<li><a href="#_외국인_설문_내용_저장">외국인 설문 내용 저장</a>
 <ul class="sectlevel2">
 <li><a href="#_request_9">Request</a></li>
 <li><a href="#_response_success_9">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_설계사인지_외국인인지_확인_하는_api">설계사인지 외국인인지 확인 하는 API</a>
+<li><a href="#_외국인_ip_저장">외국인 IP 저장</a>
 <ul class="sectlevel2">
 <li><a href="#_request_10">Request</a></li>
+</ul>
+</li>
+<li><a href="#_설계사인지_외국인인지_확인_하는_api">설계사인지 외국인인지 확인 하는 API</a>
+<ul class="sectlevel2">
+<li><a href="#_request_11">Request</a></li>
 <li><a href="#_response_success_10">Response (Success)</a></li>
 </ul>
 </li>
 <li><a href="#_설계사에게_외국인_채팅방에_입장했음을_알리는_api">설계사에게 외국인 채팅방에 입장했음을 알리는 API</a>
 <ul class="sectlevel2">
-<li><a href="#_request_11">Request</a></li>
+<li><a href="#_request_12">Request</a></li>
 <li><a href="#_response_success_11">Response (Success)</a></li>
 </ul>
 </li>
 <li><a href="#_설계사의_정보를_조회하는_api">설계사의 정보를 조회하는 API</a>
 <ul class="sectlevel2">
-<li><a href="#_request_12">Request</a></li>
+<li><a href="#_request_13">Request</a></li>
 <li><a href="#_response_success_12">Response (Success)</a></li>
 </ul>
 </li>
 <li><a href="#_외국인_정보를_조회하는_api">외국인 정보를 조회하는 API</a>
 <ul class="sectlevel2">
-<li><a href="#_request_13">Request</a></li>
+<li><a href="#_request_14">Request</a></li>
 <li><a href="#_response_success_13">Response (Success)</a></li>
 </ul>
 </li>
@@ -763,16 +768,16 @@ Content-Length: 24
 </div>
 </div>
 <div class="sect1">
-<h2 id="_음성파일_업로드하기"><a class="link" href="#_음성파일_업로드하기">음성파일 업로드하기</a></h2>
+<h2 id="_음성파일을_text로_바꾸기stt"><a class="link" href="#_음성파일을_text로_바꾸기stt">음성파일을 TEXT로 바꾸기(STT)</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>녹음한 음성 파일 업로드 하기</p>
+<p>음성파일을 TEXT로 바꾸기</p>
 </div>
 <div class="sect2">
 <h3 id="_request_3"><a class="link" href="#_request_3">Request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /chats/1/audios HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /chats/1/stt HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Host: localhost:8080
 
@@ -780,7 +785,7 @@ Host: localhost:8080
 Content-Disposition: form-data; name=request; filename=content
 Content-Type: application/json
 
-{"userId":1,"isFC":true}
+{"userId":1,"isFC":true,"sourceLang":"US"}
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Content-Disposition: form-data; name=audioFile; filename=audio.mp3
 
@@ -810,37 +815,8 @@ audio-files
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>request의 json 필드는 아래와 같다.</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">음성 파일 업로드를 요청하는 user ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isFC</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">해당 유저가 설계사인지 여부</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. /chats/{chatRoomId}/audios</caption>
+<caption class="title">Table 2. /chats/{chatRoomId}/stt</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -865,133 +841,12 @@ audio-files
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json;charset=UTF-8
-Content-Length: 104
-
-{
-  "audioUrl" : "https://gcp//meritz-audio/china",
-  "createdAt" : "2024-04-21T19:05:57.195193500"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>audioUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">audio가 업로드되고 난 후 이동할 수 있는 링크</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">해당 파일이 저장된 일자</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_음성파일을_text로_바꾸기stt"><a class="link" href="#_음성파일을_text로_바꾸기stt">음성파일을 TEXT로 바꾸기(STT)</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>음성파일을 TEXT로 바꾸기</p>
-</div>
-<div class="sect2">
-<h3 id="_request_4"><a class="link" href="#_request_4">Request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /chats/1/stt HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 102
-Host: localhost:8080
-
-{
-  "audioUrl" : "gs://meritz/audio",
-  "userId" : 1,
-  "isFC" : true,
-  "sourceLang" : "CHINA"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>audioUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">audio Url</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저 ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isFC</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설계사 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sourceLang</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">audio file의 해당 언어CHINA, US, UK, RUSSIAN, JAPANESE, KOREAN, FRENCH, SPANISH, ITALIAN</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. /chats/{chatRoomId}/stt</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatRoomId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_response_success_4"><a class="link" href="#_response_success_4">Response (Success)</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Content-Type: application/json;charset=UTF-8
-Content-Length: 96
+Content-Length: 129
 
 {
   "textBySpeech" : "Hello my name is byeol",
-  "createdAt" : "2024-04-21T19:05:56.729296"
+  "createdAt" : "2024-04-25T19:35:58.172383400",
+  "sttProvider" : "WHISPER"
 }</code></pre>
 </div>
 </div>
@@ -1012,12 +867,17 @@ Content-Length: 96
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>textBySpeech</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">음성 파일에서 TEXT로 반환된 내용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">audio가 업로드되고 난 후 이동할 수 있는 링크</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">생성 일자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 파일이 저장된 일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sttProvider</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 stt 출처 : GOOGLE, WHISPER</p></td>
 </tr>
 </tbody>
 </table>
@@ -1031,7 +891,7 @@ Content-Length: 96
 <p>TEXT 번역하기</p>
 </div>
 <div class="sect2">
-<h3 id="_request_5"><a class="link" href="#_request_5">Request</a></h3>
+<h3 id="_request_4"><a class="link" href="#_request_4">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /chats/1 HTTP/1.1
@@ -1090,7 +950,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /chats/{chatRoomId}</caption>
+<caption class="title">Table 3. /chats/{chatRoomId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1110,7 +970,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect2">
-<h3 id="_response_success_5"><a class="link" href="#_response_success_5">Response (Success)</a></h3>
+<h3 id="_response_success_4"><a class="link" href="#_response_success_4">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1120,7 +980,7 @@ Content-Length: 180
 {
   "originContents" : "hello my name is kim byeol",
   "translatedContents" : "안녕하세요 내 이름은 김별입니다",
-  "createdAt" : "2024-04-21T19:05:57.252031600"
+  "createdAt" : "2024-04-25T19:35:58.839987200"
 }</code></pre>
 </div>
 </div>
@@ -1165,7 +1025,7 @@ Content-Length: 180
 <p>채팅방 유저 정보 조회</p>
 </div>
 <div class="sect2">
-<h3 id="_request_6"><a class="link" href="#_request_6">Request</a></h3>
+<h3 id="_request_5"><a class="link" href="#_request_5">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /chat-rooms/1 HTTP/1.1
@@ -1174,7 +1034,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. /chat-rooms/{chatRoomId}</caption>
+<caption class="title">Table 4. /chat-rooms/{chatRoomId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1194,7 +1054,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_response_success_6"><a class="link" href="#_response_success_6">Response (Success)</a></h3>
+<h3 id="_response_success_5"><a class="link" href="#_response_success_5">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1237,13 +1097,120 @@ Content-Length: 35
 </div>
 </div>
 <div class="sect1">
+<h2 id="_채팅방_password를_저장"><a class="link" href="#_채팅방_password를_저장">채팅방 password를 저장</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>채팅방 password 저장</p>
+</div>
+<div class="sect2">
+<h3 id="_request_6"><a class="link" href="#_request_6">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /chat-rooms/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 43
+Host: localhost:8080
+
+{
+  "chatRoomPassword" : "30303TWSA!!!"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /chat-rooms/{chatRoomId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_6"><a class="link" href="#_response_success_6">Response (Success)</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_채팅방_password_맞는지_체크"><a class="link" href="#_채팅방_password_맞는지_체크">채팅방 password 맞는지 체크</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>채팅방에 다시 들어온 외국인은 본인의 password가 맞는 체크하는 과정에서
+호출하는 API</p>
+</div>
+<div class="sect2">
+<h3 id="_request_7"><a class="link" href="#_request_7">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /chat-rooms/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 43
+Host: localhost:8080
+
+{
+  "chatRoomPassword" : "30303TWSA!!!"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /chat-rooms/{chatRoomId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_7"><a class="link" href="#_response_success_7">Response (Success)</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 25
+
+{
+  "isMyUser" : true
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="Member"><a class="link" href="#Member">외국인 회원 생성하기</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>외국인 회원을 생성합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_7"><a class="link" href="#_request_7">Request</a></h3>
+<h3 id="_request_8"><a class="link" href="#_request_8">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users HTTP/1.1
@@ -1253,7 +1220,7 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_success_7"><a class="link" href="#_response_success_7">Response (Success)</a></h3>
+<h3 id="_response_success_8"><a class="link" href="#_response_success_8">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1296,7 +1263,7 @@ Content-Length: 20
 <p>외국인이 채팅을 시작하기 전 작성하는 설문 내용을 저장합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_8"><a class="link" href="#_request_8">Request</a></h3>
+<h3 id="_request_9"><a class="link" href="#_request_9">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /users/1 HTTP/1.1
@@ -1349,7 +1316,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /users/{userId}</caption>
+<caption class="title">Table 7. /users/{userId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1369,7 +1336,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect2">
-<h3 id="_response_success_8"><a class="link" href="#_response_success_8">Response (Success)</a></h3>
+<h3 id="_response_success_9"><a class="link" href="#_response_success_9">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1412,68 +1379,16 @@ Content-Length: 20
 <p>외국인이 IP 주소를 저장합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_9"><a class="link" href="#_request_9">Request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /users/1 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+<h3 id="_request_10"><a class="link" href="#_request_10">Request</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in members.adoc - include::C:\Users\user\Desktop\password\back\build\generated-snippets/save-foreigner-ipAddress/http-request.adoc[]
+Unresolved directive in members.adoc - include::C:\Users\user\Desktop\password\back\build\generated-snippets/save-foreigner-ipAddress/path-parameters.adoc[]
+=== Response (Success)</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in members.adoc - include::C:\Users\user\Desktop\password\back\build\generated-snippets/save-foreigner-ipAddress/http-response.adoc[]
+Unresolved directive in members.adoc - include::C:\Users\user\Desktop\password\back\build\generated-snippets/save-foreigner-ipAddress/response-fields.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /users/{userId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자의 ID</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_response_success_9"><a class="link" href="#_response_success_9">Response (Success)</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-Content-Length: 33
-
-{
-  "ipAddress" : "127.0.0.1"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ipAddress</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">외국인 IP ADDRESS</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
@@ -1484,7 +1399,7 @@ Content-Length: 33
 <p>설계사인지 외국인인지 확인 하는 API</p>
 </div>
 <div class="sect2">
-<h3 id="_request_10"><a class="link" href="#_request_10">Request</a></h3>
+<h3 id="_request_11"><a class="link" href="#_request_11">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1 HTTP/1.1
@@ -1557,7 +1472,7 @@ Content-Length: 21
 외국인 채팅을 보낼 수 있음으로 이에 대해서 설계사에게 알람을 보냅니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_11"><a class="link" href="#_request_11">Request</a></h3>
+<h3 id="_request_12"><a class="link" href="#_request_12">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/alarm?chatRoomId=1 HTTP/1.1
@@ -1601,7 +1516,7 @@ Host: localhost:8080</code></pre>
 <p>설계사의 정보를 조회하는 API</p>
 </div>
 <div class="sect2">
-<h3 id="_request_12"><a class="link" href="#_request_12">Request</a></h3>
+<h3 id="_request_13"><a class="link" href="#_request_13">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/fc-info HTTP/1.1
@@ -1696,7 +1611,7 @@ Content-Length: 252
 <p>외국인 정보를 조회하는 API</p>
 </div>
 <div class="sect2">
-<h3 id="_request_13"><a class="link" href="#_request_13">Request</a></h3>
+<h3 id="_request_14"><a class="link" href="#_request_14">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/foreigner-info HTTP/1.1
@@ -1788,7 +1703,7 @@ Content-Length: 130
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-21 17:39:50 +0900
+Last updated 2024-04-23 19:31:25 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

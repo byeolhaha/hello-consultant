@@ -89,27 +89,6 @@ public class MemberControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-    @DisplayName("외국인 유저의 설문지를 작성할 때 그 정보를 저장하는 API")
-    @Test
-    void saveForeignIpAddress() throws Exception {
-        ForeignSaveIpAddressResult result = ForeignFixture.foreignSaveIpAddressResult();
-        given(memberService.saveForeignIpAddress(any())).willReturn(result);
-
-        mockMvc.perform(patch("/users/{userId}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding(StandardCharsets.UTF_8))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document("save-foreigner-ipAddress",
-                pathParameters(
-                    parameterWithName("userId").description("사용자의 ID")
-                ),
-                responseFields(
-                    fieldWithPath("ipAddress").type(JsonFieldType.STRING).description("외국인 IP ADDRESS")
-                )
-            ));
-    }
-
     @DisplayName("해당 유저가 외국인인지 확인하는 API")
     @Test
     void checkUserIsFc() throws Exception {

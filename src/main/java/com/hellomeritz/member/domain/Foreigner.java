@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 
+@Table(name = "foreigner")
 @Getter
 @Entity
 public class Foreigner {

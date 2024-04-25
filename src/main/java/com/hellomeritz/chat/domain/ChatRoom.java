@@ -26,9 +26,15 @@ public class ChatRoom {
     @Column(name = "user_id", nullable = false)
     private long userId;
 
+    @Column(name = "chat_room_password")
+    private String chatRoomPassword;
+
+    @Column(name = "salt")
+    private String salt;
+
     private ChatRoom(
-        long fcId,
-        long userId
+            long fcId,
+            long userId
     ) {
         Assert.isTrue(userId >= USER_ID_MIN_VALUE, "userId는 음수이거나 0일 수 없습니다.");
         Assert.isTrue(fcId >= FC_ID_MIN_VALUE, "fcId는 음수이거나 0일 수 없습니다.");
@@ -38,13 +44,25 @@ public class ChatRoom {
     }
 
     public static ChatRoom of(
-        long fcId,
-        long userId
+            long fcId,
+            long userId
     ) {
         return new ChatRoom(
-            fcId,
-            userId
+                fcId,
+                userId
         );
+    }
+
+    public void setChatRoomPassword(
+            String chatRoomPassword
+    ) {
+        this.chatRoomPassword = chatRoomPassword;
+    }
+
+    public void setSalt(
+            String salt
+    ) {
+        this.salt = salt;
     }
 
 }

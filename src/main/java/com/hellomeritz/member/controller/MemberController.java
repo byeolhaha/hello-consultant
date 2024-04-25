@@ -56,19 +56,6 @@ public class MemberController {
             );
     }
 
-    @PatchMapping(
-        path = "/{userId}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<ForeignSaveIpAddressResponse> saveForeignIpAddress(
-        @PathVariable @Positive(message = "userId는 양수여야 합니다.") Long userId
-    ) {
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(ForeignSaveIpAddressResponse.to(
-                memberService.saveForeignIpAddress(ForeignSaveIpAddressParam.to(userId))
-            ));
-    }
-
     @GetMapping(
         path = "/{userId}",
         produces = MediaType.APPLICATION_JSON_VALUE

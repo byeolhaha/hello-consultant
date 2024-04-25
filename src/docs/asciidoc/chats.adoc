@@ -29,23 +29,6 @@ include::{snippets}/create-chat-rooms/request-fields.adoc[]
 include::{snippets}/create-chat-rooms/http-response.adoc[]
 include::{snippets}/create-chat-rooms/response-fields.adoc[]
 
-== 음성파일 업로드하기
-
-녹음한 음성 파일 업로드 하기
-
-=== Request
-include::{snippets}/upload-audios/http-request.adoc[]
-include::{snippets}/upload-audios/request-parts.adoc[]
-
-request의 json 필드는 아래와 같다.
-
-include::{snippets}/upload-audios/request-part-request-fields.adoc[]
-include::{snippets}/upload-audios/path-parameters.adoc[]
-
-=== Response (Success)
-
-include::{snippets}/upload-audios/http-response.adoc[]
-include::{snippets}/upload-audios/response-fields.adoc[]
 
 == 음성파일을 TEXT로 바꾸기(STT)
 
@@ -54,7 +37,7 @@ include::{snippets}/upload-audios/response-fields.adoc[]
 === Request
 
 include::{snippets}/change-audiofile-to-text/http-request.adoc[]
-include::{snippets}/change-audiofile-to-text/request-fields.adoc[]
+include::{snippets}/change-audiofile-to-text/request-parts.adoc[]
 include::{snippets}/change-audiofile-to-text/path-parameters.adoc[]
 
 === Response (Success)
@@ -90,3 +73,24 @@ include::{snippets}/get-chat-room-userInfo/path-parameters.adoc[]
 
 include::{snippets}/get-chat-room-userInfo/http-response.adoc[]
 include::{snippets}/get-chat-room-userInfo/response-fields.adoc[]
+
+== 채팅방 password를 저장
+채팅방 password 저장
+
+=== Request
+include::{snippets}/create-chat-room-password/http-request.adoc[]
+include::{snippets}/create-chat-room-password/path-parameters.adoc[]
+
+=== Response (Success)
+include::{snippets}/create-chat-room-password/http-response.adoc[]
+
+== 채팅방 password 맞는지 체크
+채팅방에 다시 들어온 외국인은 본인의 password가 맞는 체크하는 과정에서
+호출하는 API
+
+=== Request
+include::{snippets}/check-chat-room-password/http-request.adoc[]
+include::{snippets}/check-chat-room-password/path-parameters.adoc[]
+
+=== Response (Success)
+include::{snippets}/check-chat-room-password/http-response.adoc[]

@@ -40,16 +40,6 @@ public class MemberService {
         return ForeignCreateResult.of(foreigner.getForeignerId());
     }
 
-    @Transactional
-    public ForeignSaveIpAddressResult saveForeignIpAddress(ForeignSaveIpAddressParam param) {
-        Foreigner foreigner = foreignRepository.getById(param.userId());
-        String clientIp = ipSensor.getClientIP();
-
-        foreigner.updateIpAddress(clientIp);
-
-        return ForeignSaveIpAddressResult.to(clientIp);
-    }
-
     public UserCheckIsFcResult checkUserIsFc(UserCheckIsFcParam param) {
         String clientIP = ipSensor.getClientIP();
         return UserCheckIsFcResult.to(foreignRepository.isFc(clientIP, param.userId()));
