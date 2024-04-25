@@ -36,7 +36,7 @@ public record ChatMessageTextParam(
 
     public TranslationRequest toTranslationRequest() {
         return new TranslationRequest(
-            contents,
+            contents.replace("오디오",""),
             targetLang,
             sourceLang
         );
