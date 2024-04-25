@@ -60,8 +60,15 @@ public class ChatService {
     public ChatMessageTranslateResult translateText(ChatMessageTextParam param) {
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
+        if(param.contents().contains("오디오")) {
+            String contents = param.contents().replace("오디오","");
+            return ChatMessageTranslateResult.to(
+                    contents,
+                    chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
+            );
+        }
         return ChatMessageTranslateResult.to(
-                param.contents(),
+                chatMessageRepository.save(param.toChatMessage()),
                 chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
         );
     }
