@@ -5,18 +5,28 @@ import com.hellomeritz.chat.domain.ChatMessage;
 import java.time.LocalDateTime;
 
 public record ChatMessageTranslateResult(
-    String originContents,
-    String translatedContents,
-    LocalDateTime createdAt
+        String originContents,
+        String translatedContents,
+        LocalDateTime createdAt
 ) {
 
     public static ChatMessageTranslateResult to(
-        String chatMessage,
-        ChatMessage translatedChatMessage) {
+            ChatMessage chatMessage,
+            ChatMessage translatedChatMessage) {
         return new ChatMessageTranslateResult(
-            chatMessage,
-            translatedChatMessage.getContents(),
-            LocalDateTime.now()
+                chatMessage.getContents(),
+                translatedChatMessage.getContents(),
+                LocalDateTime.now()
+        );
+    }
+
+    public static ChatMessageTranslateResult to(
+            String chatMessage,
+            ChatMessage translatedChatMessage) {
+        return new ChatMessageTranslateResult(
+                chatMessage,
+                translatedChatMessage.getContents(),
+                LocalDateTime.now()
         );
     }
 
