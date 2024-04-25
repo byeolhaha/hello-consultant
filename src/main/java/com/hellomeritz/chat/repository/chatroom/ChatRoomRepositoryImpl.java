@@ -1,6 +1,7 @@
 package com.hellomeritz.chat.repository.chatroom;
 
 import com.hellomeritz.chat.domain.ChatRoom;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -38,5 +39,12 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
         return chatRoomJpaRepository
                 .findById(chatRoomId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 채팅방은 존재하지 않습니다."));
+    }
+
+    @Override
+    public ChatRoomPasswordInfo getChatRoomEnterInfo(long chatRoomId) {
+        return chatRoomJpaRepository
+                .findChatRoomEnterInfo(chatRoomId)
+                .orElseThrow(()-> new EntityNotFoundException("해당 채팅방은 존재하지 않습니다."));
     }
 }

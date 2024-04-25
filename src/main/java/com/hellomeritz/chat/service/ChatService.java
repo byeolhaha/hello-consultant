@@ -13,9 +13,13 @@ import com.hellomeritz.chat.global.uploader.AudioUploader;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
+import com.hellomeritz.member.global.IpSensor;
+import com.hellomeritz.member.global.encryption.PasswordEncoder;
+import com.hellomeritz.member.global.encryption.dto.EncryptionResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -31,6 +35,8 @@ public class ChatService {
     private final Translator translator;
     private final AudioUploader audioUploader;
     private final SttManagerHandler sttManagerHandler;
+    private final PasswordEncoder passwordEncoder;
+    private final IpSensor ipSensor;
 
 
     public ChatService(
@@ -38,12 +44,16 @@ public class ChatService {
             ChatRoomRepository chatRoomRepository,
             Translator translator,
             AudioUploader audioUploader,
-            SttManagerHandler sttManagerHandler) {
+            SttManagerHandler sttManagerHandler,
+            PasswordEncoder passwordEncoder,
+            IpSensor ipSensor) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
         this.translator = translator;
         this.audioUploader = audioUploader;
         this.sttManagerHandler = sttManagerHandler;
+        this.passwordEncoder = passwordEncoder;
+        this.ipSensor = ipSensor;
     }
 
     @Transactional
@@ -92,7 +102,7 @@ public class ChatService {
 
         SttManager sttManager = sttManagerHandler.getSttManager(SttProvider.GOOGLE.name());
         SttResponse textBySpeech
-            = sttManager.asyncRecognizeAudio(param.toSttRequest(chatAudioUploadResult.audioUrl()));
+                = sttManager.asyncRecognizeAudio(param.toSttRequest(chatAudioUploadResult.audioUrl()));
         ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
 
         return ChatMessageSttResult.to(
@@ -108,9 +118,9 @@ public class ChatService {
         ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
 
         return ChatMessageSttResult.to(
-            textBySpeech.textBySpeech(),
-            chatMessage.getCreatedAt(),
-            SttProvider.WHISPER.name()
+                textBySpeech.textBySpeech(),
+                chatMessage.getCreatedAt(),
+                SttProvider.WHISPER.name()
         );
     }
 
@@ -118,6 +128,27 @@ public class ChatService {
         ChatRoomUserInfo chatRoomUserInfo = chatRoomRepository.getChatRoomUserInfo(param.chatRoomId());
 
         return ChatRoomUserInfoResult.to(chatRoomUserInfo);
+    }
+
+    @Transactional
+    public void createChatRoomPassword(ChatRoomPasswordCreateParam request) {
+        String clientIp = ipSensor.getClientIP();
+        EncryptionResponse encryptionResponse
+                = passwordEncoder.encrypt(request.toEncryptionRequest(clientIp));
+        ChatRoom chatRoom = chatRoomRepository.getChatRoom(request.chatRoomId());
+        chatRoom.setChatRoomPassword(encryptionResponse.password());
+        chatRoom.setSalt(encryptionResponse.salt());
+    }
+
+    @Transactional
+    public boolean checkChatRoomPassword(ChatRoomPasswordCheckParam request) {
+        ChatRoomPasswordInfo chatRoomEnterInfo = chatRoomRepository.getChatRoomEnterInfo(request.chatRoomId());
+        boolean isAuthorized = passwordEncoder.matchPassword(request.toPasswordMatchRequest(chatRoomEnterInfo));
+
+        if (isAuthorized) {
+            createChatRoomPassword(request.toChatRoomPasswordCreateRequest());
+        }
+        return isAuthorized;
     }
 
 }

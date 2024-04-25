@@ -1,6 +1,8 @@
 package com.hellomeritz.member.global.encryption;
 
 import com.hellomeritz.member.global.encryption.dto.EncryptionRequest;
+import com.hellomeritz.member.global.encryption.dto.EncryptionResponse;
+import com.hellomeritz.member.global.encryption.dto.PasswordMatchRequest;
 import com.hellomeritz.member.global.encryption.dto.SaltRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,28 +19,20 @@ import java.util.Base64;
 @Component
 public class PasswordEncoder {
 
-    @Value("$encryption.password-algorithm")
-    private String ENCRYPTION_ALGORITHM;
+    private String ENCRYPTION_ALGORITHM ="PBKDF2WithHmacSHA1";
 
-    @Value("$encryption.salt-algorithm")
-    private String SALT_ALGORITHM;
+    private String SALT_ALGORITHM = "SHA-512";
     private final int ITERATION_COUNT = 85319;
     private final int KEY_LENGTH = 128;
 
-    public String encrypt(EncryptionRequest request) {
+    public EncryptionResponse encrypt(EncryptionRequest request) {
         try {
-            KeySpec spec
-                    = new PBEKeySpec(
-                    request.getPasswordToCharArray(),
-                    getSalt(request.toSaltRequest()),
-                    ITERATION_COUNT,
-                    KEY_LENGTH);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance(ENCRYPTION_ALGORITHM);
+            byte[] salt = getSalt(request.toSaltRequest());
+            String password = encryptedPassword(request.getPasswordToCharArray(), salt);
+            String encodedSalt = Base64.getEncoder().encodeToString(salt);
 
-            byte[] hash = factory.generateSecret(spec).getEncoded();
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException |
-                 InvalidKeySpecException e) {
+            return EncryptionResponse.to(password, encodedSalt);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
@@ -50,5 +44,36 @@ public class PasswordEncoder {
         byte[] keyBytes = request.combineSaltResources().getBytes("UTF-8");
 
         return digest.digest(keyBytes);
+    }
+
+    public boolean matchPassword(PasswordMatchRequest request) {
+        byte[] salt = changeSaltByEncoded(request.encodedSalt());
+        String encryptedInputPassword = encryptedPassword(request.inputPassword(), salt);
+
+        return encryptedInputPassword.equals(request.savedChatRoomPassword());
+    }
+
+    private byte[] changeSaltByEncoded(String encodedSalt) {
+        return Base64.getDecoder().decode(encodedSalt);
+    }
+
+    private String encryptedPassword(char[] password, byte[] salt) {
+        try {
+            KeySpec spec
+                    = new PBEKeySpec(
+                    password,
+                    salt,
+                    ITERATION_COUNT,
+                    KEY_LENGTH);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance(ENCRYPTION_ALGORITHM);
+
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+
+            return Base64.getEncoder().encodeToString(hash);
+
+        } catch (NoSuchAlgorithmException |
+                 InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -6,17 +6,19 @@ import com.hellomeritz.member.domain.BirthDate;
 import com.hellomeritz.member.service.dto.param.ForeignInfoSaveParam;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record ForeignInfoSaveRequest(
-        @NotBlank
+        @NotBlank(message = "사용자의 언어는 null일 수 없습니다.")
         String language,
 
-        @NotBlank
+        @NotBlank(message = "visaType은 null일 수 없습니다.")
         String visaType,
 
-        boolean hasResidentCard,
+        @NotNull(message = "거주증 여부는 null일 수 없습니다.")
+        Boolean hasResidentCard,
 
-        @NotBlank
+        @NotBlank(message = "생년월일은 null일 수 없습니다.")
         String birthDate
 ) {
     public ForeignInfoSaveParam toForeignInfoSaveParam(Long userId) {
