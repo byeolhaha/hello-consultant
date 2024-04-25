@@ -11,12 +11,12 @@ public record ChatMessageTranslateResult(
 ) {
 
     public static ChatMessageTranslateResult to(
-        ChatMessage chatMessage,
+        String chatMessage,
         ChatMessage translatedChatMessage) {
         return new ChatMessageTranslateResult(
-            chatMessage.getContents(),
+            chatMessage,
             translatedChatMessage.getContents(),
-            chatMessage.getCreatedAt()
+            LocalDateTime.now()
         );
     }
 

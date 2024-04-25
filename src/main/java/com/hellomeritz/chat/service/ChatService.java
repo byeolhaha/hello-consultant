@@ -61,7 +61,7 @@ public class ChatService {
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
         return ChatMessageTranslateResult.to(
-                chatMessageRepository.save(param.toChatMessage()),
+                param.contents(),
                 chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
         );
     }
