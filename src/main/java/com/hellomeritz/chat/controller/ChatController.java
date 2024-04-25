@@ -19,7 +19,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ChatController {
     private final ChatService chatService;

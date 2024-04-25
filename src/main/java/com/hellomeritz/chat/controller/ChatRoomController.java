@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/chat-rooms")
 @RestController
 public class ChatRoomController {
@@ -79,7 +78,7 @@ public class ChatRoomController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping(
+    @PutMapping(
             path = "/{chatRoomId}"
     )
     public ResponseEntity<ChatRoomPasswordCheckResponse> checkPassword(
