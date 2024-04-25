@@ -140,7 +140,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
     void checkChatRoomPassword() throws Exception {
         given(chatService.checkChatRoomPassword(any())).willReturn(true);
 
-        mockMvc.perform(patch("/chat-rooms/{chatRoomId}", 1L)
+        mockMvc.perform(put("/chat-rooms/{chatRoomId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .content(objectMapper.writeValueAsString(ChatFixture.chatRoomPasswordCheckRequest()))
