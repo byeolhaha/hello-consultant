@@ -61,8 +61,9 @@ public class ChatService {
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
         if(param.contents().contains("오디오")) {
+            String contents = param.contents().replace("오디오","");
             return ChatMessageTranslateResult.to(
-                    param.contents(),
+                    contents,
                     chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
             );
         }
