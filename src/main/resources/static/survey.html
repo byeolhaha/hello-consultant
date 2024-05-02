@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>설문조사</title>
+    <link rel="stylesheet" href="/styles/survey.css">
+</head>
+<body>
+<h1>설문조사</h1>
+<form id="clientSurveyForm">
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="birthDate">생년월일(yyyyMMdd):</label>
+    <input type="text" id="birthDate" name="birthDate" required pattern="[0-9]{8}" placeholder="yyyyMMdd"><br><br>
+
+    <label for="language">언어:</label>
+    <select id="language" name="language" required>
+        <Option value="CHINA">Chinese (Simplified)</Option>
+        <Option value="US">English (United States)</Option>
+        <Option value="UK">English (United Kingdom)</Option>
+        <Option value="RUSSIAN">Russian (Russia)</Option>
+        <Option value="JAPANESE">Japanese (Japan)</Option>
+        <Option value="KOREAN">Korean (South Korea)</Option>
+        <Option value="FRENCH">French (Belgium)</Option>
+        <Option value="SPANISH">Basque (Spain)</Option>
+        <Option value="ITALIAN">Italian (Italy)</Option>
+    </select><br><br>
+
+    <label for="visaType">비자타입:</label>
+    <select id="visaType" name="visaType" required>
+        <Option value="D1">D1</Option>
+        <Option value="D2">D2</Option>
+        <Option value="D4">D4</Option>
+        <Option value="D5">D5</Option>
+        <Option value="D6">D6</Option>
+        <Option value="D7">D7</Option>
+        <Option value="D8">D8</Option>
+        <Option value="D9">D9</Option>
+        <Option value="D10">D10</Option>
+        <Option value="C4">C4</Option>
+        <Option value="E1">E1</Option>
+        <Option value="E2">E2</Option>
+        <Option value="E3">E3</Option>
+        <Option value="E4">E4</Option>
+        <Option value="E5">E5</Option>
+        <Option value="E6">E6</Option>
+        <Option value="E7">E7</Option>
+        <Option value="E8">E8</Option>
+        <Option value="E9">E9</Option>
+        <Option value="E10">E10</Option>
+        <Option value="F1">F1</Option>
+        <Option value="F2">F2</Option>
+        <Option value="F3">F3</Option>
+        <Option value="F5">F5</Option>
+        <Option value="F6">F6</Option>
+    </select><br><br>
+
+    <label>외국인 등록증 여부:</label><br>
+    <input type="radio" id="foreignYes" name="hasResidentCard" value="yes">
+    <label for="foreignYes">Yes</label>
+    <input type="radio" id="foreignNo" name="hasResidentCard" value="no">
+    <label for="foreignNo">No</label><br><br>
+
+    <button type="submit">chat start</button>
+</form>
+<script src="/js/survey.js"></script>
+</body>
+</html>

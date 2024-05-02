@@ -1,0 +1,17 @@
+
+button {
+    width: 100%; /* 버튼의 너비를 컨테이너의 40%로 설정 */
+    height: 80%;
+    padding: 5%; /* 버튼 내부 패딩 */
+    font-size: 2em; /* 글자 크기를 2em으로 설정 */
+    cursor: pointer; /* 클릭 가능한 요소 표시 */
+    border: none;
+    border-radius: 10px; /* 버튼의 모서리를 둥글게 */
+    color: white;
+    transition: background-color 0.3s;
+}
+
+#startChat {
+    background-image: url('/InitButton.PNG');
+}
+
