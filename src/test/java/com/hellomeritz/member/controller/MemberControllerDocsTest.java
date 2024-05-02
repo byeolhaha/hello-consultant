@@ -59,16 +59,13 @@ public class MemberControllerDocsTest extends RestDocsSupport {
         ForeignInfoSaveResult result = ForeignFixture.foreignInfoSaveResult();
         given(memberService.saveForeignInfo(any())).willReturn(result);
 
-        mockMvc.perform(put("/users/{userId}", 1L)
+        mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(objectMapper.writeValueAsString(ForeignFixture.foreignInfoSaveRequest())))
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("save-foreignerInfo",
-                pathParameters(
-                    parameterWithName("userId").description("사용자의 ID")
-                ),
                 requestFields(
                     fieldWithPath("language").type(JsonFieldType.STRING).description("사용자 언어: " +
                         Arrays.stream(SourceLanguage.values())
@@ -80,7 +77,9 @@ public class MemberControllerDocsTest extends RestDocsSupport {
                             .collect(Collectors.joining(", "))),
                     fieldWithPath("hasResidentCard").type(JsonFieldType.BOOLEAN).description("외국인 거주증 보유 여부"),
                     fieldWithPath("birthDate").type(JsonFieldType.STRING)
-                        .description("외국인의 생년월일, 입력 형식 yyyyMMdd, 최대는 오늘, 최소는 1800년 1월 1일로 설정하였으며 validation 체크를 합니다.")
+                        .description("외국인의 생년월일, 입력 형식 yyyyMMdd, 최대는 오늘, 최소는 1800년 1월 1일로 설정하였으며 validation 체크를 합니다."),
+                    fieldWithPath("name").type(JsonFieldType.STRING)
+                        .description("외국인의 이름")
 
                 ),
                 responseFields(

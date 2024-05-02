@@ -29,7 +29,8 @@ public class ForeignFixture {
             "US",
             "E1",
             true,
-            "19970121"
+            "19970121",
+            "Jenie"
         );
     }
 
@@ -48,7 +49,8 @@ public class ForeignFixture {
             SourceLanguage.CHINA,
             VisaType.D1,
             false,
-            BirthDate.of("19970121")
+            BirthDate.of("19970121"),
+            "Jenie"
         );
     }
 
