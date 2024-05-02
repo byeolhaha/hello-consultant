@@ -40,6 +40,9 @@ public class Foreigner {
     @Embedded
     private BirthDate birthDate;
 
+    @Column(name = "name")
+    private String name;
+
     protected Foreigner() {
     }
 
@@ -81,28 +84,33 @@ public class Foreigner {
         SourceLanguage sourceLanguage,
         VisaType visaType,
         boolean hasResidentCard,
-        BirthDate birthDate
+        BirthDate birthDate,
+        String name
     ) {
         Assert.notNull(sourceLanguage, "외국인의 언어는 null일 수 없습니다.");
         Assert.notNull(visaType, "외국인의 visa type은 null일 수 없습니다.");
+        Assert.hasLength(name, "name은 null이거나 빈 값일 수 없습니다.");
 
         this.language = sourceLanguage;
         this.birthDate = birthDate;
         this.visaType = visaType;
         this.hasResidentCard = hasResidentCard;
+        this.name = name;
     }
 
     public static Foreigner of(
         SourceLanguage sourceLanguage,
         VisaType visaType,
         boolean hasResidentCard,
-        BirthDate birthDate
+        BirthDate birthDate,
+        String name
     ) {
         return new Foreigner(
             sourceLanguage,
             visaType,
             hasResidentCard,
-            birthDate
+            birthDate,
+            name
         );
     }
 

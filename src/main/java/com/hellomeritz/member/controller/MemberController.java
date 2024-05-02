@@ -34,24 +34,19 @@ public class MemberController {
             );
     }
 
-    @PutMapping(
-        path = "/{userId}",
+    @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ForeignInfoSaveResponse> saveForeignInfo(
         @RequestBody
         @Valid
-        ForeignInfoSaveRequest request,
-        @PathVariable
-        @NotNull(message = "userId는 null일 수 없습니다.")
-        @Positive(message = "userId는 양수여야 합니다.")
-        Long userId
+        ForeignInfoSaveRequest request
     ) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(ForeignInfoSaveResponse.to(
                 memberService.saveForeignInfo(
-                    request.toForeignInfoSaveParam(userId)
+                    request.toForeignInfoSaveParam()
                 ))
             );
     }

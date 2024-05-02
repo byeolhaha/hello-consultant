@@ -9,25 +9,30 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record ForeignInfoSaveRequest(
-        @NotBlank(message = "사용자의 언어는 null일 수 없습니다.")
-        String language,
+    @NotBlank(message = "사용자의 언어는 null일 수 없습니다.")
+    String language,
 
-        @NotBlank(message = "visaType은 null일 수 없습니다.")
-        String visaType,
+    @NotBlank(message = "visaType은 null일 수 없습니다.")
+    String visaType,
 
-        @NotNull(message = "거주증 여부는 null일 수 없습니다.")
-        Boolean hasResidentCard,
+    @NotNull(message = "거주증 여부는 null일 수 없습니다.")
+    Boolean hasResidentCard,
 
-        @NotBlank(message = "생년월일은 null일 수 없습니다.")
-        String birthDate
+    @NotBlank(message = "생년월일은 null일 수 없습니다.")
+    String birthDate,
+
+    @NotBlank(message = "이름은 null이거나 빈 값일 수 없습니다.")
+    String name
+
+
 ) {
-    public ForeignInfoSaveParam toForeignInfoSaveParam(Long userId) {
+    public ForeignInfoSaveParam toForeignInfoSaveParam() {
         return new ForeignInfoSaveParam(
-                userId,
-                SourceLanguage.findSourceLanguage(language),
-                VisaType.findVisaType(visaType),
-                hasResidentCard,
-                BirthDate.of(birthDate)
+            SourceLanguage.findSourceLanguage(language),
+            VisaType.findVisaType(visaType),
+            hasResidentCard,
+            BirthDate.of(birthDate),
+            name
         );
     }
 
