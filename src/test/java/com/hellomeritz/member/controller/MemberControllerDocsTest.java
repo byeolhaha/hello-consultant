@@ -145,7 +145,8 @@ public class MemberControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("sourceLanguage").type(JsonFieldType.STRING).description("자신의 언어"),
                     fieldWithPath("visaType").type(JsonFieldType.STRING).description("비자타입"),
                     fieldWithPath("hasResidentCard").type(JsonFieldType.BOOLEAN).description("외국인 거주증 여부"),
-                    fieldWithPath("birthDate").type(JsonFieldType.STRING).description("생년월일")
+                    fieldWithPath("birthDate").type(JsonFieldType.STRING).description("생년월일"),
+                    fieldWithPath("name").type(JsonFieldType.STRING).description("외국인 이름")
                 )
             ));
     }

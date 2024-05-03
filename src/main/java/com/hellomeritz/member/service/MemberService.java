@@ -61,4 +61,6 @@ public class MemberService {
         return ForeignerInfoResult.of(foreigner);
     }
 
+
+
 }
