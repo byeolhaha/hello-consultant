@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객 화면</title>
+    <!-- 웹소캣 연결에 필요한 라이브러리 선언 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs"></script>
+    <link rel="stylesheet" href="/styles/chat.css">
+</head>
+<body>
+
+<div id="chat-container" class="chat-container">
+    <div id="chat-header" class="chat-header">
+        <div class="child">
+            <div class="profile-info">
+                <div class="profile-image"></div>
+                <div class="profile-name"></div>
+            </div>
+        </div>
+        <div class="child">
+            <div class="profile-details">
+                <div class="introduce"></div>
+            </div>
+            <div class="profile-details">
+                <div class="telNumber"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="message-list"></div>
+    <textarea id="message-input" class="message-input" placeholder="Type a message... (Shift+Enter for new line)" rows="4"></textarea>
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script src="/js/client-chat.js"></script>
+</body>
+</html>
