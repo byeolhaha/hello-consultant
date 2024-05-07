@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.translator;
+package com.hellomeritz.chat.global.translator.deepl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,5 +1,8 @@
-package com.hellomeritz.chat.global.translator;
+package com.hellomeritz.chat.global.translator.deepl;
 
+import com.hellomeritz.chat.global.translator.TranslationRequest;
+import com.hellomeritz.chat.global.translator.TranslationResponse;
+import com.hellomeritz.chat.global.translator.Translator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -8,7 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class Translator {
+public class DeeplTranslator implements Translator {
     private static final RestTemplate restTemplate = new RestTemplate();
     private static final HttpHeaders headers = new HttpHeaders();
 
@@ -28,10 +31,11 @@ public class Translator {
         headers.set("Authorization", secretKey);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(parameters, headers);
-        ResponseEntity<TranslationResponse> response =
-            restTemplate.exchange(apiUrl, HttpMethod.POST, httpEntity, TranslationResponse.class);
+        ResponseEntity<DeeplTranslationResponse> response =
+            restTemplate.exchange(apiUrl, HttpMethod.POST, httpEntity, DeeplTranslationResponse.class);
 
-        return response.getBody();
+
+        return TranslationResponse.to(response.getBody().getText());
     }
 
 
