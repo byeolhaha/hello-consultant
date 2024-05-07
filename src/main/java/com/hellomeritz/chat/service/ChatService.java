@@ -6,8 +6,12 @@ import com.hellomeritz.chat.global.stt.SttManager;
 import com.hellomeritz.chat.global.stt.SttManagerHandler;
 import com.hellomeritz.chat.global.stt.SttProvider;
 import com.hellomeritz.chat.global.stt.dto.SttResponse;
-import com.hellomeritz.chat.global.translator.Translator;
+import com.hellomeritz.chat.global.translator.TranslateProvider;
 import com.hellomeritz.chat.global.translator.TranslationResponse;
+import com.hellomeritz.chat.global.translator.Translator;
+import com.hellomeritz.chat.global.translator.TranslatorHandler;
+import com.hellomeritz.chat.global.translator.deepl.DeeplTranslator;
+import com.hellomeritz.chat.global.translator.deepl.DeeplTranslationResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploader;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
@@ -32,7 +36,7 @@ public class ChatService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
-    private final Translator translator;
+    private final TranslatorHandler translatorHandler;
     private final AudioUploader audioUploader;
     private final SttManagerHandler sttManagerHandler;
     private final PasswordEncoder passwordEncoder;
@@ -40,45 +44,56 @@ public class ChatService {
 
 
     public ChatService(
-            ChatMessageRepository chatMessageRepository,
-            ChatRoomRepository chatRoomRepository,
-            Translator translator,
-            AudioUploader audioUploader,
-            SttManagerHandler sttManagerHandler,
-            PasswordEncoder passwordEncoder,
-            IpSensor ipSensor) {
+        ChatMessageRepository chatMessageRepository,
+        ChatRoomRepository chatRoomRepository, TranslatorHandler translatorHandler,
+        AudioUploader audioUploader,
+        SttManagerHandler sttManagerHandler,
+        PasswordEncoder passwordEncoder,
+        IpSensor ipSensor) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
-        this.translator = translator;
+        this.translatorHandler = translatorHandler;
         this.audioUploader = audioUploader;
         this.sttManagerHandler = sttManagerHandler;
         this.passwordEncoder = passwordEncoder;
         this.ipSensor = ipSensor;
     }
 
+    @CircuitBreaker(name = SIMPLE_CIRCUIT_BREAKER_CONFIG, fallbackMethod = "fallbackSendMessage")
     @Transactional
     public ChatMessageTranslateResults translateText(ChatMessageTextParam param) {
+        Translator translator = translatorHandler.getTranslator(TranslateProvider.DEEPL.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
         return ChatMessageTranslateResults.to(
-                chatMessageRepository.save(param.toChatMessage()),
-                chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
+            chatMessageRepository.save(param.toChatMessage()),
+            chatMessageRepository.save(param.toChatMessage(translatedResponse.translatedText()))
+        );
+    }
+
+    private ChatMessageTranslateResults fallbackSendMessage(ChatMessageTextParam param, Exception e) {
+        Translator translator = translatorHandler.getTranslator(TranslateProvider.GOOGLE.name());
+        TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
+
+        return ChatMessageTranslateResults.to(
+            chatMessageRepository.save(param.toChatMessage()),
+            chatMessageRepository.save(param.toChatMessage(translatedResponse.translatedText()))
         );
     }
 
     @Transactional
     public ChatRoomCreateResult createChatRoom(ChatRoomCreateParam param) {
         return ChatRoomCreateResult.to(
-                chatRoomRepository.save(
-                        ChatRoom.of(param.fcId(), param.userId())
-                )
+            chatRoomRepository.save(
+                ChatRoom.of(param.fcId(), param.userId())
+            )
         );
     }
 
     @Transactional(readOnly = true)
     public ChatMessageGetResults getChatMessages(ChatMessageGetParam param) {
         ChatMessageGetRepositoryResponses chatMessages = chatMessageRepository.getChatMessageByCursor(
-                param.toChatMessageGetRepositoryRequest(CHAT_PAGE_SIZE));
+            param.toChatMessageGetRepositoryRequest(CHAT_PAGE_SIZE));
 
         return ChatMessageGetResults.to(chatMessages);
     }
@@ -88,25 +103,24 @@ public class ChatService {
         ChatMessage chatMessageByStt = chatMessageRepository.save(audioUploadResponse.toChatMessage(param));
 
         return ChatAudioUploadResult.to(
-                audioUploadResponse.audioUrl(),
-                chatMessageByStt.getCreatedAt()
+            audioUploadResponse.audioUrl(),
+            chatMessageByStt.getCreatedAt()
         );
     }
 
-    @CircuitBreaker(name = SIMPLE_CIRCUIT_BREAKER_CONFIG, fallbackMethod = "fallbackSendAudioMessage")
     @Transactional
     public ChatMessageSttResult sendAudioMessage(ChatMessageSttParam param) {
         ChatAudioUploadResult chatAudioUploadResult = uploadAudioFile(param.toChatAudioUploadParam());
 
         SttManager sttManager = sttManagerHandler.getSttManager(SttProvider.GOOGLE.name());
         SttResponse textBySpeech
-                = sttManager.asyncRecognizeAudio(param.toSttRequest(chatAudioUploadResult.audioUrl()));
+            = sttManager.asyncRecognizeAudio(param.toSttRequest(chatAudioUploadResult.audioUrl()));
         ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
 
         return ChatMessageSttResult.to(
-                textBySpeech.textBySpeech(),
-                chatMessage.getCreatedAt(),
-                SttProvider.GOOGLE.name()
+            textBySpeech.textBySpeech(),
+            chatMessage.getCreatedAt(),
+            SttProvider.GOOGLE.name()
         );
     }
 
@@ -116,9 +130,9 @@ public class ChatService {
         ChatMessage chatMessage = chatMessageRepository.save(textBySpeech.toChatMessage(param));
 
         return ChatMessageSttResult.to(
-                textBySpeech.textBySpeech(),
-                chatMessage.getCreatedAt(),
-                SttProvider.WHISPER.name()
+            textBySpeech.textBySpeech(),
+            chatMessage.getCreatedAt(),
+            SttProvider.WHISPER.name()
         );
     }
 
@@ -132,7 +146,7 @@ public class ChatService {
     public void createChatRoomPassword(ChatRoomPasswordCreateParam request) {
         String clientIp = ipSensor.getClientIP();
         EncryptionResponse encryptionResponse
-                = passwordEncoder.encrypt(request.toEncryptionRequest(clientIp));
+            = passwordEncoder.encrypt(request.toEncryptionRequest(clientIp));
         ChatRoom chatRoom = chatRoomRepository.getChatRoom(request.chatRoomId());
         chatRoom.setChatRoomPassword(encryptionResponse.password());
         chatRoom.setSalt(encryptionResponse.salt());
