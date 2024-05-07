@@ -6,20 +6,23 @@ import java.util.Arrays;
 
 @Getter
 public enum TargetLanguage {
-    CHINA("ZH"),
-    US("EN-US"),
-    UK("EN-GB"),
-    RUSSIAN("RU"),
-    JAPANESE("JA"),
-    KOREAN("KO"),
-    FRENCH("FR"),
-    SPANISH("ES"),
-    ITALIAN("IT");
+    CHINA("ZH", "zh"),
+    US("EN-US", "en"),
+    UK("EN-GB", "en"),
+    RUSSIAN("RU", "ru"),
+    JAPANESE("JA", "ja"),
+    KOREAN("KO", "ko"),
+    FRENCH("FR", "fr"),
+    SPANISH("ES", "es"),
+    ITALIAN("IT", "it");
 
     private String deeplLang;
 
-    TargetLanguage(String deeplLang) {
+    private String googleTranslateLang;
+
+    TargetLanguage(String deeplLang, String googleTranslateLang) {
         this.deeplLang = deeplLang;
+        this.googleTranslateLang = googleTranslateLang;
     }
 
     public static boolean checkFormat(String targetLang) {

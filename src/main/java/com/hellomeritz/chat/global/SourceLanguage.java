@@ -7,22 +7,24 @@ import java.util.Arrays;
 @Getter
 public enum SourceLanguage {
 
-    CHINA("ZH", "zh"),
-    US("EN", "en-US"),
-    UK("EN", "en-GB"),
-    RUSSIAN("RU", "ru-RU"),
-    JAPANESE("JA", "ja-JP"),
-    KOREAN("KO", "ko-KR"),
-    FRENCH("FR", "fr-BE"),
-    SPANISH("ES", "eu-ES"),
-    ITALIAN("IT", "it-IT");
+    CHINA("ZH", "zh", "zh"),
+    US("EN", "en-US", "en"),
+    UK("EN", "en-GB", "en"),
+    RUSSIAN("RU", "ru-RU", "ru"),
+    JAPANESE("JA", "ja-JP", "ja"),
+    KOREAN("KO", "ko-KR", "ko"),
+    FRENCH("FR", "fr-BE", "fr"),
+    SPANISH("ES", "eu-ES", "es"),
+    ITALIAN("IT", "it-IT", "it");
 
     private String deeplLang;
     private String googleSttLang;
+    private String googleTranslateLang;
 
-    SourceLanguage(String deeplLang, String googleSttLang) {
+    SourceLanguage(String deeplLang, String googleSttLang, String googleTranslateLang) {
         this.deeplLang = deeplLang;
         this.googleSttLang = googleSttLang;
+        this.googleTranslateLang = googleTranslateLang;
     }
 
     public static boolean checkFormat(String sourceLang) {

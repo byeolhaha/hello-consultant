@@ -1,6 +1,7 @@
-package com.hellomeritz.chat.global.translator;
+package com.hellomeritz.chat.global.translator.deepl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hellomeritz.chat.global.translator.deepl.TranslationText;
 
 import java.util.List;
 import java.util.stream.Collectors;
