@@ -15,7 +15,7 @@ public record ChatMessageGetRequest(
         @NotNull(message = "isFC는 null일 수 없습니다.")
         Boolean isFC
 ) {
-    private static final String CHAT_MESSAGE_ID_MIN_VALUE = "000000000000000000000000";
+    private static final String CHAT_MESSAGE_ID_MIN_VALUE = "";
 
     public ChatMessageGetParam toChatMessageGetParam(long chatRoomId) {
         return new ChatMessageGetParam(

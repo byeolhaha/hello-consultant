@@ -3,6 +3,7 @@ package com.hellomeritz.chat.repository.chatmessage;
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
+import io.micrometer.common.util.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -27,20 +28,34 @@ public class ChatMessageMongoRepository {
 
     public ChatMessageGetRepositoryResponses getChatMessageByCursor(ChatMessageGetRepositoryRequest request) {
         Query query = new Query(
-            Criteria.where("_id")
-                .gt(new ObjectId(request.nextChatMessageId()))
-                .and("chatRoomId").is(request.chatRoomId())
-                .and("messageType").ne("AUDIO"))
-            .limit(request.pageSize())
+            Criteria.where("chatRoomId").is(request.chatRoomId())
+                .and("messageType").ne("AUDIO"));
+
+        if (!StringUtils.isEmpty(request.nextChatMessageId())) {
+            query.addCriteria(Criteria.where("_id").lt(new ObjectId(request.nextChatMessageId())));
+        }
+
+        query.limit(request.pageSize() + 1)
             .with(Sort.by(Sort.Direction.DESC, "_id"));
 
         List<ChatMessage> chatMessages = mongoTemplate.find(query, ChatMessage.class);
 
-        return ChatMessageGetRepositoryResponses.to(chatMessages, request.pageSize());
+        boolean hasNext =  hasNext(chatMessages.size(), request.pageSize());
+        if (hasNext) {
+            chatMessages.remove(chatMessages.size() - 1);
+        }
+
+        return ChatMessageGetRepositoryResponses.to(
+            chatMessages,
+            hasNext);
     }
 
     public void deleteAll() {
         mongoTemplate.findAllAndRemove(new Query(), ChatMessage.class);
+    }
+
+    private static boolean hasNext(int returnSize, int pageSize) {
+        return returnSize > pageSize;
     }
 
 }
