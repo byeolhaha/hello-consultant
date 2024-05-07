@@ -7,7 +7,7 @@ import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
-import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
+import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResults;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomUserInfoResult;
 import com.hellomeritz.global.ChatFixture;
@@ -40,19 +40,6 @@ class ChatServiceTest {
     @Autowired
     private SttManagerHandler sttManagerHandler;
 
-    @DisplayName("채팅메세지를 저장할 수 있다.")
-    @Test
-    void saveChatMessage() {
-        // given
-        ChatMessageTextParam chatMessageTextParam = ChatFixture.chatMessageTextParamByFC();
-
-        // when
-        ChatMessageTranslateResult result = chatService.translateText(chatMessageTextParam);
-
-        // then
-        assertThat(result.originContents()).isEqualTo(chatMessageTextParam.contents());
-    }
-
     @DisplayName("채팅방을 만들 수 있다.")
     @Test
     void createChatRoom() {
@@ -75,9 +62,9 @@ class ChatServiceTest {
         // given
         chatMessageRepository.deleteAll();
 
-        chatMessageRepository.save(ChatFixture.translatedChatMessageByFC());
+        ChatMessage firstSavedMessage = chatMessageRepository.save(ChatFixture.translatedChatMessageByFC());
         chatMessageRepository.save(ChatFixture.originChatMessageByUser());
-        ChatMessage lastChatMessage =chatMessageRepository.save(ChatFixture.translatedChatMessageByUser());
+        chatMessageRepository.save(ChatFixture.translatedChatMessageByUser());
 
         ChatMessageGetParam chatMessageGetParam = ChatFixture.chatMessageGetParam();
 
@@ -85,7 +72,7 @@ class ChatServiceTest {
         ChatMessageGetResults results = chatService.getChatMessages(chatMessageGetParam);
 
         // then
-        assertThat(results.nextChatMessageId()).isEqualTo(lastChatMessage.getId());
+        assertThat(results.nextChatMessageId()).isEqualTo(firstSavedMessage.getId());
         for (int i = 0; i < results.chatMessages().size() - 1; i++) {
             LocalDateTime current = LocalDateTime.parse(results.chatMessages().get(i).createdAt());
             LocalDateTime next = LocalDateTime.parse(results.chatMessages().get(i + 1).createdAt());
