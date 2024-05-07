@@ -24,7 +24,10 @@ public enum ErrorCode {
     STT_SPEECH_ERROR("S003","stt speech setting 중에 오류가 발생하였습니다."),
 
     //bucket
-    FILE_UPLOAD_ERROR("F001", "Internal Server Error");
+    FILE_UPLOAD_ERROR("F001", "Internal Server Error"),
+
+    //translation
+    TRANSLATE_CREDENTIAL_ERROR("T001", "번역 관련 credential 파일이 존재하지 않거나 경로가 잘못되었습니다.");
 
     private final String code;
     private final String message;
