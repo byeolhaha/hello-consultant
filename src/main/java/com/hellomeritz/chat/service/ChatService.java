@@ -10,8 +10,6 @@ import com.hellomeritz.chat.global.translator.TranslateProvider;
 import com.hellomeritz.chat.global.translator.TranslationResponse;
 import com.hellomeritz.chat.global.translator.Translator;
 import com.hellomeritz.chat.global.translator.TranslatorHandler;
-import com.hellomeritz.chat.global.translator.deepl.DeeplTranslator;
-import com.hellomeritz.chat.global.translator.deepl.DeeplTranslationResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploader;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
@@ -21,6 +19,7 @@ import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
+import com.hellomeritz.global.CircuitBreakerBot;
 import com.hellomeritz.member.global.IpSensor;
 import com.hellomeritz.member.global.encryption.PasswordEncoder;
 import com.hellomeritz.member.global.encryption.dto.EncryptionResponse;
@@ -28,10 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
-
 @Service
 public class ChatService {
     private static final String SIMPLE_CIRCUIT_BREAKER_CONFIG = "simpleCircuitBreakerConfig";
+    private static final String TRANSLATION_FALLBACK_BOT_MESSAGE = "번역 관련 fallback 메서드가 호출되었습니다.";
     private static final int CHAT_PAGE_SIZE = 20;
 
     private final ChatMessageRepository chatMessageRepository;
@@ -41,6 +40,7 @@ public class ChatService {
     private final SttManagerHandler sttManagerHandler;
     private final PasswordEncoder passwordEncoder;
     private final IpSensor ipSensor;
+    private final CircuitBreakerBot circuitBreakerBot;
 
 
     public ChatService(
@@ -49,7 +49,7 @@ public class ChatService {
         AudioUploader audioUploader,
         SttManagerHandler sttManagerHandler,
         PasswordEncoder passwordEncoder,
-        IpSensor ipSensor) {
+        IpSensor ipSensor, CircuitBreakerBot circuitBreakerBot) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
         this.translatorHandler = translatorHandler;
@@ -57,6 +57,7 @@ public class ChatService {
         this.sttManagerHandler = sttManagerHandler;
         this.passwordEncoder = passwordEncoder;
         this.ipSensor = ipSensor;
+        this.circuitBreakerBot = circuitBreakerBot;
     }
 
     @CircuitBreaker(name = SIMPLE_CIRCUIT_BREAKER_CONFIG, fallbackMethod = "fallbackSendMessage")
@@ -71,7 +72,9 @@ public class ChatService {
         );
     }
 
-    private ChatMessageTranslateResults fallbackSendMessage(ChatMessageTextParam param, Exception e) {
+    private ChatMessageTranslateResults fallbackSendMessage(ChatMessageTextParam param, Exception exception) {
+        circuitBreakerBot.sendBotMessage(TRANSLATION_FALLBACK_BOT_MESSAGE+", exception: "+exception.getMessage());
+
         Translator translator = translatorHandler.getTranslator(TranslateProvider.GOOGLE.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
