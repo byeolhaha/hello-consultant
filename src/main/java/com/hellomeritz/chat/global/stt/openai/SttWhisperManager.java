@@ -8,7 +8,9 @@ import com.hellomeritz.chat.global.stt.openai.client.OpenAIClient;
 import com.hellomeritz.chat.global.stt.openai.client.OpenAIClientConfig;
 import com.hellomeritz.chat.global.stt.openai.dto.WhisperTranscriptionRequest;
 import com.hellomeritz.chat.global.stt.openai.dto.WhisperTranscriptionResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SttWhisperManager implements SttManager {
 
     private final OpenAIClient openAIClient;

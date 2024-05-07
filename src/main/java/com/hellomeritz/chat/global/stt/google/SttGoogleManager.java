@@ -14,6 +14,7 @@ import com.hellomeritz.chat.global.stt.SttManager;
 import com.hellomeritz.chat.global.stt.dto.SttRequest;
 import com.hellomeritz.chat.global.stt.dto.SttResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.threeten.bp.Duration;
 
 import java.io.FileInputStream;
@@ -21,12 +22,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class SttGoogleManager implements SttManager {
 
     private static final String GOOGLE_BUCKET_PATH = "https://storage.googleapis.com/";
     private static final String GOOGLE_BUCKET_HOST = "gs://";
 
-    @Value("${google.stt.credential.path}")
+    @Value("${google.credential.path}")
     private String credentialsPath;
 
     public SttResponse asyncRecognizeAudio(SttRequest request) {
