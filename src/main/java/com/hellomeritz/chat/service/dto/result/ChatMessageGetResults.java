@@ -14,15 +14,14 @@ public record ChatMessageGetResults(
 ) {
 
     public static ChatMessageGetResults to(
-            ChatMessageGetRepositoryResponses chatMessages,
-            ChatMessageGetParam param) {
+            ChatMessageGetRepositoryResponses chatMessages) {
         return new ChatMessageGetResults(
                 chatMessages.chatMessages().stream()
                         .map(chatMessage -> new ChatMessageGetResult(
                                 chatMessage.getId(),
                                 chatMessage.getContents(),
                                 chatMessage.getCreatedAt().toString(),
-                                isMine(chatMessage, param)
+                                chatMessage.isFC()
                         )).toList(),
                 chatMessages.nextChatMessageId(),
                 chatMessages.hasNext()
@@ -33,13 +32,9 @@ public record ChatMessageGetResults(
             String chatMessageId,
             String contents,
             String createdAt,
-            boolean isMine
+            boolean isFC
     ) {
 
     }
 
-    private static boolean isMine(ChatMessage chatMessage, ChatMessageGetParam param) {
-        return chatMessage.getUserId() == param.myId()
-                && chatMessage.isFC() == param.isFC();
-    }
 }

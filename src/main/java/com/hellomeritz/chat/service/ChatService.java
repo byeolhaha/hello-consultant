@@ -57,17 +57,10 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatMessageTranslateResult translateText(ChatMessageTextParam param) {
+    public ChatMessageTranslateResults translateText(ChatMessageTextParam param) {
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
-        if(param.contents().contains("오디오")) {
-            String contents = param.contents().replace("오디오","");
-            return ChatMessageTranslateResult.to(
-                    contents,
-                    chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
-            );
-        }
-        return ChatMessageTranslateResult.to(
+        return ChatMessageTranslateResults.to(
                 chatMessageRepository.save(param.toChatMessage()),
                 chatMessageRepository.save(param.toChatMessage(translatedResponse.getText()))
         );
@@ -87,9 +80,7 @@ public class ChatService {
         ChatMessageGetRepositoryResponses chatMessages = chatMessageRepository.getChatMessageByCursor(
                 param.toChatMessageGetRepositoryRequest(CHAT_PAGE_SIZE));
 
-        return ChatMessageGetResults.to(
-                chatMessages,
-                param);
+        return ChatMessageGetResults.to(chatMessages);
     }
 
     private ChatAudioUploadResult uploadAudioFile(ChatAudioUploadParam param) {

@@ -17,7 +17,7 @@ public record ChatMessageGetResponses(
                                 chatMessageGetResult.chatMessageId(),
                                 chatMessageGetResult.contents(),
                                 chatMessageGetResult.createdAt(),
-                                chatMessageGetResult.isMine()
+                                chatMessageGetResult.isFC()
                         )).toList(),
                 results.nextChatMessageId(),
                 results.hasNext()
@@ -28,7 +28,7 @@ public record ChatMessageGetResponses(
             String chatMessageId,
             String contents,
             String createdAt,
-            boolean isMine
+            boolean isFC
     ) {
 
     }
