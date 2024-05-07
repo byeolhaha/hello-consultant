@@ -54,8 +54,6 @@ async function fetchChatMessages() {
         // 다음 메시지의 ID를 업데이트합니다.
         nextChatMessageId = data.nextChatMessageId;
         hasNext = data.hasNext;
-        console.log("id: ",nextChatMessageId );
-        console.log("hasNext: ",hasNext );
     } else {
         console.error('Failed to fetch chat messages');
     }
@@ -75,7 +73,6 @@ const connectChat = async () => {
     chatClient = Stomp.over(chatSocket);
 
     chatClient.connect({}, function(frame) {
-        console.log('Connected as client');
         chatClient.subscribe(`/queue/chats/${chatRoomId}`, function(message) {
             const messageData = JSON.parse(message.body);
             messageData.body.chatMessageTranslateResponses.forEach(

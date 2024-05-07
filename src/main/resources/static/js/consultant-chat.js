@@ -8,6 +8,8 @@ let clientId = null;
 let consultantId = null;
 let chatRoomId = null;
 let clientLanguage = null;
+let nextChatMessageId = '';
+let hasNext = true;
 
 function getRoomIdFromUrl() {
     var queryString = window.location.search;
@@ -28,18 +30,57 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+async function fetchChatMessages() {
+    const requestUrl = `/chat-rooms/${chatRoomId}/messages?myId=${clientId}&nextChatMessageId=${nextChatMessageId}&isFC=false`;
+    console.log('Request URL:', requestUrl); // 요청 URL 출력
+
+    const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        }
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        const chatMessages = data.chatMessages;
+
+        // 채팅 메시지를 처리합니다.
+        for (let i = chatMessages.length - 1; i >= 0; i--) {
+              messages.unshift(chatMessages[i]);
+              displayMessages();
+        }
+
+        // 다음 메시지의 ID를 업데이트합니다.
+        nextChatMessageId = data.nextChatMessageId;
+        hasNext = data.hasNext;
+    } else {
+        console.error('Failed to fetch chat messages');
+    }
+}
+
+function handleScroll(event) {
+    const element = event.target;
+    if (element.scrollTop === 0 && hasNext) {
+        fetchChatMessages();
+    }
+}
+
 // 채팅용 소켓 연결
 const connectChat = async () => {
     const chatSocket = new SockJS('/ws/connect');
     chatClient = Stomp.over(chatSocket);
 
     chatClient.connect({}, function(frame) {
-        console.log('Connected as client');
         chatClient.subscribe(`/queue/chats/${chatRoomId}`, function(message) {
             const messageData = JSON.parse(message.body);
-             messages.push(messageData);
+            messageData.body.chatMessageTranslateResponses.forEach(
+               message => {
+                  messages.push(message);
+               }
+             );
              displayMessages();
-
+             scrollDown();
         });
     });
 }
@@ -53,6 +94,12 @@ window.onload = async function() {
 async function findClientIdAndLanguage() {
     await findClientId();
     await findClientInfo();
+
+    const messageList = document.getElementById('message-list');
+
+    await fetchChatMessages();
+    messageList.scrollTop = messageList.scrollHeight;
+    messageList.addEventListener('scroll', handleScroll);
 }
 
 function findClientId() {
@@ -95,7 +142,6 @@ function populateOpponentInfo(data) {
     const languageElement = document.querySelector('.profile-details span:nth-child(3)');
     const residencePermitElement = document.querySelector('.profile-details span:nth-child(4)');
 
-    // 가져온 데이터를 각 요소에 채워 넣기
     profileNameElement.textContent = data.name;
     birthDateElement.textContent = '생년월일: ' + data.birthDate;
     visaTypeElement.textContent = '비자타입: ' + data.visaType;
@@ -124,27 +170,21 @@ function displayMessages() {
      messageList.innerHTML = '';
 
      messages.forEach(message => {
-         const originMessageElement = document.createElement('div');
-         originMessageElement.className = `message ${message.body.isFC == true ? 'sent' : 'received'}`;
+          const originMessageElement = document.createElement('div');
+          originMessageElement.className = `message ${message.isFC == true ? 'sent' : 'received'}`;
 
-         const translatedMessageElement = document.createElement('div');
-         translatedMessageElement.className = `message ${message.body.isFC == true ? 'sent' : 'received'}`;
+          const originContentElement = document.createElement('div');
+          originContentElement.className = 'message-content';
+          originContentElement.textContent = message.contents;
 
-         const originContentElement = document.createElement('div');
-         originContentElement.className = 'message-content';
-         originContentElement.textContent = message.body.originContents; // 번역 전 내용 설정
+          originMessageElement.appendChild(originContentElement);
 
-         const translatedContentElement = document.createElement('div');
-         translatedContentElement.className = 'message-content';
-         translatedContentElement.textContent = message.body.translatedContents; // 번역 후 내용 설정
+          messageList.appendChild(originMessageElement);
 
-         originMessageElement.appendChild(originContentElement); // 번역 전 내용을 메시지에 추가
-         translatedMessageElement.appendChild(translatedContentElement); // 번역 후 내용을 메시지에 추가
-
-         messageList.appendChild(originMessageElement);
-         messageList.appendChild(translatedMessageElement);// 메시지 리스트에 메시지 추가
      });
+}
 
-     // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
-     messageList.scrollTop = messageList.scrollHeight;
+function scrollDown() {
+    messageList = document.getElementById('message-list');
+    messageList.scrollTop = messageList.scrollHeight;
 }
