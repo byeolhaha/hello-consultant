@@ -25,6 +25,9 @@ public class FinancialConsultant {
     @Column(name = "introduce_message")
     private String introduceMessage;
 
+    @Column(name = "consultation_state")
+    private String consultationState = ConsultationState.AVAILABLE.name();
+
     protected FinancialConsultant() {
     }
 
@@ -52,6 +55,14 @@ public class FinancialConsultant {
             profileUrl,
             introduceMessage
         );
+    }
+
+    public void startConsulting() {
+        this.consultationState = ConsultationState.UNAVAILABLE.name();
+    }
+
+    public void endConsulting() {
+        this.consultationState = ConsultationState.AVAILABLE.name();
     }
 
 }
