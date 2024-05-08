@@ -11,8 +11,13 @@ import com.hellomeritz.member.service.dto.result.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Random;
+
 @Service
 public class MemberService {
+
+    private static final Random random = new Random();
 
     private final ForeignRepository foreignRepository;
     private final FinancialConsultantRepository financialConsultantRepository;
@@ -50,17 +55,30 @@ public class MemberService {
         FinancialConsultant financialConsultant = financialConsultantRepository.getFinancialConsultant(param.fcId());
         smsManager.sendAlarmMessage(param.t0SmsSendRequest(financialConsultant.getPhoneNumber()));
     }
-    public FcInfoResult getFinancialConsultantInfo(FinancialConsultantInfoGetParam param){
+
+    public FcInfoResult getFinancialConsultantInfo(FinancialConsultantInfoGetParam param) {
         FinancialConsultant financialConsultant
             = financialConsultantRepository.getFinancialConsultant(param.userId());
         return FcInfoResult.of(financialConsultant);
     }
 
-    public ForeignerInfoResult getForeignerInfo(ForeignerInfoGetParam param){
+    public ForeignerInfoResult getForeignerInfo(ForeignerInfoGetParam param) {
         Foreigner foreigner = foreignRepository.getById(param.userId());
         return ForeignerInfoResult.of(foreigner);
     }
 
+    @Transactional
+    public ConsultantMatchResult matchConsultant() {
+        List<FinancialConsultant> financialConsultants = financialConsultantRepository.getFinancialConsultantWithAvailable();
+        FinancialConsultant financialConsultant = selectConsultant(financialConsultants);
 
+        financialConsultant.startConsulting();
 
+        return ConsultantMatchResult.to(financialConsultant.getFinancialConsultantId());
+    }
+
+    private FinancialConsultant selectConsultant(List<FinancialConsultant> consultants) {
+        int randomIndex = random.nextInt(consultants.size());
+        return consultants.get(randomIndex);
+    }
 }
