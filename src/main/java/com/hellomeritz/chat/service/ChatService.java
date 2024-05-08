@@ -93,7 +93,6 @@ public class ChatService {
         );
     }
 
-    @Transactional(readOnly = true)
     public ChatMessageGetResults getChatMessages(ChatMessageGetParam param) {
         ChatMessageGetRepositoryResponses chatMessages = chatMessageRepository.getChatMessageByCursor(
             param.toChatMessageGetRepositoryRequest(CHAT_PAGE_SIZE));
