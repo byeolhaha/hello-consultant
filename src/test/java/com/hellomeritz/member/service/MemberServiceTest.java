@@ -8,8 +8,10 @@ import com.hellomeritz.member.repository.fc.FinancialConsultantRepository;
 import com.hellomeritz.member.repository.foreign.ForeignRepository;
 import com.hellomeritz.member.service.dto.param.FinancialConsultantInfoGetParam;
 import com.hellomeritz.member.service.dto.param.ForeignerInfoGetParam;
+import com.hellomeritz.member.service.dto.result.ConsultantMatchResult;
 import com.hellomeritz.member.service.dto.result.FcInfoResult;
 import com.hellomeritz.member.service.dto.result.ForeignerInfoResult;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
 @Transactional
@@ -63,5 +66,30 @@ class MemberServiceTest {
         assertThat(result.name()).isEqualTo(financialConsultant.getName());
         assertThat(result.phoneNumber()).isEqualTo(financialConsultant.getPhoneNumber());
         assertThat(result.profileUrl()).isEqualTo(financialConsultant.getProfileUrl());
+    }
+
+    @DisplayName("현재 상담 가능한 설계사를 매칭하고 매칭하면 상태를 상담 불가능 상태로 변경한다.")
+    @Test
+    void matchConsultant() {
+        // given
+        FinancialConsultant financialConsultant = financialConsultantRepository.save(FinancialConsultantFixture.financialConsultant());
+
+        // when
+        ConsultantMatchResult consultantMatchResult = memberService.matchConsultant();
+
+        // then
+        assertThat(consultantMatchResult.fcId()).isEqualTo(financialConsultant.getFinancialConsultantId());
+    }
+
+    @DisplayName("현재 상담 가능한 설계사가 없는 경우 예외를 던진다.")
+    @Test
+    void matchConsultant_unavailable_throwException() {
+        // given
+        financialConsultantRepository.save(FinancialConsultantFixture.financialConsultantNotVailable());
+
+        // when
+        assertThrows(RuntimeException.class
+            , ()->memberService.matchConsultant()
+        );
     }
 }
