@@ -4,10 +4,10 @@ import com.hellomeritz.member.domain.FinancialConsultant;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
-public class FinancialConsultantRepositoryImpl implements FinancialConsultantRepository{
+public class FinancialConsultantRepositoryImpl implements FinancialConsultantRepository {
 
     private final FinancialConsultantJapRepository financialConsultantJapRepository;
 
@@ -23,6 +23,15 @@ public class FinancialConsultantRepositoryImpl implements FinancialConsultantRep
     @Override
     public FinancialConsultant save(FinancialConsultant financialConsultant) {
         return financialConsultantJapRepository.save(financialConsultant);
+    }
+
+    @Override
+    public List<FinancialConsultant> getFinancialConsultantWithAvailable() {
+        List<FinancialConsultant> financialConsultants = financialConsultantJapRepository.findFinancialConsultant();
+        if (financialConsultants.isEmpty()) {
+            throw new IllegalStateException("상담 가능한 설계사가 없습니다.");//todo 예외 고치자
+        }
+        return financialConsultants;
     }
 
 }
