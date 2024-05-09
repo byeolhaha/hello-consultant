@@ -7,7 +7,6 @@ import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
-import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResults;
 import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomUserInfoResult;
 import com.hellomeritz.global.ChatFixture;
@@ -93,7 +92,7 @@ class ChatServiceTest {
 
         // then
         assertThat(result.fcId()).isEqualTo(chatRoom.getFcId());
-        assertThat(result.userId()).isEqualTo(chatRoom.getUserId());
+        assertThat(result.userId()).isEqualTo(chatRoom.getForeignerId());
     }
 
     @DisplayName("채팅방 페스워드를 생성하고 이에 대해 다시 채팅방에 입장하여 넣은 값에 대해 true를 리턴할 수 있다.")

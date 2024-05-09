@@ -1,13 +1,9 @@
 package com.hellomeritz.chat.controller;
 
 import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
-import com.hellomeritz.chat.global.SourceLanguage;
-import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.global.stt.SttProvider;
 import com.hellomeritz.chat.service.ChatService;
-import com.hellomeritz.chat.service.dto.result.ChatAudioUploadResult;
 import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
-import com.hellomeritz.chat.service.dto.result.ChatMessageTranslateResult;
 import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -88,43 +84,6 @@ class ChatControllerDocsTest extends RestDocsSupport {
                         .collect(Collectors.joining(", "))))
                 )
             );
-    }
-
-    @DisplayName("text를 원하는 언어로 번역하는 API")
-    @Test
-    void sendChatMessageToTranslate() throws Exception {
-        ChatMessageTranslateResult result = ChatFixture.chatMessageTranslateResult();
-        given(chatService.translateText(any())).willReturn(result);
-
-        mockMvc.perform(post("/chats/{chatRoomId}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(ChatFixture.chatMessageTranslateRequest()))
-            )
-            .andDo(print())
-            .andExpect(status().isCreated())
-            .andDo(document("translate-text",
-                requestFields(
-                    fieldWithPath("contents").type(JsonFieldType.STRING).description("채팅을 통해 보낸 text"),
-                    fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 ID"),
-                    fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("설계사 여부"),
-                    fieldWithPath("targetLang").type(JsonFieldType.STRING).description(
-                        "번역되고자 하는 언어:" + Arrays.stream(TargetLanguage.values())
-                            .map(TargetLanguage::name)
-                            .collect(Collectors.joining(", "))),
-                    fieldWithPath("sourceLang").type(JsonFieldType.STRING).description(
-                        "사용자가 보낸 text의 해당 언어:" + Arrays.stream(SourceLanguage.values())
-                            .map(SourceLanguage::name)
-                            .collect(Collectors.joining(", ")))
-                ),
-                responseFields(
-                    fieldWithPath("originContents").type(JsonFieldType.STRING).description("원본 text"),
-                    fieldWithPath("translatedContents").type(JsonFieldType.STRING).description("해석된 text"),
-                    fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성 일자")
-                ),
-                pathParameters(
-                    parameterWithName("chatRoomId").description("채팅방 id")
-                )
-            ));
     }
 
 }

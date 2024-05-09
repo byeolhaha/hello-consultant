@@ -1,6 +1,7 @@
 package com.hellomeritz.global;
 
 import com.hellomeritz.member.domain.FinancialConsultant;
+import com.hellomeritz.member.service.dto.result.ConsultantMatchResult;
 import com.hellomeritz.member.service.dto.result.FcInfoResult;
 
 public class FinancialConsultantFixture {
@@ -18,6 +19,18 @@ public class FinancialConsultantFixture {
         );
     }
 
+    public static FinancialConsultant financialConsultantNotVailable() {
+        FinancialConsultant financialConsultant =  FinancialConsultant.of(
+            "010-1234-6789",
+            "박지호",
+            "https://gcp//meritz-profile/mypicture",
+            "안녕하세요 저는 박지호이고 자동차 보험 전문입니다."
+        );
+        financialConsultant.startConsulting();
+
+        return financialConsultant;
+    }
+
     public static FcInfoResult fcInfoResult() {
         return new FcInfoResult(
             1L,
@@ -26,5 +39,9 @@ public class FinancialConsultantFixture {
             "https://gcp//meritz-profile/mypicture",
             "안녕하세요 저는 박지호이고 자동차 보험 전문입니다."
         );
+    }
+
+    public static ConsultantMatchResult consultantMatchResult() {
+        return new ConsultantMatchResult(1L);
     }
 }

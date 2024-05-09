@@ -62,6 +62,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
                         fieldWithPath("chatMessages[].contents").type(JsonFieldType.STRING).description("메세지 내용"),
                         fieldWithPath("chatMessages[].createdAt").type(JsonFieldType.STRING).description("생성 일자"),
                         fieldWithPath("chatMessages[].isFC").type(JsonFieldType.BOOLEAN).description("설계사가 보낸 메세지인지 고객인 보낸 메세지인지"),
+                        fieldWithPath("chatMessages[].readOrNot").type(JsonFieldType.BOOLEAN).description("채팅메세지 읽음 여부"),
                         fieldWithPath("nextChatMessageId").type(JsonFieldType.STRING).description("다음 페이지를 불러오기 위한 nextKey 값"),
                         fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN).description("다음 페이지 존재 여부"))
                 )

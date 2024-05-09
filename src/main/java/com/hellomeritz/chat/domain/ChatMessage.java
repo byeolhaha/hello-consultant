@@ -1,13 +1,14 @@
 package com.hellomeritz.chat.domain;
 
 import lombok.Getter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Document
 public class ChatMessage {
 
     private static final int CONTENTS_MAX_LENGTH = 100;
@@ -17,11 +18,12 @@ public class ChatMessage {
     @Id
     private String id;
     private String contents;
-    private long userId;
-    private boolean isFC;
+    private Long userId;
+    private Boolean isFC;
     private String messageType;
-    private long chatRoomId;
+    private Long chatRoomId;
     private LocalDateTime createdAt;
+    private Boolean readOrNot;
 
     private ChatMessage () {
 
@@ -30,9 +32,10 @@ public class ChatMessage {
     private ChatMessage(
         String contents,
         String messageType,
-        long userId,
-        boolean isFC,
-        long chatRoomId
+        Long userId,
+        Boolean isFC,
+        Long chatRoomId,
+        Boolean readOrNot
     ) {
         Assert.hasLength(messageType, "messageType은 필수값입니다.");
         Assert.hasLength(contents, "contents은 필수값입니다.");
@@ -40,6 +43,7 @@ public class ChatMessage {
             String.format("contents는 %d의 자리수를 넘을 수 없습니다.", CONTENTS_MAX_LENGTH));
         Assert.isTrue(userId >= USER_ID_MIN_VALUE, "userId는 음수이거나 0일 수 없습니다.");
         Assert.isTrue(chatRoomId >= ROOM_ID_MIN_VALUE, "chatRoomId는 음수이거나 0일 수 없습니다.");
+        Assert.notNull(readOrNot, "readOrNot은 null일 수 없습니다.");
 
         this.contents = contents;
         this.messageType = messageType;
@@ -47,16 +51,24 @@ public class ChatMessage {
         this.isFC = isFC;
         this.chatRoomId = chatRoomId;
         this.createdAt = LocalDateTime.now();
+        this.readOrNot = readOrNot;
     }
 
     public static ChatMessage of(
         String contents,
         String messageType,
-        long userId,
-        boolean isFC,
-        long chatRoomId
+        Long userId,
+        Boolean isFC,
+        Long chatRoomId,
+        Boolean readOrNot
     ) {
-        return new ChatMessage(contents, messageType, userId, isFC, chatRoomId);
+        return new ChatMessage(
+            contents,
+            messageType,
+            userId,
+            isFC,
+            chatRoomId,
+            readOrNot);
     }
 
 }

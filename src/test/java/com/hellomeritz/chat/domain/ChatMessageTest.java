@@ -1,6 +1,7 @@
 package com.hellomeritz.chat.domain;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
@@ -20,9 +21,10 @@ class ChatMessageTest {
             () -> ChatMessage.of(
                 contents,
                 ChatMessageType.TEXT.name(),
-                1,
+                1L,
                 true,
-                1
+                1L,
+                true
             ));
     }
 
@@ -34,9 +36,10 @@ class ChatMessageTest {
             () -> ChatMessage.of(
                 "안녕",
                 messageType,
-                1,
+                1L,
                 true,
-                1
+                1L,
+                true
             ));
     }
 
@@ -48,9 +51,10 @@ class ChatMessageTest {
             () -> ChatMessage.of(
                 contentsOverLength,
                 ChatMessageType.TEXT.name(),
-                1,
+                1L,
                 true,
-                1
+                1L,
+                true
             ));
     }
 
@@ -64,7 +68,8 @@ class ChatMessageTest {
                 ChatMessageType.TEXT.name(),
                 userId,
                 true,
-                1
+                1L,
+                true
             ));
     }
 
@@ -76,9 +81,24 @@ class ChatMessageTest {
             () -> ChatMessage.of(
                 "안녕하세요",
                 ChatMessageType.TEXT.name(),
-                1,
+                1L,
                 true,
-                chatRoomId
+                chatRoomId,
+                true
+            ));
+    }
+
+    @DisplayName("readOrNot이 null이면 예외를 던진다.")
+    @Test
+    void testInvalidReadOrNot() {
+        assertThrows(IllegalArgumentException.class,
+            () -> ChatMessage.of(
+                "안녕하세요",
+                ChatMessageType.TEXT.name(),
+                1L,
+                true,
+                1L,
+                null
             ));
     }
 

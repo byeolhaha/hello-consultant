@@ -42,7 +42,8 @@ public class ChatFixture {
             ChatMessageType.TEXT.name(),
             FC_ID,
             true,
-            1
+            1L,
+            true
         );
     }
 
@@ -52,7 +53,8 @@ public class ChatFixture {
             ChatMessageType.TRANSLATED_TEXT.name(),
             FC_ID,
             true,
-            1
+            1L,
+            true
         );
     }
 
@@ -62,7 +64,8 @@ public class ChatFixture {
             ChatMessageType.TEXT.name(),
             FC_ID,
             true,
-            1
+            1L,
+            true
         );
     }
 
@@ -72,7 +75,8 @@ public class ChatFixture {
             ChatMessageType.TRANSLATED_TEXT.name(),
             FC_ID,
             true,
-            1
+            1L,
+            true
         );
     }
 
@@ -110,24 +114,28 @@ public class ChatFixture {
                     "66172f7ab156dc2cf99c4b2c",
                     "안녕하세요 반갑습니다.",
                     LocalDateTime.of(2024, 3, 1, 11, 20).toString(),
+                    true,
                     true
                 ),
                 new ChatMessageGetResults.ChatMessageGetResult(
                     "66172f7ab156dc2cf99c4b2d",
                     "hello nice meet you",
                     LocalDateTime.of(2024, 3, 1, 11, 21).toString(),
+                    true,
                     true
                 ),
                 new ChatMessageGetResults.ChatMessageGetResult(
                     "66172f7ab156dc2cf99c4b2e",
                     "hello my name is byeol",
                     LocalDateTime.of(2024, 3, 1, 11, 22).toString(),
-                    false
+                    false,
+                    true
                 ),
                 new ChatMessageGetResults.ChatMessageGetResult(
                     "66172f7ab156dc2cf99c4b2f",
                     "안녕하세요 제 이름은 별입니다.",
                     LocalDateTime.of(2024, 3, 1, 11, 23).toString(),
+                    true,
                     true
                 )
             ),
