@@ -1,4 +1,4 @@
-package com.hellomeritz.chat.global.exception;
+package com.hellomeritz.global.exception;
 
 import lombok.AccessLevel;
 import lombok.Getter;

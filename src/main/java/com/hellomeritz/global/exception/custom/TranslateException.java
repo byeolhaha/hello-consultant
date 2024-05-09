@@ -1,6 +1,6 @@
-package com.hellomeritz.chat.global.exception.custom;
+package com.hellomeritz.global.exception.custom;
 
-import com.hellomeritz.chat.global.exception.ErrorCode;
+import com.hellomeritz.global.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter

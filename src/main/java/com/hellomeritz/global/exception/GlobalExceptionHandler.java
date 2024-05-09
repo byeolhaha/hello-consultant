@@ -1,7 +1,7 @@
-package com.hellomeritz.chat.global.exception;
+package com.hellomeritz.global.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.hellomeritz.chat.global.exception.custom.SttException;
+import com.hellomeritz.global.exception.custom.SttException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.validation.BindException;
 
 
-import static com.hellomeritz.chat.global.exception.ErrorCode.*;
+import static com.hellomeritz.global.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @RestControllerAdvice
