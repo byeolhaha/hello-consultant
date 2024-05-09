@@ -19,13 +19,13 @@ public record ChatMessageTranslateResults(
             ChatMessageTranslateResult.to(
                 chatMessage.getId(),
                 chatMessage.getContents(),
-                chatMessage.isFC(),
+                chatMessage.getIsFC(),
                 chatMessage.getCreatedAt()));
         chatMessageTranslateResults.add(
             ChatMessageTranslateResult.to(
                 translatedChatMessage.getId(),
                 translatedChatMessage.getContents(),
-                translatedChatMessage.isFC(),
+                translatedChatMessage.getIsFC(),
                 translatedChatMessage.getCreatedAt()));
 
         return new ChatMessageTranslateResults(

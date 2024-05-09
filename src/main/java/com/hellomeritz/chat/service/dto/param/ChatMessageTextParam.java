@@ -14,23 +14,47 @@ public record ChatMessageTextParam(
     TargetLanguage targetLang,
     SourceLanguage sourceLang
 ) {
-    public ChatMessage toChatMessage() {
+    public ChatMessage toReadChatMessage() {
         return ChatMessage.of(
             contents,
             ChatMessageType.TEXT.name(),
             userId,
             isFC,
-            chatRoomId
+            chatRoomId,
+            true
         );
     }
 
-    public ChatMessage toChatMessage(String translatedContents) {
+    public ChatMessage toReadChatMessage(String translatedContents) {
         return ChatMessage.of(
             translatedContents,
             ChatMessageType.TRANSLATED_TEXT.name(),
             userId,
             isFC,
-            chatRoomId
+            chatRoomId,
+            true
+        );
+    }
+
+    public ChatMessage toNotReadChatMessage() {
+        return ChatMessage.of(
+            contents,
+            ChatMessageType.TEXT.name(),
+            userId,
+            isFC,
+            chatRoomId,
+            false
+        );
+    }
+
+    public ChatMessage toNotReadChatMessage(String translatedContents) {
+        return ChatMessage.of(
+            translatedContents,
+            ChatMessageType.TRANSLATED_TEXT.name(),
+            userId,
+            isFC,
+            chatRoomId,
+            false
         );
     }
 

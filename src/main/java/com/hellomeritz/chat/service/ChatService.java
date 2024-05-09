@@ -41,6 +41,7 @@ public class ChatService {
     private static final String SIMPLE_CIRCUIT_BREAKER_CONFIG = "simpleCircuitBreakerConfig";
     private static final String TRANSLATION_FALLBACK_BOT_MESSAGE = "번역 관련 fallback 메서드가 호출되었습니다.";
     private static final int CHAT_PAGE_SIZE = 20;
+    private static final int MAX_ATTENDANCE_COUNT = 2;
 
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
@@ -79,9 +80,15 @@ public class ChatService {
         Translator translator = translatorHandler.getTranslator(TranslateProvider.DEEPL.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
+        if(chatRoomEntryRepository.getAttendanceCount() == MAX_ATTENDANCE_COUNT ) {
+            return ChatMessageTranslateResults.to(
+                chatMessageRepository.save(param.toReadChatMessage()),
+                chatMessageRepository.save(param.toReadChatMessage(translatedResponse.translatedText()))
+            );
+        }
         return ChatMessageTranslateResults.to(
-            chatMessageRepository.save(param.toChatMessage()),
-            chatMessageRepository.save(param.toChatMessage(translatedResponse.translatedText()))
+            chatMessageRepository.save(param.toNotReadChatMessage()),
+            chatMessageRepository.save(param.toNotReadChatMessage(translatedResponse.translatedText()))
         );
     }
 
@@ -91,9 +98,15 @@ public class ChatService {
         Translator translator = translatorHandler.getTranslator(TranslateProvider.GOOGLE.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
+        if(chatRoomEntryRepository.getAttendanceCount() == MAX_ATTENDANCE_COUNT ) {
+            return ChatMessageTranslateResults.to(
+                chatMessageRepository.save(param.toReadChatMessage()),
+                chatMessageRepository.save(param.toReadChatMessage(translatedResponse.translatedText()))
+            );
+        }
         return ChatMessageTranslateResults.to(
-            chatMessageRepository.save(param.toChatMessage()),
-            chatMessageRepository.save(param.toChatMessage(translatedResponse.translatedText()))
+            chatMessageRepository.save(param.toNotReadChatMessage()),
+            chatMessageRepository.save(param.toNotReadChatMessage(translatedResponse.translatedText()))
         );
     }
 
@@ -200,5 +213,6 @@ public class ChatService {
         chatRoomEntryRepository.removeMemberFromRoom(chatSession.toChatRoomEntryDeleteRepositoryRequest(sessionId));
         chatSessionRepository.removeSession(sessionId);
     }
+
 
 }
