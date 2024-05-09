@@ -5,10 +5,11 @@ import com.hellomeritz.chat.repository.chatentry.ChatRoomEntry;
 public record ChatRoomEntryAddRepositoryRequest(
     long chatRoomId,
     long userId,
-    boolean isFC
+    boolean isFC,
+    String sessionId
 ) {
 
     public ChatRoomEntry toChatRoomEntry() {
-        return new ChatRoomEntry(userId, isFC);
+        return new ChatRoomEntry(userId, isFC, sessionId);
     }
 }

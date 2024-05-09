@@ -2,7 +2,6 @@ package com.hellomeritz.chat.repository.chatentry;
 
 import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryAddRepositoryRequest;
 import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryDeleteRepositoryRequest;
-import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryFindRepositoryRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,11 +20,8 @@ public class ChatRoomEntryLocalRepository {
     }
 
     public void removeMemberFromRoom(ChatRoomEntryDeleteRepositoryRequest request) {
-        attendances.get(request.chatRoomId()).remove(request.toChatRoomEntry());
-    }
-
-    public boolean isMemberInRoom(ChatRoomEntryFindRepositoryRequest request) {
-        return attendances.get(request.chatRoomId()).contains(request.toChatRoomEntry());
+        attendances.get(request.chatRoomId())
+            .removeIf(chatRoomEntry -> chatRoomEntry.sessionId().equals(request.sessionId()));
     }
 
     public Map<Long, List<ChatRoomEntry>> look() {

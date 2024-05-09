@@ -2,9 +2,8 @@ package com.hellomeritz.chat.repository.chatentry;
 
 import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryAddRepositoryRequest;
 import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryDeleteRepositoryRequest;
-import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryFindRepositoryRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+
 
 import java.util.List;
 import java.util.Map;
@@ -29,10 +28,6 @@ public class ChatRoomEntryRepositoryImpl implements ChatRoomEntryRepository{
 
     }
 
-    @Override
-    public boolean isMemberInRoom(ChatRoomEntryFindRepositoryRequest request) {
-        return chatRoomEntryLocalRepository.isMemberInRoom(request);
-    }
 
     @Override
     public Map<Long, List<ChatRoomEntry>> look() {
