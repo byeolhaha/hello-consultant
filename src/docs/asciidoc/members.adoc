@@ -21,26 +21,10 @@ include::{snippets}/create-foreigner/response-fields.adoc[]
 include::{snippets}/save-foreignerInfo/http-request.adoc[]
 include::{snippets}/save-foreignerInfo/request-fields.adoc[]
 
-include::{snippets}/save-foreignerInfo/path-parameters.adoc[]
 === Response (Success)
 
 include::{snippets}/save-foreignerInfo/http-response.adoc[]
 include::{snippets}/save-foreignerInfo/response-fields.adoc[]
-
-
-== 외국인 IP 저장
-
-외국인이 IP 주소를 저장합니다.
-
-=== Request
-
-include::{snippets}/save-foreigner-ipAddress/http-request.adoc[]
-include::{snippets}/save-foreigner-ipAddress/path-parameters.adoc[]
-=== Response (Success)
-
-include::{snippets}/save-foreigner-ipAddress/http-response.adoc[]
-include::{snippets}/save-foreigner-ipAddress/response-fields.adoc[]
-
 
 == 설계사인지 외국인인지 확인 하는 API
 설계사인지 외국인인지 확인 하는 API
@@ -91,3 +75,14 @@ include::{snippets}/get-foreigner-info/path-parameters.adoc[]
 
 include::{snippets}/get-foreigner-info/http-response.adoc[]
 include::{snippets}/get-foreigner-info/response-fields.adoc[]
+
+== 상담원 매칭하는 API
+상담이 가능한 상담원을 랜덤으로 매칭합니다.
+
+=== Request
+
+include::{snippets}/match-consultant/http-request.adoc[]
+=== Response (Success)
+
+include::{snippets}/match-consultant/http-response.adoc[]
+include::{snippets}/match-consultant/response-fields.adoc[]

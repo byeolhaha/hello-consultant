@@ -45,20 +45,6 @@ include::{snippets}/change-audiofile-to-text/path-parameters.adoc[]
 include::{snippets}/change-audiofile-to-text/http-response.adoc[]
 include::{snippets}/change-audiofile-to-text/response-fields.adoc[]
 
-== TEXT 번역하기
-
-TEXT 번역하기
-
-=== Request
-
-include::{snippets}/translate-text/http-request.adoc[]
-include::{snippets}/translate-text/request-fields.adoc[]
-include::{snippets}/translate-text/path-parameters.adoc[]
-
-=== Response (Success)
-
-include::{snippets}/translate-text/http-response.adoc[]
-include::{snippets}/translate-text/response-fields.adoc[]
 
 == 채팅방 유저 정보 조회
 
@@ -79,7 +65,6 @@ include::{snippets}/get-chat-room-userInfo/response-fields.adoc[]
 
 === Request
 include::{snippets}/create-chat-room-password/http-request.adoc[]
-include::{snippets}/create-chat-room-password/path-parameters.adoc[]
 
 === Response (Success)
 include::{snippets}/create-chat-room-password/http-response.adoc[]
