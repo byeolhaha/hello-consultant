@@ -278,8 +278,8 @@ public class ChatFixture {
         return new ChatRoomEnterRequest(true);
     }
 
-    public static ChatRoomInfoParam chatRoomGetParamByForeigner(Long chatRoomId) {
-        return new ChatRoomInfoParam(chatRoomId, false);
+    public static ChatRoomInfoParam chatRoomGetParamByForeigner() {
+        return new ChatRoomInfoParam(1L, false);
     }
 
     public static ChatRoomInfoResults chatRoomInfoResults() {

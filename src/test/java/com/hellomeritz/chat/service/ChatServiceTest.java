@@ -148,7 +148,7 @@ class ChatServiceTest {
         chatMessageRepository.save(secondChatMessage);
 
         // when
-        ChatRoomInfoResults chatRoomInfo = chatService.getChatRoomInfo(ChatFixture.chatRoomGetParamByForeigner(chatRoomId));
+        ChatRoomInfoResults chatRoomInfo = chatService.getChatRoomInfo(ChatFixture.chatRoomGetParamByForeigner());
         ChatRoomInfoResult chatRoomInfoResult = chatRoomInfo.chatRoomInfoResults().get(0);
 
         // then
