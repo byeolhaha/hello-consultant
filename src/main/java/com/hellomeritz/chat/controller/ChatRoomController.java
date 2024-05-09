@@ -1,12 +1,10 @@
 package com.hellomeritz.chat.controller;
 
 import com.hellomeritz.chat.controller.dto.request.*;
-import com.hellomeritz.chat.controller.dto.response.ChatMessageGetResponses;
-import com.hellomeritz.chat.controller.dto.response.ChatRoomCreateResponse;
-import com.hellomeritz.chat.controller.dto.response.ChatRoomPasswordCheckResponse;
-import com.hellomeritz.chat.controller.dto.response.ChatRoomUserInfoResponse;
+import com.hellomeritz.chat.controller.dto.response.*;
 import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.param.ChatRoomUserInfoParam;
+import com.hellomeritz.chat.service.dto.result.ChatRoomInfoResults;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -27,69 +25,70 @@ public class ChatRoomController {
     }
 
     @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE
+        consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ChatRoomCreateResponse> createChatRoom(
-            @RequestBody @Valid ChatRoomCreateRequest request) {
+        @RequestBody @Valid ChatRoomCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ChatRoomCreateResponse.to(
-                                chatService.createChatRoom(request.toChatRoomCreateRequest())
-                        )
-                );
+            .body(ChatRoomCreateResponse.to(
+                    chatService.createChatRoom(request.toChatRoomCreateRequest())
+                )
+            );
     }
 
     @GetMapping(
-            path = "/{chatRoomId}/messages",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        path = "/{chatRoomId}/messages",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ChatMessageGetResponses> getChatMessages(
-            @PathVariable @Positive Long chatRoomId,
-            @ModelAttribute @Valid ChatMessageGetRequest request
+        @PathVariable @Positive Long chatRoomId,
+        @ModelAttribute @Valid ChatMessageGetRequest request
     ) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ChatMessageGetResponses.to(
-                        chatService.getChatMessages(request.toChatMessageGetParam(chatRoomId))
-                ));
+            .body(ChatMessageGetResponses.to(
+                chatService.getChatMessages(request.toChatMessageGetParam(chatRoomId))
+            ));
     }
 
     @GetMapping(
-            path = "/{chatRoomId}",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        path = "/{chatRoomId}",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ChatRoomUserInfoResponse> getChatRoomUserInfo(
-            @PathVariable @Positive Long chatRoomId
+        @PathVariable @Positive Long chatRoomId
     ) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ChatRoomUserInfoResponse.to(
-                        chatService.getChatRoomUserInfo(ChatRoomUserInfoParam.to(chatRoomId))
-                ));
+            .body(ChatRoomUserInfoResponse.to(
+                chatService.getChatRoomUserInfo(ChatRoomUserInfoParam.to(chatRoomId))
+            ));
     }
 
     @PostMapping(
-            path = "/password"
+        path = "/password"
     )
     public ResponseEntity<Void> createPassword(
-            @Valid @RequestBody ChatRoomPasswordCreateRequest request) {
+        @Valid @RequestBody ChatRoomPasswordCreateRequest request) {
         chatService.createChatRoomPassword(request.toChatRoomPasswordCreateParam());
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping(
-            path = "/{chatRoomId}"
+        path = "/{chatRoomId}"
     )
     public ResponseEntity<ChatRoomPasswordCheckResponse> checkPassword(
-            @Positive @NotNull @PathVariable Long chatRoomId,
-            @Valid @RequestBody ChatRoomPasswordCheckRequest request) {
+        @Positive @NotNull @PathVariable Long chatRoomId,
+        @Valid @RequestBody ChatRoomPasswordCheckRequest request) {
         boolean isMyUser = chatService.checkChatRoomPassword
-                (request.toChatRoomPasswordCheckParam(chatRoomId));
+            (request.toChatRoomPasswordCheckParam(chatRoomId));
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ChatRoomPasswordCheckResponse.to(isMyUser));
+            .body(ChatRoomPasswordCheckResponse.to(isMyUser));
     }
 
     @PatchMapping(
-        path = "/{chatRoomId}/messages"
+        path = "/{chatRoomId}/messages",
+        consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Void> enterChatRoom(
         @Positive @PathVariable Long chatRoomId,
@@ -100,5 +99,16 @@ public class ChatRoomController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @GetMapping(
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ChatRoomInfoResponses> getRoomInfo(
+        @Valid @ModelAttribute ChatRoomInfoRequest request
+    ) {
+        ChatRoomInfoResults chatRoomInfo = chatService.getChatRoomInfo(request.toChatRoomInfoParam());
+
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(ChatRoomInfoResponses.to(chatRoomInfo));
+    }
 
 }
