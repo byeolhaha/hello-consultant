@@ -4,13 +4,9 @@
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    var userId;
-    var fcId;
-    var chatRoomId;
-
     var form = document.getElementById("clientSurveyForm");
 
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", async function(event) {
         event.preventDefault(); // 기본 제출 동작 방지
 
         // 설문조사 데이터 수집
@@ -21,43 +17,44 @@ document.addEventListener("DOMContentLoaded", function() {
         var visaType = formData.get("visaType");
         var hasResidentCard = formData.get("hasResidentCard") == "Yes" ? true : false;
 
-        processSurveyData(name, birthDate, language, visaType, hasResidentCard);
+        await processSurveyData(name, birthDate, language, visaType, hasResidentCard);
     });
 
 });
 
-function processSurveyData(name, birthDate, language, visaType, hasResidentCard) {
-    fetch('/users', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            language: language,
-            visaType: visaType,
-            hasResidentCard: hasResidentCard,
-            birthDate: birthDate,
-            name: name
-        })
-    })
-    .then(response => {
+async function processSurveyData(name, birthDate, language, visaType, hasResidentCard) {
+    try {
+        const response = await fetch('/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                language: language,
+                visaType: visaType,
+                hasResidentCard: hasResidentCard,
+                birthDate: birthDate,
+                name: name
+            })
+        });
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
-    })
-    .then(data => {
+
+        const data = await response.json();
         userId = data.userId;
+
         alert('설문조사 완료');
-        createChatRoom(userId);
-    })
-    .catch(error => {
+        await matchConsultant(); // 이 부분을 수정하여 await 키워드를 사용하여 기다리도록 변경
+
+    } catch (error) {
         console.error('Error:', error );
         alert('설문조사 실패');
-    });
+    }
 }
 
-async function createChatRoom(userId) {
+async function createChatRoom() {
     try {
         const response = await fetch('/chat-rooms', {
             method: 'POST',
@@ -65,7 +62,7 @@ async function createChatRoom(userId) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                 fcId: 1,
+                 fcId: fcId,
                  userId: userId
             })
         });
@@ -81,6 +78,33 @@ async function createChatRoom(userId) {
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
         alert('채팅방 생성 실패');
+        throw error;
+    }
+}
+
+async function matchConsultant() {
+    try {
+        const response = await fetch('/consultants', {
+            method: 'PATCH', // PATCH 메서드 사용
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify({}) // 빈 JSON 객체 전송
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        fcId = data.fcId;
+
+        console.log("fcId:", fcId);
+
+        await createChatRoom();
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        alert('상담 가능한 설계사가 없습니다.');
         throw error;
     }
 }

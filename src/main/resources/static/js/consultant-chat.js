@@ -108,7 +108,6 @@ function findClientId() {
         .then(data => {
             clientId = data.userId;
             consultantId = data.fcId;
-            console.log("dddclientId:", clientId);
         });
 }
 

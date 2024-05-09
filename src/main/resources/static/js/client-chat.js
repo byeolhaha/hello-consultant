@@ -7,7 +7,7 @@ let chatClient = null;
 let clientId = null;
 let chatRoomId = null;
 let clientLanguage = null;
-let consultantId = 1;
+let consultantId = null;
 let nextChatMessageId = '';
 let hasNext = true;
 
@@ -86,11 +86,10 @@ const connectChat = async () => {
     });
 }
 
-// 방 번호받고 입장, 웹소켓 실행
 window.onload = async function() {
     await connectChat();
-    await findClientIdAndLanguage();
-    await getConsultantInfo();
+    await findRoomInfo();
+    await findClientAndConsultantInfo();
 
     const messageList = document.getElementById('message-list');
 
@@ -99,20 +98,21 @@ window.onload = async function() {
     messageList.addEventListener('scroll', handleScroll);
 };
 
-async function findClientIdAndLanguage() {
-    await findClientId();
+async function findClientAndConsultantInfo() {
+    await getConsultantInfo();
     await findClientLanguage();
 }
 
-function findClientId() {
+async function findRoomInfo() {
     return fetch(`/chat-rooms/${chatRoomId}`, {})
         .then(response => response.json())
         .then(data => {
             clientId = data.userId;
+            consultantId = data.fcId;
         });
 }
 
-function getConsultantInfo() {
+async function getConsultantInfo() {
     return fetch(`/users/${consultantId}/fc-info`, {
             method: 'GET',
             headers: {
@@ -121,41 +121,40 @@ function getConsultantInfo() {
         })
         .then(response => response.json())
         .then(data => {
-              console.log("data:",data);
-              const profileImage = document.querySelector('.profile-image');
-              profileImage.innerHTML = `<img src="${data.profileUrl}" alt="프로필 이미지">`;
+            console.log("data:", data);
+            const profileImage = document.querySelector('.profile-image');
+            profileImage.innerHTML = `<img src="${data.profileUrl}" alt="프로필 이미지">`;
 
-              const profileName = document.querySelector('.profile-name');
-              profileName.textContent = data.name + ' 상담사';
+            const profileName = document.querySelector('.profile-name');
+            profileName.textContent = data.name + ' 상담사';
 
-              const introduce = document.querySelector('.introduce');
-              introduce.textContent = data.introduceMessage + '🖐️';
+            const introduce = document.querySelector('.introduce');
+            introduce.textContent = data.introduceMessage + '🖐️';
 
-              const telNumber = document.querySelector('.telNumber');
-              telNumber.textContent = 'Tel ☎️ : ' + data.phoneNumber;
+            const telNumber = document.querySelector('.telNumber');
+            telNumber.textContent = 'Tel ☎️ : ' + data.phoneNumber;
         });
 }
 
 async function findClientLanguage() {
-    console.log("clientId:", clientId);
     return fetch(`/users/${clientId}/foreigner-info`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        clientLanguage = data.sourceLanguage;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            clientLanguage = data.sourceLanguage;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function sendMessage() {
