@@ -263,4 +263,8 @@ public class ChatFixture {
         );
     }
 
+    public static ChatRoomEnterRequest chatRoomEnterRequest() {
+        return new ChatRoomEnterRequest(true);
+    }
+
 }

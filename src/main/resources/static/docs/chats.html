@@ -508,29 +508,33 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 774
+Content-Length: 874
 
 {
   "chatMessages" : [ {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2c",
     "contents" : "안녕하세요 반갑습니다.",
     "createdAt" : "2024-03-01T11:20",
-    "isFC" : true
+    "isFC" : true,
+    "readOrNot" : true
   }, {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2d",
     "contents" : "hello nice meet you",
     "createdAt" : "2024-03-01T11:21",
-    "isFC" : true
+    "isFC" : true,
+    "readOrNot" : true
   }, {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2e",
     "contents" : "hello my name is byeol",
     "createdAt" : "2024-03-01T11:22",
-    "isFC" : false
+    "isFC" : false,
+    "readOrNot" : true
   }, {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2f",
     "contents" : "안녕하세요 제 이름은 별입니다.",
     "createdAt" : "2024-03-01T11:23",
-    "isFC" : true
+    "isFC" : true,
+    "readOrNot" : true
   } ],
   "nextChatMessageId" : "66172f7ab156dc2cf99c4b2c",
   "hasNext" : true
@@ -570,6 +574,11 @@ Content-Length: 774
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatMessages[].isFC</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">설계사가 보낸 메세지인지 고객인 보낸 메세지인지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatMessages[].readOrNot</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅메세지 읽음 여부</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nextChatMessageId</code></p></td>
@@ -749,7 +758,7 @@ Content-Length: 129
 
 {
   "textBySpeech" : "Hello my name is byeol",
-  "createdAt" : "2024-05-09T11:25:37.577125600",
+  "createdAt" : "2024-05-09T18:20:56.195459500",
   "sttProvider" : "WHISPER"
 }</code></pre>
 </div>
@@ -955,11 +964,62 @@ Content-Length: 25
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_채팅방_입장">채팅방 입장</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>채팅방에 입장하면 호출하는 API입니다.
+입장하는 즉시 읽지 않은 상대방의 메세지가 읽음 처리로 변경됩니다.</p>
+</div>
+<div class="sect2">
+<h3 id="_request_7">Request</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /chat-rooms/1/messages HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 21
+Host: localhost:8080
+
+{
+  "isFC" : true
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /chat-rooms/{chatRoomId}/messages</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_7">Response (Success)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-05-09 11:11:41 +0900
+Last updated 2024-05-09 18:20:50 +0900
 </div>
 </div>
 </body>

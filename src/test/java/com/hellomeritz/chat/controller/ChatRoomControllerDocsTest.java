@@ -157,6 +157,27 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
             );
     }
 
+    @DisplayName("채팅방에 입장하는 API")
+    @Test
+    void enterChatRoom() throws Exception {
+        mockMvc.perform(patch("/chat-rooms/{chatRoomId}/messages", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(objectMapper.writeValueAsString(ChatFixture.chatRoomEnterRequest()))
+            )
+            .andDo(print())
+            .andExpect(status().isNoContent())
+            .andDo(document("enter-chat-room",
+                    pathParameters(
+                        parameterWithName("chatRoomId").description("채팅방 id")
+                    ),
+                    requestFields(
+                        fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("입장한 유저가 상담원인가?")
+                    )
+                )
+            );
+    }
+
 }
 
 

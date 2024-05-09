@@ -485,46 +485,52 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_success_6">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#Member">외국인 회원 생성하기</a>
+<li><a href="#_채팅방_입장">채팅방 입장</a>
 <ul class="sectlevel2">
 <li><a href="#_request_7">Request</a></li>
 <li><a href="#_response_success_7">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_외국인_설문_내용_저장">외국인 설문 내용 저장</a>
+<li><a href="#Member">외국인 회원 생성하기</a>
 <ul class="sectlevel2">
 <li><a href="#_request_8">Request</a></li>
 <li><a href="#_response_success_8">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_설계사인지_외국인인지_확인_하는_api">설계사인지 외국인인지 확인 하는 API</a>
+<li><a href="#_외국인_설문_내용_저장">외국인 설문 내용 저장</a>
 <ul class="sectlevel2">
 <li><a href="#_request_9">Request</a></li>
 <li><a href="#_response_success_9">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_설계사에게_외국인_채팅방에_입장했음을_알리는_api">설계사에게 외국인 채팅방에 입장했음을 알리는 API</a>
+<li><a href="#_설계사인지_외국인인지_확인_하는_api">설계사인지 외국인인지 확인 하는 API</a>
 <ul class="sectlevel2">
 <li><a href="#_request_10">Request</a></li>
 <li><a href="#_response_success_10">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_설계사의_정보를_조회하는_api">설계사의 정보를 조회하는 API</a>
+<li><a href="#_설계사에게_외국인_채팅방에_입장했음을_알리는_api">설계사에게 외국인 채팅방에 입장했음을 알리는 API</a>
 <ul class="sectlevel2">
 <li><a href="#_request_11">Request</a></li>
 <li><a href="#_response_success_11">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_외국인_정보를_조회하는_api">외국인 정보를 조회하는 API</a>
+<li><a href="#_설계사의_정보를_조회하는_api">설계사의 정보를 조회하는 API</a>
 <ul class="sectlevel2">
 <li><a href="#_request_12">Request</a></li>
 <li><a href="#_response_success_12">Response (Success)</a></li>
 </ul>
 </li>
-<li><a href="#_상담원_매칭하는_api">상담원 매칭하는 API</a>
+<li><a href="#_외국인_정보를_조회하는_api">외국인 정보를 조회하는 API</a>
 <ul class="sectlevel2">
 <li><a href="#_request_13">Request</a></li>
 <li><a href="#_response_success_13">Response (Success)</a></li>
+</ul>
+</li>
+<li><a href="#_상담원_매칭하는_api">상담원 매칭하는 API</a>
+<ul class="sectlevel2">
+<li><a href="#_request_14">Request</a></li>
+<li><a href="#_response_success_14">Response (Success)</a></li>
 </ul>
 </li>
 </ul>
@@ -599,29 +605,33 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 774
+Content-Length: 874
 
 {
   "chatMessages" : [ {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2c",
     "contents" : "안녕하세요 반갑습니다.",
     "createdAt" : "2024-03-01T11:20",
-    "isFC" : true
+    "isFC" : true,
+    "readOrNot" : true
   }, {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2d",
     "contents" : "hello nice meet you",
     "createdAt" : "2024-03-01T11:21",
-    "isFC" : true
+    "isFC" : true,
+    "readOrNot" : true
   }, {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2e",
     "contents" : "hello my name is byeol",
     "createdAt" : "2024-03-01T11:22",
-    "isFC" : false
+    "isFC" : false,
+    "readOrNot" : true
   }, {
     "chatMessageId" : "66172f7ab156dc2cf99c4b2f",
     "contents" : "안녕하세요 제 이름은 별입니다.",
     "createdAt" : "2024-03-01T11:23",
-    "isFC" : true
+    "isFC" : true,
+    "readOrNot" : true
   } ],
   "nextChatMessageId" : "66172f7ab156dc2cf99c4b2c",
   "hasNext" : true
@@ -661,6 +671,11 @@ Content-Length: 774
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatMessages[].isFC</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">설계사가 보낸 메세지인지 고객인 보낸 메세지인지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatMessages[].readOrNot</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅메세지 읽음 여부</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nextChatMessageId</code></p></td>
@@ -840,7 +855,7 @@ Content-Length: 129
 
 {
   "textBySpeech" : "Hello my name is byeol",
-  "createdAt" : "2024-05-09T11:25:37.577125600",
+  "createdAt" : "2024-05-09T18:20:56.195459500",
   "sttProvider" : "WHISPER"
 }</code></pre>
 </div>
@@ -1047,13 +1062,64 @@ Content-Length: 25
 </div>
 </div>
 <div class="sect1">
+<h2 id="_채팅방_입장"><a class="link" href="#_채팅방_입장">채팅방 입장</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>채팅방에 입장하면 호출하는 API입니다.
+입장하는 즉시 읽지 않은 상대방의 메세지가 읽음 처리로 변경됩니다.</p>
+</div>
+<div class="sect2">
+<h3 id="_request_7"><a class="link" href="#_request_7">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /chat-rooms/1/messages HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 21
+Host: localhost:8080
+
+{
+  "isFC" : true
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /chat-rooms/{chatRoomId}/messages</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_7"><a class="link" href="#_response_success_7">Response (Success)</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="Member"><a class="link" href="#Member">외국인 회원 생성하기</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>외국인 회원을 생성합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_7"><a class="link" href="#_request_7">Request</a></h3>
+<h3 id="_request_8"><a class="link" href="#_request_8">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users HTTP/1.1
@@ -1063,7 +1129,7 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_success_7"><a class="link" href="#_response_success_7">Response (Success)</a></h3>
+<h3 id="_response_success_8"><a class="link" href="#_response_success_8">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1106,7 +1172,7 @@ Content-Length: 20
 <p>외국인이 채팅을 시작하기 전 작성하는 설문 내용을 저장합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_8"><a class="link" href="#_request_8">Request</a></h3>
+<h3 id="_request_9"><a class="link" href="#_request_9">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users HTTP/1.1
@@ -1166,7 +1232,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect2">
-<h3 id="_response_success_8"><a class="link" href="#_response_success_8">Response (Success)</a></h3>
+<h3 id="_response_success_9"><a class="link" href="#_response_success_9">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1209,7 +1275,7 @@ Content-Length: 20
 <p>설계사인지 외국인인지 확인 하는 API</p>
 </div>
 <div class="sect2">
-<h3 id="_request_9"><a class="link" href="#_request_9">Request</a></h3>
+<h3 id="_request_10"><a class="link" href="#_request_10">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1 HTTP/1.1
@@ -1218,7 +1284,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. /users/{userId}</caption>
+<caption class="title">Table 6. /users/{userId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1238,7 +1304,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_response_success_9"><a class="link" href="#_response_success_9">Response (Success)</a></h3>
+<h3 id="_response_success_10"><a class="link" href="#_response_success_10">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1282,7 +1348,7 @@ Content-Length: 21
 외국인 채팅을 보낼 수 있음으로 이에 대해서 설계사에게 알람을 보냅니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_10"><a class="link" href="#_request_10">Request</a></h3>
+<h3 id="_request_11"><a class="link" href="#_request_11">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/alarm?chatRoomId=1 HTTP/1.1
@@ -1290,51 +1356,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /users/{fcId}/alarm</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fcId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설계사의 ID</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_response_success_10"><a class="link" href="#_response_success_10">Response (Success)</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_설계사의_정보를_조회하는_api"><a class="link" href="#_설계사의_정보를_조회하는_api">설계사의 정보를 조회하는 API</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>설계사의 정보를 조회하는 API</p>
-</div>
-<div class="sect2">
-<h3 id="_request_11"><a class="link" href="#_request_11">Request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/fc-info HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /users/{fcId}/fc-info</caption>
+<caption class="title">Table 7. /users/{fcId}/alarm</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1355,6 +1377,50 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="sect2">
 <h3 id="_response_success_11"><a class="link" href="#_response_success_11">Response (Success)</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_설계사의_정보를_조회하는_api"><a class="link" href="#_설계사의_정보를_조회하는_api">설계사의 정보를 조회하는 API</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>설계사의 정보를 조회하는 API</p>
+</div>
+<div class="sect2">
+<h3 id="_request_12"><a class="link" href="#_request_12">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/fc-info HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. /users/{fcId}/fc-info</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fcId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설계사의 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_12"><a class="link" href="#_response_success_12">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1421,7 +1487,7 @@ Content-Length: 252
 <p>외국인 정보를 조회하는 API</p>
 </div>
 <div class="sect2">
-<h3 id="_request_12"><a class="link" href="#_request_12">Request</a></h3>
+<h3 id="_request_13"><a class="link" href="#_request_13">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/1/foreigner-info HTTP/1.1
@@ -1429,7 +1495,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. /users/{foreignerId}/foreigner-info</caption>
+<caption class="title">Table 9. /users/{foreignerId}/foreigner-info</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1449,7 +1515,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_response_success_12"><a class="link" href="#_response_success_12">Response (Success)</a></h3>
+<h3 id="_response_success_13"><a class="link" href="#_response_success_13">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1522,7 +1588,7 @@ Content-Length: 151
 <p>상담이 가능한 상담원을 랜덤으로 매칭합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="_request_13"><a class="link" href="#_request_13">Request</a></h3>
+<h3 id="_request_14"><a class="link" href="#_request_14">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /consultants HTTP/1.1
@@ -1532,7 +1598,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_success_13"><a class="link" href="#_response_success_13">Response (Success)</a></h3>
+<h3 id="_response_success_14"><a class="link" href="#_response_success_14">Response (Success)</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
