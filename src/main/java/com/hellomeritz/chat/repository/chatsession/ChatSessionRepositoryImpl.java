@@ -1,6 +1,7 @@
 package com.hellomeritz.chat.repository.chatsession;
 
-import com.hellomeritz.chat.repository.chatentry.ChatRoomEntry;
+import com.hellomeritz.chat.repository.chatsession.dto.ChatSessionAddRepositoryRequest;
+import com.hellomeritz.chat.repository.chatsession.dto.ChatSessionChangeRepositoryRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +24,12 @@ public class ChatSessionRepositoryImpl implements ChatSessionRepository {
     }
 
     @Override
-    public ChatRoomEntry getChatRoomEntry(String sessionId) {
-        return chatSessionLocalRepository.getChatRoomEntry(sessionId);
+    public ChatSession getChatSession(String sessionId) {
+        return chatSessionLocalRepository.getChatSession(sessionId);
+    }
+
+    @Override
+    public void changeChatRoomEntry(ChatSessionChangeRepositoryRequest request) {
+        chatSessionLocalRepository.changeChatRoomEntry(request);
     }
 }
