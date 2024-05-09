@@ -214,5 +214,8 @@ public class ChatService {
         chatSessionRepository.removeSession(sessionId);
     }
 
+    public void enterChatRoom(ChatRoomEnterParam param) {
+        chatMessageRepository.readPartnerMessage(param.toChatMessageReadRepositoryRequest());
+    }
 
 }
