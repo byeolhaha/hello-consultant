@@ -28,4 +28,8 @@ public class ChatRoomEntryLocalRepository {
         return attendances;
     }
 
+    public int getAttendanceCount() {
+        return attendances.size();
+    }
+
 }

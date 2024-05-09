@@ -33,4 +33,9 @@ public class ChatRoomEntryRepositoryImpl implements ChatRoomEntryRepository{
     public Map<Long, List<ChatRoomEntry>> look() {
         return chatRoomEntryLocalRepository.look();
     }
+
+    @Override
+    public int getAttendanceCount() {
+        return chatRoomEntryLocalRepository.getAttendanceCount();
+    }
 }

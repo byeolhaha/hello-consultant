@@ -13,4 +13,6 @@ public interface ChatRoomEntryRepository {
     void removeMemberFromRoom(ChatRoomEntryDeleteRepositoryRequest request);
 
     Map<Long, List<ChatRoomEntry>> look();
+
+    int getAttendanceCount();
 }
