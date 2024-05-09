@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 async function fetchChatMessages() {
     const requestUrl = `/chat-rooms/${chatRoomId}/messages?myId=${clientId}&nextChatMessageId=${nextChatMessageId}&isFC=false`;
-    console.log('Request URL:', requestUrl); // 요청 URL 출력
 
     const response = await fetch(requestUrl, {
         method: 'GET',
@@ -92,6 +91,7 @@ const connectChat = async () => {
 }
 
 window.onload = async function() {
+    await enterChatRoom();
     await findRoomInfo();
     await connectChat();
     await findClientAndConsultantInfo();
@@ -200,4 +200,26 @@ function displayMessages() {
 function scrollDown() {
     messageList = document.getElementById('message-list');
     messageList.scrollTop = messageList.scrollHeight;
+}
+
+async function enterChatRoom() {
+    try {
+        const response = await fetch(`/chat-rooms/${chatRoomId}/messages`, {
+            method: 'PATCH', // PATCH 메서드 사용
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               isFC: false
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
 }

@@ -92,6 +92,7 @@ const connectChat = async () => {
 
 // 방 번호받고 입장, 웹소켓 실행
 window.onload = async function() {
+    await enterChatRoom();
     await findClientIdAndLanguage();
     await connectChat();
 };
@@ -191,4 +192,26 @@ function displayMessages() {
 function scrollDown() {
     messageList = document.getElementById('message-list');
     messageList.scrollTop = messageList.scrollHeight;
+}
+
+async function enterChatRoom() {
+    try {
+        const response = await fetch(`/chat-rooms/${chatRoomId}/messages`, {
+            method: 'PATCH', // PATCH 메서드 사용
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               isFC: true
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
 }
