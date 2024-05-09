@@ -8,7 +8,7 @@ public record ChatRoomUserInfoResult(
 ) {
     public static ChatRoomUserInfoResult to(ChatRoomUserInfo chatRoomUserInfo) {
         return new ChatRoomUserInfoResult(
-                chatRoomUserInfo.getUserId(),
+                chatRoomUserInfo.getForeignerId(),
                 chatRoomUserInfo.getFcId()
         );
     }
