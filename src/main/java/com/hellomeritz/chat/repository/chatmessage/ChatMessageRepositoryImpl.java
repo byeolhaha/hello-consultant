@@ -1,9 +1,7 @@
 package com.hellomeritz.chat.repository.chatmessage;
 
 import com.hellomeritz.chat.domain.ChatMessage;
-import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
-import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
-import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageReadRepositoryRequest;
+import com.hellomeritz.chat.repository.chatmessage.dto.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,6 +28,11 @@ public class ChatMessageRepositoryImpl implements ChatMessageRepository {
     @Override
     public void readPartnerMessage(ChatMessageReadRepositoryRequest request) {
         chatMessageMongoRepository.readPartnerMessage(request);
+    }
+
+    @Override
+    public ChatMessageRecentGetRepositoryResponse getRecentChatMessages(ChatMessageRecentGetRepositoryRequest request) {
+        return chatMessageMongoRepository.getRecentChatMessages(request);
     }
 
     @Override
