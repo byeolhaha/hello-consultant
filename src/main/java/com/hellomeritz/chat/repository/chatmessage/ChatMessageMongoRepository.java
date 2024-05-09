@@ -3,12 +3,15 @@ package com.hellomeritz.chat.repository.chatmessage;
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageReadRepositoryRequest;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageRecentGetRepositoryResponses;
 import io.micrometer.common.util.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -52,6 +55,17 @@ public class ChatMessageMongoRepository {
 
     public void deleteAll() {
         mongoTemplate.findAllAndRemove(new Query(), ChatMessage.class);
+    }
+
+    public void readPartnerMessage(ChatMessageReadRepositoryRequest request) {
+        Query query = new Query(
+            Criteria.where("chatRoomId").is(request.chatRoomId())
+                .and("isFC").is(!request.isFC())
+                .and("readOrNot").is(false));
+
+        Update update = new Update().set("readOrNot", true);
+
+        mongoTemplate.updateMulti(query, update, ChatMessage.class);
     }
 
     private static boolean hasNext(int returnSize, int pageSize) {
