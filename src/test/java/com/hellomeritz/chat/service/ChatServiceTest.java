@@ -7,9 +7,7 @@ import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.*;
-import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
-import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
-import com.hellomeritz.chat.service.dto.result.ChatRoomUserInfoResult;
+import com.hellomeritz.chat.service.dto.result.*;
 import com.hellomeritz.global.ChatFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -121,7 +119,7 @@ class ChatServiceTest {
         chatMessageRepository.deleteAll();
 
         Long chatRoomId = 1L;
-        ChatMessage chatMessage = ChatFixture.readNotChatMessageByFC(chatRoomId);
+        ChatMessage chatMessage = ChatFixture.firstReadNotChatMessageByFC(chatRoomId);
         chatMessageRepository.save(chatMessage);
 
         // when
@@ -133,6 +131,30 @@ class ChatServiceTest {
         chatMessageByCursor.chatMessages()
             .stream().filter(ChatMessage::getIsFC)
             .forEach(chaMessageByFC -> assertThat(chaMessageByFC.getReadOrNot()).isTrue());
+    }
+
+    @DisplayName("채팅방 목록을 불러오면 각 방 별 최신 메세지와 내가 읽지 않은 메세지의 수, 생성일을 확인할 수 있다.")
+    @Test
+    void getChatRoomInfo() {
+        // given
+        chatMessageRepository.deleteAll();
+
+        ChatRoom savedChatRoom = chatRoomRepository.save(ChatFixture.chatRoom());
+
+        Long chatRoomId = savedChatRoom.getChatRoomId();
+        ChatMessage firstChatMessage = ChatFixture.firstReadNotChatMessageByFC(chatRoomId);
+        chatMessageRepository.save(firstChatMessage);
+        ChatMessage secondChatMessage = ChatFixture.secondReadNotChatMessageByFC(chatRoomId);
+        chatMessageRepository.save(secondChatMessage);
+
+        // when
+        ChatRoomInfoResults chatRoomInfo = chatService.getChatRoomInfo(ChatFixture.chatRoomGetParamByForeigner(chatRoomId));
+        ChatRoomInfoResult chatRoomInfoResult = chatRoomInfo.chatRoomInfoResults().get(0);
+
+        // then
+        assertThat(chatRoomInfoResult.chatRoomId()).isEqualTo(chatRoomId);
+        assertThat(chatRoomInfoResult.contents()).isEqualTo(secondChatMessage.getContents());
+        assertThat(chatRoomInfoResult.notReadCount()).isEqualTo(2);
     }
 
 }

@@ -37,9 +37,20 @@ public class ChatFixture {
         );
     }
 
-    public static ChatMessage readNotChatMessageByFC(Long chatRoomId) {
+    public static ChatMessage firstReadNotChatMessageByFC(Long chatRoomId) {
         return ChatMessage.of(
             "안녕하세요 반가워요",
+            ChatMessageType.TEXT.name(),
+            FC_ID,
+            true,
+            chatRoomId,
+            false
+        );
+    }
+
+    public static ChatMessage secondReadNotChatMessageByFC(Long chatRoomId) {
+        return ChatMessage.of(
+            "어떤 일로 문의주셨나요?",
             ChatMessageType.TEXT.name(),
             FC_ID,
             true,
@@ -175,7 +186,7 @@ public class ChatFixture {
                         "hello my name is kim byeol",
                         false,
                         LocalDateTime.now()
-                        ),
+                    ),
                 new ChatMessageTranslateResults.ChatMessageTranslateResult(
                     "66172f7ab156dc2cf99c4b2d",
                     "안녕하세요 내 이름은 김별입니다",
@@ -265,6 +276,10 @@ public class ChatFixture {
 
     public static ChatRoomEnterRequest chatRoomEnterRequest() {
         return new ChatRoomEnterRequest(true);
+    }
+
+    public static ChatRoomInfoParam chatRoomGetParamByForeigner(Long chatRoomId) {
+        return new ChatRoomInfoParam(chatRoomId, false);
     }
 
 }
