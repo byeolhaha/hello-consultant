@@ -282,4 +282,21 @@ public class ChatFixture {
         return new ChatRoomInfoParam(chatRoomId, false);
     }
 
+    public static ChatRoomInfoResults chatRoomInfoResults() {
+        return new ChatRoomInfoResults(
+            List.of(
+                new ChatRoomInfoResult(
+                    1L,
+                    "안녕하세요",
+                    LocalDateTime.now(),
+                    3
+                ),
+                new ChatRoomInfoResult(
+                    2L,
+                    "자동차 보험 들고 싶어요",
+                    LocalDateTime.now(),
+                    4
+                )
+            ));
+    }
 }
