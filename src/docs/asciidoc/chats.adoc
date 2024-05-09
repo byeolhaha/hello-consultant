@@ -79,3 +79,28 @@ include::{snippets}/check-chat-room-password/path-parameters.adoc[]
 
 === Response (Success)
 include::{snippets}/check-chat-room-password/http-response.adoc[]
+
+== 채팅방 입장
+채팅방에 입장하면 호출하는 API입니다.
+입장하는 즉시 읽지 않은 상대방의 메세지가 읽음 처리로 변경됩니다.
+
+=== Request
+include::{snippets}/enter-chat-room/http-request.adoc[]
+include::{snippets}/enter-chat-room/path-parameters.adoc[]
+
+=== Response (Success)
+include::{snippets}/enter-chat-room/http-response.adoc[]
+
+== 채팅방 목록 보기
+
+채팅방 목록을 확인합니다.
+
+=== Request
+
+include::{snippets}/get-chat-room-info/http-request.adoc[]
+include::{snippets}/get-chat-room-info/query-parameters.adoc[]
+
+=== Response (Success)
+
+include::{snippets}/get-chat-room-info/http-response.adoc[]
+include::{snippets}/get-chat-room-info/response-fields.adoc[]
