@@ -1,9 +1,12 @@
 package com.hellomeritz.chat.repository.chatroom;
 
 import com.hellomeritz.chat.domain.ChatRoom;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface ChatRoomRepository {
 
@@ -16,4 +19,8 @@ public interface ChatRoomRepository {
     ChatRoom getChatRoom(long chatRoomId);
 
     ChatRoomPasswordInfo getChatRoomEnterInfo(long chatRoomId);
+
+    List<ChatRoomGetInfo> findChatRoomsByForeigner( Long foreignerId);
+
+    List<ChatRoomGetInfo> findChatRoomsByConsultant( Long foreignerId);
 }
