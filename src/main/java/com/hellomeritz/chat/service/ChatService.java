@@ -12,10 +12,10 @@ import com.hellomeritz.chat.global.translator.Translator;
 import com.hellomeritz.chat.global.translator.TranslatorHandler;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploader;
-import com.hellomeritz.chat.repository.chatentry.ChatRoomEntry;
 import com.hellomeritz.chat.repository.chatentry.ChatRoomEntryRepository;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageRecentGetRepositoryResponse;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
@@ -28,13 +28,12 @@ import com.hellomeritz.global.CircuitBreakerBot;
 import com.hellomeritz.member.global.IpSensor;
 import com.hellomeritz.member.global.encryption.PasswordEncoder;
 import com.hellomeritz.member.global.encryption.dto.EncryptionResponse;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ChatService {
@@ -80,7 +79,7 @@ public class ChatService {
         Translator translator = translatorHandler.getTranslator(TranslateProvider.DEEPL.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
-        if(chatRoomEntryRepository.getAttendanceCount() == MAX_ATTENDANCE_COUNT ) {
+        if (chatRoomEntryRepository.getAttendanceCount() == MAX_ATTENDANCE_COUNT) {
             return ChatMessageTranslateResults.to(
                 chatMessageRepository.save(param.toReadChatMessage()),
                 chatMessageRepository.save(param.toReadChatMessage(translatedResponse.translatedText()))
@@ -98,7 +97,7 @@ public class ChatService {
         Translator translator = translatorHandler.getTranslator(TranslateProvider.GOOGLE.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
-        if(chatRoomEntryRepository.getAttendanceCount() == MAX_ATTENDANCE_COUNT ) {
+        if (chatRoomEntryRepository.getAttendanceCount() == MAX_ATTENDANCE_COUNT) {
             return ChatMessageTranslateResults.to(
                 chatMessageRepository.save(param.toReadChatMessage()),
                 chatMessageRepository.save(param.toReadChatMessage(translatedResponse.translatedText()))
@@ -200,11 +199,11 @@ public class ChatService {
         return ChatRoomEntryInSessions.to(chatSessionRepository.getChatSession(sessionId));
     }
 
-    public void addChatRoomEntry(ChatRoomEntryAddParam param){
+    public void addChatRoomEntry(ChatRoomEntryAddParam param) {
         chatRoomEntryRepository.addMemberToRoom(param.toChatRoomEntryAddRepositoryRequest());
     }
 
-    public void changeSession(ChatSessionChangeParam param){
+    public void changeSession(ChatSessionChangeParam param) {
         chatSessionRepository.changeChatRoomEntry(param.toChatSessionChangeRepositoryRequest());
     }
 
@@ -216,6 +215,22 @@ public class ChatService {
 
     public void enterChatRoom(ChatRoomEnterParam param) {
         chatMessageRepository.readPartnerMessage(param.toChatMessageReadRepositoryRequest());
+    }
+
+    public ChatRoomInfoResults getChatRoomInfo(ChatRoomInfoParam param) {
+        List<ChatRoomGetInfo> chatRoomGetInfo = param.isFC() ?
+            chatRoomRepository.findChatRoomsByConsultant(param.userId()) :
+            chatRoomRepository.findChatRoomsByForeigner(param.userId());
+
+        List<ChatRoomInfoResult> responses = new ArrayList<>();
+        for (ChatRoomGetInfo chatRoom : chatRoomGetInfo) {
+            ChatMessageRecentGetRepositoryResponse chatRoomInfo = chatMessageRepository.getRecentChatMessages(
+                param.toChatMessageRecentGetRepositoryRequest(chatRoom.getChatRoomId()));
+
+            responses.add(ChatRoomInfoResult.to(chatRoom.getChatRoomId(), chatRoomInfo));
+        }
+
+        return ChatRoomInfoResults.to(responses);
     }
 
 }
