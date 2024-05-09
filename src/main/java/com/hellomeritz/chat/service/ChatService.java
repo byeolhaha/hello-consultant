@@ -12,20 +12,29 @@ import com.hellomeritz.chat.global.translator.Translator;
 import com.hellomeritz.chat.global.translator.TranslatorHandler;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploader;
+import com.hellomeritz.chat.repository.chatentry.ChatRoomEntry;
+import com.hellomeritz.chat.repository.chatentry.ChatRoomEntryRepository;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
+import com.hellomeritz.chat.repository.chatsession.ChatSession;
+import com.hellomeritz.chat.repository.chatsession.ChatSessionRepository;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
 import com.hellomeritz.global.CircuitBreakerBot;
 import com.hellomeritz.member.global.IpSensor;
 import com.hellomeritz.member.global.encryption.PasswordEncoder;
 import com.hellomeritz.member.global.encryption.dto.EncryptionResponse;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChatService {
@@ -41,6 +50,8 @@ public class ChatService {
     private final PasswordEncoder passwordEncoder;
     private final IpSensor ipSensor;
     private final CircuitBreakerBot circuitBreakerBot;
+    private final ChatRoomEntryRepository chatRoomEntryRepository;
+    private final ChatSessionRepository chatSessionRepository;
 
 
     public ChatService(
@@ -49,7 +60,7 @@ public class ChatService {
         AudioUploader audioUploader,
         SttManagerHandler sttManagerHandler,
         PasswordEncoder passwordEncoder,
-        IpSensor ipSensor, CircuitBreakerBot circuitBreakerBot) {
+        IpSensor ipSensor, CircuitBreakerBot circuitBreakerBot, ChatRoomEntryRepository chatRoomEntryRepository, ChatSessionRepository chatSessionRepository) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = chatRoomRepository;
         this.translatorHandler = translatorHandler;
@@ -58,6 +69,8 @@ public class ChatService {
         this.passwordEncoder = passwordEncoder;
         this.ipSensor = ipSensor;
         this.circuitBreakerBot = circuitBreakerBot;
+        this.chatRoomEntryRepository = chatRoomEntryRepository;
+        this.chatSessionRepository = chatSessionRepository;
     }
 
     @CircuitBreaker(name = SIMPLE_CIRCUIT_BREAKER_CONFIG, fallbackMethod = "fallbackSendMessage")
@@ -73,7 +86,7 @@ public class ChatService {
     }
 
     private ChatMessageTranslateResults fallbackSendMessage(ChatMessageTextParam param, Exception exception) {
-        circuitBreakerBot.sendBotMessage(TRANSLATION_FALLBACK_BOT_MESSAGE+", exception: "+exception.getMessage());
+        circuitBreakerBot.sendBotMessage(TRANSLATION_FALLBACK_BOT_MESSAGE + ", exception: " + exception.getMessage());
 
         Translator translator = translatorHandler.getTranslator(TranslateProvider.GOOGLE.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
@@ -145,24 +158,47 @@ public class ChatService {
     }
 
     @Transactional
-    public void createChatRoomPassword(ChatRoomPasswordCreateParam request) {
+    public void createChatRoomPassword(ChatRoomPasswordCreateParam param) {
         String clientIp = ipSensor.getClientIP();
         EncryptionResponse encryptionResponse
-            = passwordEncoder.encrypt(request.toEncryptionRequest(clientIp));
-        ChatRoom chatRoom = chatRoomRepository.getChatRoom(request.chatRoomId());
+            = passwordEncoder.encrypt(param.toEncryptionRequest(clientIp));
+        ChatRoom chatRoom = chatRoomRepository.getChatRoom(param.chatRoomId());
         chatRoom.setChatRoomPassword(encryptionResponse.password());
         chatRoom.setSalt(encryptionResponse.salt());
     }
 
     @Transactional
-    public boolean checkChatRoomPassword(ChatRoomPasswordCheckParam request) {
-        ChatRoomPasswordInfo chatRoomEnterInfo = chatRoomRepository.getChatRoomEnterInfo(request.chatRoomId());
-        boolean isAuthorized = passwordEncoder.matchPassword(request.toPasswordMatchRequest(chatRoomEnterInfo));
+    public boolean checkChatRoomPassword(ChatRoomPasswordCheckParam param) {
+        ChatRoomPasswordInfo chatRoomEnterInfo = chatRoomRepository.getChatRoomEnterInfo(param.chatRoomId());
+        boolean isAuthorized = passwordEncoder.matchPassword(param.toPasswordMatchRequest(chatRoomEnterInfo));
 
         if (isAuthorized) {
-            createChatRoomPassword(request.toChatRoomPasswordCreateRequest());
+            createChatRoomPassword(param.toChatRoomPasswordCreateRequest());
         }
         return isAuthorized;
+    }
+
+
+    public void addSession(ChatSessionAddParam param) {
+        chatSessionRepository.addSession(param.toChatSessionAddRepositoryRequest());
+    }
+
+    public ChatRoomEntryInSessions getChatEntryInSessions(String sessionId) {
+        return ChatRoomEntryInSessions.to(chatSessionRepository.getChatSession(sessionId));
+    }
+
+    public void addChatRoomEntry(ChatRoomEntryAddParam param){
+        chatRoomEntryRepository.addMemberToRoom(param.toChatRoomEntryAddRepositoryRequest());
+    }
+
+    public void changeSession(ChatSessionChangeParam param){
+        chatSessionRepository.changeChatRoomEntry(param.toChatSessionChangeRepositoryRequest());
+    }
+
+    public void leaveChatRoom(String sessionId) {
+        ChatSession chatSession = chatSessionRepository.getChatSession(sessionId);
+        chatRoomEntryRepository.removeMemberFromRoom(chatSession.toChatRoomEntryDeleteRepositoryRequest(sessionId));
+        chatSessionRepository.removeSession(sessionId);
     }
 
 }
