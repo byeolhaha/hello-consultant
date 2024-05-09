@@ -72,7 +72,12 @@ const connectChat = async () => {
     const chatSocket = new SockJS('/ws/connect');
     chatClient = Stomp.over(chatSocket);
 
-    chatClient.connect({}, function(frame) {
+    const headers = {
+            memberId: clientId,
+            isFC : false
+    };
+
+    chatClient.connect(headers, function(frame) {
         chatClient.subscribe(`/queue/chats/${chatRoomId}`, function(message) {
             const messageData = JSON.parse(message.body);
             messageData.body.chatMessageTranslateResponses.forEach(
@@ -87,8 +92,8 @@ const connectChat = async () => {
 }
 
 window.onload = async function() {
-    await connectChat();
     await findRoomInfo();
+    await connectChat();
     await findClientAndConsultantInfo();
 
     const messageList = document.getElementById('message-list');

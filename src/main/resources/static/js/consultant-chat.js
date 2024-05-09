@@ -71,7 +71,12 @@ const connectChat = async () => {
     const chatSocket = new SockJS('/ws/connect');
     chatClient = Stomp.over(chatSocket);
 
-    chatClient.connect({}, function(frame) {
+    const headers = {
+                memberId: consultantId,
+                isFC : true
+    };
+
+    chatClient.connect(headers, function(frame) {
         chatClient.subscribe(`/queue/chats/${chatRoomId}`, function(message) {
             const messageData = JSON.parse(message.body);
             messageData.body.chatMessageTranslateResponses.forEach(
@@ -87,8 +92,8 @@ const connectChat = async () => {
 
 // 방 번호받고 입장, 웹소켓 실행
 window.onload = async function() {
-    await connectChat();
     await findClientIdAndLanguage();
+    await connectChat();
 };
 
 async function findClientIdAndLanguage() {
