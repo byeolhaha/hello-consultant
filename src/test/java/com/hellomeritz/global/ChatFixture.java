@@ -9,6 +9,7 @@ import com.hellomeritz.chat.domain.ChatRoomPassword;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.global.stt.SttProvider;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
 
@@ -36,14 +37,14 @@ public class ChatFixture {
         );
     }
 
-    public static ChatMessage originChatMessageByFC() {
+    public static ChatMessage readNotChatMessageByFC(Long chatRoomId) {
         return ChatMessage.of(
             "안녕하세요 반가워요",
             ChatMessageType.TEXT.name(),
             FC_ID,
             true,
-            1L,
-            true
+            chatRoomId,
+            false
         );
     }
 
@@ -247,6 +248,18 @@ public class ChatFixture {
     ) {
         return new ChatRoomPasswordCheckRequest(
             "30303TWSA!!!"
+        );
+    }
+
+    public static ChatRoomEnterParam chatRoomEnterParamByForeigner(Long chatRoomId) {
+        return new ChatRoomEnterParam(chatRoomId, false);
+    }
+
+    public static ChatMessageGetRepositoryRequest chatMessageGetRepositoryRequest(Long chatRoomId) {
+        return new ChatMessageGetRepositoryRequest(
+            CHAT_MESSAGE_ID_MIN_VALUE,
+            chatRoomId,
+            10
         );
     }
 

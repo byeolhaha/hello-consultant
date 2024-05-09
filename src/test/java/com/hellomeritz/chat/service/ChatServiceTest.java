@@ -4,6 +4,7 @@ import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.stt.SttManagerHandler;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
+import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -110,6 +112,27 @@ class ChatServiceTest {
 
         // then
         assertThat(isAuthorized).isTrue();
+    }
+
+    @DisplayName("채팅방에 입장하면 읽지 않은 상대방이 보낸 메세지가 읽음 처리로 된다.")
+    @Test
+    void enterChatRoom() {
+        // given
+        chatMessageRepository.deleteAll();
+
+        Long chatRoomId = 1L;
+        ChatMessage chatMessage = ChatFixture.readNotChatMessageByFC(chatRoomId);
+        chatMessageRepository.save(chatMessage);
+
+        // when
+        chatService.enterChatRoom(ChatFixture.chatRoomEnterParamByForeigner(chatRoomId));
+        ChatMessageGetRepositoryResponses chatMessageByCursor
+            = chatMessageRepository.getChatMessageByCursor(ChatFixture.chatMessageGetRepositoryRequest(chatRoomId));
+
+        // then
+        chatMessageByCursor.chatMessages()
+            .stream().filter(ChatMessage::getIsFC)
+            .forEach(chaMessageByFC -> assertThat(chaMessageByFC.getReadOrNot()).isTrue());
     }
 
 }
