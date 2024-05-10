@@ -1,9 +1,8 @@
 package com.hellomeritz.chat.controller.dto.response;
 
-import com.hellomeritz.chat.service.dto.result.ChatRoomInfoResult;
+import com.hellomeritz.chat.service.dto.result.ChatRoomInfoOfConsultantResult;
 import com.hellomeritz.chat.service.dto.result.ChatRoomInfoResults;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public record ChatRoomInfoResponses(
@@ -14,7 +13,7 @@ public record ChatRoomInfoResponses(
         ChatRoomInfoResults results
     ) {
         return new ChatRoomInfoResponses(
-            results.chatRoomInfoResults()
+            results.chatRoomInfoOfConsultantResults()
                 .stream()
                 .map(ChatRoomInfoResponse::to)
                 .toList()
@@ -28,7 +27,7 @@ public record ChatRoomInfoResponses(
         long notReadCount
     ) {
         public static ChatRoomInfoResponse to(
-            ChatRoomInfoResult result
+            ChatRoomInfoOfConsultantResult result
         ) {
             return new ChatRoomInfoResponse(
                 result.chatRoomId(),

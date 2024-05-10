@@ -2,11 +2,10 @@ package com.hellomeritz.chat.service.dto.param;
 
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageRecentGetRepositoryRequest;
 
-public record ChatRoomInfoParam(
-    long userId,
-    boolean isFC
+public record ChatRoomInfoOfConsultantParam(
+    long userId
 ) {
     public ChatMessageRecentGetRepositoryRequest toChatMessageRecentGetRepositoryRequest(Long chatRoomId) {
-     return new ChatMessageRecentGetRepositoryRequest(chatRoomId, isFC);
+        return new ChatMessageRecentGetRepositoryRequest(chatRoomId, true);
     }
 }

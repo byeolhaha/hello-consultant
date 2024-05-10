@@ -1,6 +1,6 @@
 package com.hellomeritz.chat.controller.dto.request;
 
-import com.hellomeritz.chat.service.dto.param.ChatRoomInfoParam;
+import com.hellomeritz.chat.service.dto.param.ChatRoomInfoOfForeignerParam;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -13,8 +13,8 @@ public record ChatRoomInfoRequest(
     @NotNull(message = "isFC는 null일 수 없습니다.")
     Boolean isFC
 ) {
-    public ChatRoomInfoParam toChatRoomInfoParam() {
-        return new ChatRoomInfoParam(
+    public ChatRoomInfoOfForeignerParam toChatRoomInfoParam() {
+        return new ChatRoomInfoOfForeignerParam(
             userId,
             isFC
         );

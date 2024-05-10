@@ -17,7 +17,8 @@ import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageRecentGetRepositoryResponse;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
-import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfo;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfoOfConsultant;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfoOfForeigner;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import com.hellomeritz.chat.repository.chatsession.ChatSession;
@@ -217,20 +218,32 @@ public class ChatService {
         chatMessageRepository.readPartnerMessage(param.toChatMessageReadRepositoryRequest());
     }
 
-    public ChatRoomInfoResults getChatRoomInfo(ChatRoomInfoParam param) {
-        List<ChatRoomGetInfo> chatRoomGetInfo = param.isFC() ?
-            chatRoomRepository.findChatRoomsByConsultant(param.userId()) :
-            chatRoomRepository.findChatRoomsByForeigner(param.userId());
+    public ChatRoomInfoOfConsultantResults getChatRoomInfoOfConsultant(ChatRoomInfoOfConsultantParam param) {
+        List<ChatRoomGetInfoOfConsultant> chatRoomGetInfoOfConsultant = chatRoomRepository.findChatRoomsOfConsultant(param.userId());
 
-        List<ChatRoomInfoResult> responses = new ArrayList<>();
-        for (ChatRoomGetInfo chatRoom : chatRoomGetInfo) {
+        List<ChatRoomInfoOfConsultantResult> responses = new ArrayList<>();
+        for (ChatRoomGetInfoOfConsultant chatRoom : chatRoomGetInfoOfConsultant) {
             ChatMessageRecentGetRepositoryResponse chatRoomInfo = chatMessageRepository.getRecentChatMessages(
                 param.toChatMessageRecentGetRepositoryRequest(chatRoom.getChatRoomId()));
 
-            responses.add(ChatRoomInfoResult.to(chatRoom.getChatRoomId(), chatRoomInfo));
+            responses.add(ChatRoomInfoOfConsultantResult.to(chatRoom, chatRoomInfo));
         }
 
-        return ChatRoomInfoResults.to(responses);
+        return ChatRoomInfoOfConsultantResults.to(responses);
+    }
+
+    public ChatRoomInfoOfForeignerResults getChatRoomInfoOfForeigner(ChatRoomInfoOfForeignerParam param) {
+        List<ChatRoomGetInfoOfForeigner> chatRoomGetInfoOfConsultant = chatRoomRepository.findChatRoomsOfForeigner(param.userId());
+
+        List<ChatRoomInfoOfForeignerResult> responses = new ArrayList<>();
+        for (ChatRoomGetInfoOfForeigner chatRoom : chatRoomGetInfoOfConsultant) {
+            ChatMessageRecentGetRepositoryResponse chatRoomInfo = chatMessageRepository.getRecentChatMessages(
+                param.toChatMessageRecentGetRepositoryRequest(chatRoom.getChatRoomId()));
+
+            responses.add(ChatRoomInfoOfForeignerResult.to(chatRoom, chatRoomInfo));
+        }
+
+        return ChatRoomInfoOfForeignerResults.to(responses);
     }
 
 }
