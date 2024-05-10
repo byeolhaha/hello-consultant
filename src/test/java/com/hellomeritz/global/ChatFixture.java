@@ -214,6 +214,20 @@ public class ChatFixture {
         );
     }
 
+    public static ChatRoom chatRoomByFcId(Long fcId) {
+        return ChatRoom.of(
+            fcId,
+            1L
+        );
+    }
+
+    public static ChatRoom chatRoomByForeignerId(Long foreignerId) {
+        return ChatRoom.of(
+            1L,
+            foreignerId
+        );
+    }
+
     public static ChatRoomUserInfoResponse chatRoomUserInfoResponse() {
         return new ChatRoomUserInfoResponse(
             1L,
@@ -278,24 +292,54 @@ public class ChatFixture {
         return new ChatRoomEnterRequest(true);
     }
 
-    public static ChatRoomInfoParam chatRoomGetParamByForeigner() {
-        return new ChatRoomInfoParam(1L, false);
+    public static ChatRoomInfoOfForeignerParam chatRoomGetParamOfForeigner() {
+        return new ChatRoomInfoOfForeignerParam(1L);
     }
 
-    public static ChatRoomInfoResults chatRoomInfoResults() {
-        return new ChatRoomInfoResults(
+    public static ChatRoomInfoOfConsultantParam chatRoomGetParamOfConsultant() {
+        return new ChatRoomInfoOfConsultantParam(1L);
+    }
+
+    public static ChatRoomInfoOfForeignerResults chatRoomInfoOfForeignerResults() {
+        return new ChatRoomInfoOfForeignerResults(
             List.of(
-                new ChatRoomInfoResult(
+                new ChatRoomInfoOfForeignerResult(
+                    1L,
+                    "hello my name is byeol",
+                    LocalDateTime.of(2024,3,11,12,11),
+                    3,
+                    "김별",
+                    "https://storage.googleapis.com/hello/byeik.jpg"
+                ),
+                new ChatRoomInfoOfForeignerResult(
+                    2L,
+                    "do you have resident card?",
+                    LocalDateTime.of(2023,3,11,12,11),
+                    4,
+                    "김무지개",
+                    "https://storage.googleapis.com/hello/byeik.jpg"
+                )
+            ));
+    }
+
+    public static ChatRoomInfoOfConsultantResults chatRoomInfoOfConsultantResults() {
+        return new ChatRoomInfoOfConsultantResults(
+            List.of(
+                new ChatRoomInfoOfConsultantResult(
                     1L,
                     "안녕하세요",
-                    LocalDateTime.now(),
-                    3
+                    LocalDateTime.of(2024,3,11,12,11),
+                    3,
+                    "jennie",
+                    LocalDateTime.of(2024,3,11,12,11)
                 ),
-                new ChatRoomInfoResult(
+                new ChatRoomInfoOfConsultantResult(
                     2L,
                     "자동차 보험 들고 싶어요",
-                    LocalDateTime.now(),
-                    4
+                    LocalDateTime.of(2023,3,11,12,11),
+                    4,
+                    "charrie",
+                    LocalDateTime.of(2023,3,11,12,11)
                 )
             ));
     }

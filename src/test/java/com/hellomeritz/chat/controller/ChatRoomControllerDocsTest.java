@@ -1,10 +1,7 @@
 package com.hellomeritz.chat.controller;
 
 import com.hellomeritz.chat.service.ChatService;
-import com.hellomeritz.chat.service.dto.result.ChatMessageGetResults;
-import com.hellomeritz.chat.service.dto.result.ChatRoomCreateResult;
-import com.hellomeritz.chat.service.dto.result.ChatRoomInfoResults;
-import com.hellomeritz.chat.service.dto.result.ChatRoomUserInfoResult;
+import com.hellomeritz.chat.service.dto.result.*;
 import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -180,30 +176,58 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
             );
     }
 
-    @DisplayName("채팅방 목록을 조회하는 API")
+    @DisplayName("상담원의 채팅방 목록을 조회하는 API")
     @Test
-    void getChatRoomInfo() throws Exception {
-        ChatRoomInfoResults chatRoomInfoResults = ChatFixture.chatRoomInfoResults();
-        given(chatService.getChatRoomInfo(any())).willReturn(chatRoomInfoResults);
+    void getChatRoomInfoOfConsultant() throws Exception {
+        ChatRoomInfoOfConsultantResults chatRoomInfoResults = ChatFixture.chatRoomInfoOfConsultantResults();
+        given(chatService.getChatRoomInfoOfConsultant(any())).willReturn(chatRoomInfoResults);
 
-        mockMvc.perform(get("/chat-rooms")
+        mockMvc.perform(get("/chat-rooms/consultants")
                 .param("userId", String.valueOf(1L))
-                .param("isFC", "true")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("get-chat-room-info",
+            .andDo(document("get-chat-room-info-of-consultant",
                     queryParameters(
-                        parameterWithName("userId").description("유저 ID"),
-                        parameterWithName("isFC").description("설계사인지 여부")
+                        parameterWithName("userId").description("유저 ID")
                     ),
                     responseFields(
-                        fieldWithPath("chatRoomInfoResponses[].chatRoomId").type(JsonFieldType.NUMBER).description("채팅방 ID"),
-                        fieldWithPath("chatRoomInfoResponses[].contents").type(JsonFieldType.STRING).description("해당 채팅방의 가장 최신 메세지 내용"),
-                        fieldWithPath("chatRoomInfoResponses[].createdAt").type(JsonFieldType.STRING).description("해당 채팅방의 가장 최신 메세지 생성 일자"),
-                        fieldWithPath("chatRoomInfoResponses[].notReadCount").type(JsonFieldType.NUMBER).description("채팅방의 내가 읽지 않은 메세지 개수")
+                        fieldWithPath("responses[].chatRoomId").type(JsonFieldType.NUMBER).description("채팅방 ID"),
+                        fieldWithPath("responses[].contents").type(JsonFieldType.STRING).description("해당 채팅방의 가장 최신 메세지 내용"),
+                        fieldWithPath("responses[].messageCreatedAt").type(JsonFieldType.STRING).description("해당 채팅방의 가장 최신 메세지 생성 일자"),
+                        fieldWithPath("responses[].notReadCount").type(JsonFieldType.NUMBER).description("채팅방의 내가 읽지 않은 메세지 개수"),
+                        fieldWithPath("responses[].foreignerName").type(JsonFieldType.STRING).description("외국 고객님의 이름"),
+                        fieldWithPath("responses[].chatRoomCreatedAt").type(JsonFieldType.STRING).description("채팅방 생성일자 - 생성일자 최신순으로 정렬되어 나옴")
+                )
+            ));
+    }
+
+    @DisplayName("외국인 고객의 채팅방 목록을 조회하는 API")
+    @Test
+    void getChatRoomInfoOfForeigner() throws Exception {
+        ChatRoomInfoOfForeignerResults chatRoomInfoResults = ChatFixture.chatRoomInfoOfForeignerResults();
+        given(chatService.getChatRoomInfoOfForeigner(any())).willReturn(chatRoomInfoResults);
+
+        mockMvc.perform(get("/chat-rooms/foreigners")
+                .param("userId", String.valueOf(1L))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("get-chat-room-info-of-foreigner",
+                queryParameters(
+                    parameterWithName("userId").description("유저 ID")
+                ),
+                responseFields(
+                    fieldWithPath("responses[].chatRoomId").type(JsonFieldType.NUMBER).description("채팅방 ID"),
+                    fieldWithPath("responses[].contents").type(JsonFieldType.STRING).description("해당 채팅방의 가장 최신 메세지 내용"),
+                    fieldWithPath("responses[].messageCreatedAt").type(JsonFieldType.STRING).description("해당 채팅방의 가장 최신 메세지 생성 일자"),
+                    fieldWithPath("responses[].notReadCount").type(JsonFieldType.NUMBER).description("채팅방의 내가 읽지 않은 메세지 개수"),
+                    fieldWithPath("responses[].consultantName").type(JsonFieldType.STRING).description("상담원의 이름"),
+                    fieldWithPath("responses[].profileUrl").type(JsonFieldType.STRING).description("상담원 프로필")
                 )
             ));
     }

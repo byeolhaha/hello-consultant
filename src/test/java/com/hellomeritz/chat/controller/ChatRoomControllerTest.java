@@ -1,20 +1,15 @@
 package com.hellomeritz.chat.controller;
 
-import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageGetRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatRoomCreateRequest;
-import com.hellomeritz.chat.controller.dto.request.ChatRoomInfoRequest;
-import com.hellomeritz.global.ChatFixture;
+import com.hellomeritz.chat.controller.dto.request.ChatRoomInfoOfConsultantRequest;
+import com.hellomeritz.chat.controller.dto.request.ChatRoomInfoOfForeignerRequest;
 import com.hellomeritz.global.ControllerTestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-
-import java.nio.charset.StandardCharsets;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -118,26 +113,26 @@ public class ChatRoomControllerTest extends ControllerTestSupport {
     @DisplayName("userId가 0이거나 음수인 경우 예외를 던진다.")
     @ParameterizedTest
     @ValueSource(longs = {-1L, 0L})
-    void getChatRoomInfo_invalid_userId(Long userId) throws Exception {
-        mockMvc.perform(get("/chat-rooms")
+    void getChatRoomInfoOfConsultant_invalid_userId(Long userId) throws Exception {
+        mockMvc.perform(get("/chat-rooms/consultants")
             .content(objectMapper.writeValueAsString(
-                new ChatRoomInfoRequest(
-                    userId,
-                    true
+                new ChatRoomInfoOfConsultantRequest(
+                    userId
                 )
             ))).andExpect(status().is4xxClientError());
     }
 
-    @DisplayName("isFC가 null인 경우 예외를 던진다.")
-    @Test
-    void getChatRoomInfo_invalid_userId() throws Exception {
-        mockMvc.perform(get("/chat-rooms")
+    @DisplayName("userId가 0이거나 음수인 경우 예외를 던진다.")
+    @ParameterizedTest
+    @ValueSource(longs = {-1L, 0L})
+    void getChatRoomInfoOfForeigner_invalid_userId(Long userId) throws Exception {
+        mockMvc.perform(get("/chat-rooms/foreigners")
             .content(objectMapper.writeValueAsString(
-                new ChatRoomInfoRequest(
-                    1L,
-                    null
+                new ChatRoomInfoOfForeignerRequest(
+                    userId
                 )
             ))).andExpect(status().is4xxClientError());
     }
+
 
 }
