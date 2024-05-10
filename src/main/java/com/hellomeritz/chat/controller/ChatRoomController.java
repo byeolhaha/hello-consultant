@@ -4,11 +4,11 @@ import com.hellomeritz.chat.controller.dto.request.*;
 import com.hellomeritz.chat.controller.dto.response.*;
 import com.hellomeritz.chat.service.ChatService;
 import com.hellomeritz.chat.service.dto.param.ChatRoomUserInfoParam;
-import com.hellomeritz.chat.service.dto.result.ChatRoomInfoResults;
+import com.hellomeritz.chat.service.dto.result.ChatRoomInfoOfConsultantResults;
+import com.hellomeritz.chat.service.dto.result.ChatRoomInfoOfForeignerResults;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -100,15 +100,31 @@ public class ChatRoomController {
     }
 
     @GetMapping(
+        path = "/consultants",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ChatRoomInfoResponses> getRoomInfo(
-        @Valid @ModelAttribute ChatRoomInfoRequest request
+    public ResponseEntity<ChatRoomInfoOfConsultantResponses> getRoomInfoOfConsultant(
+        @Valid @ModelAttribute ChatRoomInfoOfConsultantRequest request
     ) {
-        ChatRoomInfoResults chatRoomInfo = chatService.getChatRoomInfo(request.toChatRoomInfoParam());
+        ChatRoomInfoOfConsultantResults chatRoomInfoOfConsultant
+            = chatService.getChatRoomInfoOfConsultant(request.toChatRoomInfoParam());
 
         return ResponseEntity.status(HttpStatus.OK)
-            .body(ChatRoomInfoResponses.to(chatRoomInfo));
+            .body(ChatRoomInfoOfConsultantResponses.to(chatRoomInfoOfConsultant));
+    }
+
+    @GetMapping(
+        path = "/foreigners",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ChatRoomInfoOfForeignerResponses> getRoomInfoOfForeigner(
+        @Valid @ModelAttribute ChatRoomInfoOfForeignerRequest request
+    ) {
+        ChatRoomInfoOfForeignerResults chatRoomInfoOfForeigner
+            = chatService.getChatRoomInfoOfForeigner(request.toChatRoomInfoParam());
+
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(ChatRoomInfoOfForeignerResponses.to(chatRoomInfoOfForeigner));
     }
 
 }

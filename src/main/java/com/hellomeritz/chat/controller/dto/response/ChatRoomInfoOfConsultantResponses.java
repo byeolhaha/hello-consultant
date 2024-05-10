@@ -1,39 +1,43 @@
 package com.hellomeritz.chat.controller.dto.response;
 
 import com.hellomeritz.chat.service.dto.result.ChatRoomInfoOfConsultantResult;
-import com.hellomeritz.chat.service.dto.result.ChatRoomInfoResults;
+import com.hellomeritz.chat.service.dto.result.ChatRoomInfoOfConsultantResults;
 
 import java.util.List;
 
-public record ChatRoomInfoResponses(
-    List<ChatRoomInfoResponse> chatRoomInfoResponses
+public record ChatRoomInfoOfConsultantResponses(
+    List<ChatRoomInfoOfConsultantResponse> responses
 ) {
 
-    public static ChatRoomInfoResponses to(
-        ChatRoomInfoResults results
+    public static ChatRoomInfoOfConsultantResponses to(
+        ChatRoomInfoOfConsultantResults results
     ) {
-        return new ChatRoomInfoResponses(
+        return new ChatRoomInfoOfConsultantResponses(
             results.chatRoomInfoOfConsultantResults()
                 .stream()
-                .map(ChatRoomInfoResponse::to)
+                .map(ChatRoomInfoOfConsultantResponse::to)
                 .toList()
         );
     }
 
-    public record ChatRoomInfoResponse(
+    public record ChatRoomInfoOfConsultantResponse(
         long chatRoomId,
         String contents,
-        String createdAt,
-        long notReadCount
+        String messageCreatedAt,
+        long notReadCount,
+        String foreignerName,
+        String chatRoomCreatedAt
     ) {
-        public static ChatRoomInfoResponse to(
+        public static ChatRoomInfoOfConsultantResponse to(
             ChatRoomInfoOfConsultantResult result
         ) {
-            return new ChatRoomInfoResponse(
+            return new ChatRoomInfoOfConsultantResponse(
                 result.chatRoomId(),
                 result.contents(),
-                result.createdAt().toString(),
-                result.notReadCount()
+                result.messageCreatedAt().toString(),
+                result.notReadCount(),
+                result.foreignerName(),
+                result.chatRoomCreatedAt().toString()
             );
         }
     }
