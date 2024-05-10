@@ -26,7 +26,7 @@ public class FinancialConsultant {
     private String introduceMessage;
 
     @Column(name = "consultation_state")
-    private String consultationState = ConsultationState.AVAILABLE.name();
+    private String consultationState;
 
     protected FinancialConsultant() {
     }
@@ -41,6 +41,7 @@ public class FinancialConsultant {
         this.name = name;
         this.profileUrl = profileUrl;
         this.introduceMessage = introduceMessage;
+        this.consultationState = ConsultationState.AVAILABLE.name();
     }
 
     public static FinancialConsultant of(
