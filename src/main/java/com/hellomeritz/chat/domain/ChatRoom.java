@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
+
 @Table(name = "chat_rooms")
 @Getter
 @Entity
@@ -23,8 +25,8 @@ public class ChatRoom {
     @Column(name = "fc_id", nullable = false)
     private long fcId;
 
-    @Column(name = "user_id", nullable = false)
-    private long userId;
+    @Column(name = "foreigner_id", nullable = false)
+    private long foreignerId;
 
     @Column(name = "chat_room_password")
     private String chatRoomPassword;
@@ -32,15 +34,19 @@ public class ChatRoom {
     @Column(name = "salt")
     private String salt;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     private ChatRoom(
             long fcId,
-            long userId
+            long foreignerId
     ) {
-        Assert.isTrue(userId >= USER_ID_MIN_VALUE, "userId는 음수이거나 0일 수 없습니다.");
+        Assert.isTrue(foreignerId >= USER_ID_MIN_VALUE, "userId는 음수이거나 0일 수 없습니다.");
         Assert.isTrue(fcId >= FC_ID_MIN_VALUE, "fcId는 음수이거나 0일 수 없습니다.");
 
         this.fcId = fcId;
-        this.userId = userId;
+        this.foreignerId = foreignerId;
+        this.createdAt = LocalDateTime.now();
     }
 
     public static ChatRoom of(
