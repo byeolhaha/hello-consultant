@@ -9,6 +9,12 @@ import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
 import com.hellomeritz.global.ChatFixture;
+import com.hellomeritz.global.FinancialConsultantFixture;
+import com.hellomeritz.global.ForeignFixture;
+import com.hellomeritz.member.domain.FinancialConsultant;
+import com.hellomeritz.member.domain.Foreigner;
+import com.hellomeritz.member.repository.fc.FinancialConsultantRepository;
+import com.hellomeritz.member.repository.foreign.ForeignRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -38,6 +43,12 @@ class ChatServiceTest {
 
     @Autowired
     private SttManagerHandler sttManagerHandler;
+
+    @Autowired
+    private FinancialConsultantRepository financialConsultantRepository;
+
+    @Autowired
+    private ForeignRepository foreignRepository;
 
     @DisplayName("채팅방을 만들 수 있다.")
     @Test
@@ -133,13 +144,14 @@ class ChatServiceTest {
             .forEach(chaMessageByFC -> assertThat(chaMessageByFC.getReadOrNot()).isTrue());
     }
 
-    @DisplayName("채팅방 목록을 불러오면 각 방 별 최신 메세지와 내가 읽지 않은 메세지의 수, 생성일을 확인할 수 있다.")
+    @DisplayName("외국인의 채팅방 목록을 불러오면 각 방 별 최신 메세지와 내가 읽지 않은 메세지의 수, 생성일을 확인할 수 있다.")
     @Test
-    void getChatRoomInfo() {
+    void getChatRoomInfoOForeigner() {
         // given
         chatMessageRepository.deleteAll();
 
-        ChatRoom savedChatRoom = chatRoomRepository.save(ChatFixture.chatRoom());
+        FinancialConsultant financialConsultant = financialConsultantRepository.save(FinancialConsultantFixture.financialConsultant());
+        ChatRoom savedChatRoom = chatRoomRepository.save(ChatFixture.chatRoomByFcId(financialConsultant.getFinancialConsultantId()));
 
         Long chatRoomId = savedChatRoom.getChatRoomId();
         ChatMessage firstChatMessage = ChatFixture.firstReadNotChatMessageByFC(chatRoomId);
@@ -148,13 +160,40 @@ class ChatServiceTest {
         chatMessageRepository.save(secondChatMessage);
 
         // when
-        ChatRoomInfoResults chatRoomInfo = chatService.getChatRoomInfo(ChatFixture.chatRoomGetParamByForeigner());
-        ChatRoomInfoResult chatRoomInfoResult = chatRoomInfo.chatRoomInfoResults().get(0);
+        ChatRoomInfoOfForeignerResults chatRoomInfoOfForeigner = chatService.getChatRoomInfoOfForeigner(ChatFixture.chatRoomGetParamOfForeigner());
+        ChatRoomInfoOfForeignerResult chatRoomInfoOfForeignerResult = chatRoomInfoOfForeigner.chatRoomInfoOfConsultantResults().get(0);
 
         // then
-        assertThat(chatRoomInfoResult.chatRoomId()).isEqualTo(chatRoomId);
-        assertThat(chatRoomInfoResult.contents()).isEqualTo(secondChatMessage.getContents());
-        assertThat(chatRoomInfoResult.notReadCount()).isEqualTo(2);
+        assertThat(chatRoomInfoOfForeignerResult.chatRoomId()).isEqualTo(chatRoomId);
+        assertThat(chatRoomInfoOfForeignerResult.contents()).isEqualTo(secondChatMessage.getContents());
+        assertThat(chatRoomInfoOfForeignerResult.notReadCount()).isEqualTo(2);
+        assertThat(chatRoomInfoOfForeignerResult.consultantName()).isEqualTo(financialConsultant.getName());
+    }
+
+    @DisplayName("상담원의 채팅방 목록을 불러오면 각 방 별 최신 메세지와 내가 읽지 않은 메세지의 수, 생성일을 확인할 수 있다.")
+    @Test
+    void getChatRoomInfoOfConsultant() {
+        // given
+        chatMessageRepository.deleteAll();
+
+        Foreigner foreigner = foreignRepository.save(ForeignFixture.foreigner());
+        ChatRoom savedChatRoom = chatRoomRepository.save(ChatFixture.chatRoomByForeignerId(foreigner.getForeignerId()));
+
+        Long chatRoomId = savedChatRoom.getChatRoomId();
+        ChatMessage firstChatMessage = ChatFixture.firstReadNotChatMessageByFC(chatRoomId);
+        chatMessageRepository.save(firstChatMessage);
+        ChatMessage secondChatMessage = ChatFixture.secondReadNotChatMessageByFC(chatRoomId);
+        chatMessageRepository.save(secondChatMessage);
+
+        // when
+        ChatRoomInfoOfConsultantResults chatRoomInfoOfConsultant = chatService.getChatRoomInfoOfConsultant(ChatFixture.chatRoomGetParamOfConsultant());
+        ChatRoomInfoOfConsultantResult chatRoomInfoOfConsultantResult = chatRoomInfoOfConsultant.chatRoomInfoOfConsultantResults().get(0);
+
+        // then
+        assertThat(chatRoomInfoOfConsultantResult.chatRoomId()).isEqualTo(chatRoomId);
+        assertThat(chatRoomInfoOfConsultantResult.contents()).isEqualTo(secondChatMessage.getContents());
+        assertThat(chatRoomInfoOfConsultantResult.notReadCount()).isEqualTo(0);
+        assertThat(chatRoomInfoOfConsultantResult.foreignerName()).isEqualTo(foreigner.getName());
     }
 
 }
