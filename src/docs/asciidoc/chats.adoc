@@ -91,16 +91,33 @@ include::{snippets}/enter-chat-room/path-parameters.adoc[]
 === Response (Success)
 include::{snippets}/enter-chat-room/http-response.adoc[]
 
-== 채팅방 목록 보기
+== 상담원 채팅방 목록 보기
 
-채팅방 목록을 확인합니다.
+상담원의 채팅방 목록을 확인합니다.
+상담원의 채팅방 목록은 채팅방의 생성일자 순으로 내림차순으로 정렬됩니다.
 
 === Request
 
-include::{snippets}/get-chat-room-info/http-request.adoc[]
-include::{snippets}/get-chat-room-info/query-parameters.adoc[]
+include::{snippets}/get-chat-room-info-of-consultant/http-request.adoc[]
+include::{snippets}/get-chat-room-info-of-consultant/query-parameters.adoc[]
 
 === Response (Success)
 
-include::{snippets}/get-chat-room-info/http-response.adoc[]
-include::{snippets}/get-chat-room-info/response-fields.adoc[]
+include::{snippets}/get-chat-room-info-of-consultant/http-response.adoc[]
+include::{snippets}/get-chat-room-info-of-consultant/response-fields.adoc[]
+
+
+== 외국인 고객의 채팅방 목록 보기
+
+외국인 고객의 채팅방 목록을 확인합니다.
+외국인 고객의 채팅방 목록은 각 방 별 가장 최신의 메세지의 생성일자 순으로 정렬됩니다.
+
+=== Request
+
+include::{snippets}/get-chat-room-info-of-foreigner/http-request.adoc[]
+include::{snippets}/get-chat-room-info-of-foreigner/query-parameters.adoc[]
+
+=== Response (Success)
+
+include::{snippets}/get-chat-room-info-of-foreigner/http-response.adoc[]
+include::{snippets}/get-chat-room-info-of-foreigner/response-fields.adoc[]
