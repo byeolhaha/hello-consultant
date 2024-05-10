@@ -2,9 +2,8 @@ package com.hellomeritz.chat.repository.chatroom.dto;
 
 import java.time.LocalDateTime;
 
-public interface ChatRoomGetInfoOfConsultant {
-
+public interface ChatRoomGetInfoOfForeigner {
     Long getChatRoomId();
-    LocalDateTime getCreatedAt();
+    String getProfileUrl();
     String getName();
 }

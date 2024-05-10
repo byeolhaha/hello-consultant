@@ -1,7 +1,8 @@
 package com.hellomeritz.chat.repository.chatroom;
 
 import com.hellomeritz.chat.domain.ChatRoom;
-import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfo;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfoOfConsultant;
+import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomGetInfoOfForeigner;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomUserInfo;
 import jakarta.persistence.EntityNotFoundException;
@@ -52,13 +53,13 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
     }
 
     @Override
-    public List<ChatRoomGetInfo> findChatRoomsByForeigner(Long foreignerId) {
-        return chatRoomJpaRepository.findChatRoomsByForeigner(foreignerId);
+    public List<ChatRoomGetInfoOfForeigner> findChatRoomsOfForeigner(Long foreignerId) {
+        return chatRoomJpaRepository.findChatRoomsOfForeigner(foreignerId);
     }
 
     @Override
-    public List<ChatRoomGetInfo> findChatRoomsByConsultant(Long foreignerId) {
-        return chatRoomJpaRepository.findChatRoomsByConsultant(foreignerId);
+    public List<ChatRoomGetInfoOfConsultant> findChatRoomsOfConsultant(Long foreignerId) {
+        return chatRoomJpaRepository.findChatRoomsOfConsultant(foreignerId);
     }
 
 }
