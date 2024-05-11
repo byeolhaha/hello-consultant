@@ -20,13 +20,13 @@ public class ChatRoom {
     @Column(name = "chat_room_id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long chatRoomId;
+    private Long chatRoomId;
 
     @Column(name = "fc_id", nullable = false)
-    private long fcId;
+    private Long fcId;
 
     @Column(name = "foreigner_id", nullable = false)
-    private long foreignerId;
+    private Long foreignerId;
 
     @Column(name = "chat_room_password")
     private String chatRoomPassword;
