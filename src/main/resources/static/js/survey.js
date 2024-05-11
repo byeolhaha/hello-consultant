@@ -3,11 +3,10 @@
  let chatRoomId = null;
 
 document.addEventListener("DOMContentLoaded", function() {
-
     var form = document.getElementById("clientSurveyForm");
 
     form.addEventListener("submit", async function(event) {
-        event.preventDefault(); // 기본 제출 동작 방지
+        event.preventDefault();
 
         // 설문조사 데이터 수집
         var formData = new FormData(form);
@@ -45,13 +44,22 @@ async function processSurveyData(name, birthDate, language, visaType, hasResiden
         const data = await response.json();
         userId = data.userId;
 
+        setCookie('userId', userId, 30);
+
         alert('설문조사 완료');
-        await matchConsultant(); // 이 부분을 수정하여 await 키워드를 사용하여 기다리도록 변경
+        await matchConsultant();
 
     } catch (error) {
         console.error('Error:', error );
         alert('설문조사 실패');
     }
+}
+
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
 
 async function createChatRoom() {
@@ -104,7 +112,7 @@ async function matchConsultant() {
         await createChatRoom();
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
-        alert('상담 가능한 설계사가 없습니다.');
+        alert('There is no consultant available. Please wait.');
         throw error;
     }
 }
@@ -117,35 +125,29 @@ function openChatPasswordModal(chatRoomId) {
     modal.innerHTML = `
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>채팅방 비밀번호 설정</h2>
-            <p>비밀번호를 입력하세요:</p>
+            <h2>Set chat room password</h2>
             <input type="password" id="password" name="password" required>
-            <button id="submitPassword">비밀번호 설정</button>
+            <button id="submitPassword">Enter</button>
         </div>
     `;
 
-    // 모달을 body에 추가합니다.
     document.body.appendChild(modal);
 
-    // 모달이 닫히도록 하는 close 버튼에 대한 이벤트 처리
     var closeButton = modal.querySelector(".close");
     closeButton.addEventListener("click", function() {
-        modal.remove(); // 모달을 제거합니다.
+        modal.remove();
     });
 
-    // 비밀번호 설정 버튼에 대한 이벤트 처리
     var submitButton = modal.querySelector("#submitPassword");
     submitButton.addEventListener("click", function() {
         var passwordInput = modal.querySelector("#password");
         var password = passwordInput.value;
 
-        // 비밀번호 유효성 검사
         if (!validatePassword(password)) {
-            alert("비밀번호는 10자 이상이어야 하며, 특수문자, 영어, 숫자를 모두 포함해야 합니다.");
-            return; // 유효하지 않은 비밀번호일 경우 함수 종료
+            alert("Password must be at least 10 characters long and must contain all special characters, English, and numbers.");
+            return;
         }
 
-        // 유효한 비밀번호인 경우 서버로 전송
         fetch('/chat-rooms/password', {
             method: 'POST',
             headers: {
@@ -160,20 +162,19 @@ function openChatPasswordModal(chatRoomId) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            alert('비밀번호 설정이 완료되었습니다.');
+            alert('Password setting is complete.');
             modal.remove();
 
             window.location.href = `/client.html?chatRoomId=${chatRoomId}`;
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('비밀번호 설정 중 오류가 발생했습니다.');
+            alert('An error occurred while setting the password.');
         });
     });
 }
 
 function validatePassword(password) {
-    // 비밀번호가 10자 이상이고, 특수문자, 영어, 숫자를 모두 포함하는지 확인
     const regex = /^(?=.*[!@#$%^&*])(?=.*[a-zA-Z])(?=.*[0-9]).{10,}$/;
     return regex.test(password);
 }
