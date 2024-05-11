@@ -88,6 +88,7 @@ const connectChat = async () => {
              displayMessages();
              scrollDown();
         });
+
     });
 }
 
@@ -164,19 +165,19 @@ async function findClientLanguage() {
 }
 
 function sendMessage() {
-    const newMessage = document.getElementById('message-input').value;
-    if (newMessage && chatClient && chatClient.connected) {
-        const chatMessage = {
-            contents: newMessage,
-            userId: clientId,
-            isFC : false,
-            targetLang : "KOREAN",
-            sourceLang : clientLanguage
-        };
+     const newMessage = document.getElementById('message-input').value;
+     if (newMessage && chatClient && chatClient.connected) {
+         const chatMessage = {
+             contents: newMessage,
+             userId: clientId,
+             isFC: false,
+             targetLang: "KOREAN",
+             sourceLang: clientLanguage
+         };
 
-        chatClient.send(`/app/chats/${chatRoomId}`, {}, JSON.stringify(chatMessage));
-        document.getElementById('message-input').value = ''; // 메시지 입력란 초기화
-    }
+         chatClient.send(`/app/chats/${chatRoomId}`, {}, JSON.stringify(chatMessage));
+         document.getElementById('message-input').value = ''; // 메시지 입력란 초기화
+     }
 }
 
 function displayMessages() {
