@@ -7,27 +7,24 @@ import java.util.Comparator;
 import java.util.List;
 
 public record ChatMessageGetRepositoryResponses(
-        List<ChatMessage> chatMessages,
-        String nextChatMessageId,
-        boolean hasNext
+    List<ChatMessage> chatMessages,
+    String nextChatMessageId,
+    boolean hasNext
 ) {
     private static final String INITIAL_NEXT_CHAT_MESSAGE_ID = "";
     private static final int NEXT_ID_INDEX = 0;
 
     public static ChatMessageGetRepositoryResponses to(
-            List<ChatMessage> chatMessages,
-            int pageSize) {
+        List<ChatMessage> chatMessages,
+        boolean hasNext) {
+        List<ChatMessage> sortedMessages = chatMessages.stream()
+            .sorted(Comparator.comparing(ChatMessage::getId))
+            .toList();
         return new ChatMessageGetRepositoryResponses(
-                chatMessages.stream()
-                        .sorted(Comparator.comparing(ChatMessage::getId))
-                        .toList(),
-                getNextChatMessageId(chatMessages),
-                hasNext(chatMessages.size(), pageSize)
+            sortedMessages,
+            getNextChatMessageId(sortedMessages),
+            hasNext
         );
-    }
-
-    private static boolean hasNext(int returnSize, int pageSize) {
-        return returnSize == pageSize;
     }
 
     private static String getNextChatMessageId(List<ChatMessage> chatMessages) {
