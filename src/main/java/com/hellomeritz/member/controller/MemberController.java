@@ -7,7 +7,6 @@ import com.hellomeritz.member.service.dto.param.*;
 import com.hellomeritz.member.service.dto.result.FcInfoResult;
 import com.hellomeritz.member.service.dto.result.ForeignerInfoResult;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -87,6 +86,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(FcInfoGetResponse.of(fcInfoResult));
     }
+
     @GetMapping(
             path = "/{foreignerId}/foreigner-info"
     )
@@ -97,4 +97,5 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ForeignerInfoGetResponse.of(foreignerInfoResult));
     }
+
 }
