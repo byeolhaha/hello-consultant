@@ -25,7 +25,8 @@ public class SocketConfig implements WebSocketMessageBrokerConfigurer {
         registry
             .setErrorHandler(chatErrorHandler)
             .addEndpoint("/ws/connect")
-            .setAllowedOriginPatterns("*");
+            .setAllowedOriginPatterns("*")
+            .withSockJS();
     }
 
     @Override
