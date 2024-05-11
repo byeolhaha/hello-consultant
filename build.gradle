@@ -70,8 +70,13 @@ dependencies {
 	implementation "io.github.resilience4j:resilience4j-all:2.2.0"
 
     // open-feign
-	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
+
+	//google-translation
+	implementation 'com.google.cloud:google-cloud-translate:2.42.0'
+
+	// Aho-corasick algorithm
+	implementation 'org.ahocorasick:ahocorasick:0.6.3'
 
 }
 ext {
