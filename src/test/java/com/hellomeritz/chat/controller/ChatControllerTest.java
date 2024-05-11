@@ -22,8 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ChatControllerTest extends ControllerTestSupport {
 
     @DisplayName("isFC는 null값인 경우 예외를 던진다.")
-@Test
-    void sendSttMessage_nullOrEmpty_audioUrl( ) throws Exception {
+    @Test
+    void sendSttMessage_nullOrEmpty_audioUrl() throws Exception {
         ChatMessageSttRequest request = new ChatMessageSttRequest(
             1L,
             null,

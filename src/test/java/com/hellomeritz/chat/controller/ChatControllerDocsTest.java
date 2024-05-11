@@ -2,7 +2,7 @@ package com.hellomeritz.chat.controller;
 
 import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.chat.global.stt.SttProvider;
-import com.hellomeritz.chat.service.ChatService;
+import com.hellomeritz.chat.service.ChatMessageService;
 import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
 import com.hellomeritz.global.ChatFixture;
 import com.hellomeritz.global.RestDocsSupport;
@@ -28,18 +28,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ChatControllerDocsTest extends RestDocsSupport {
 
-    ChatService chatService = mock(ChatService.class);
+    ChatMessageService chatMessageService = mock(ChatMessageService.class);
 
     @Override
     protected Object initController() {
-        return new ChatController(chatService);
+        return new ChatController(chatMessageService);
     }
 
     @DisplayName("음성 파일을 보내면 TEXT로 바꿔주는 STT API")
     @Test
     void sendAudioMessage() throws Exception {
         ChatMessageSttResult result = ChatFixture.chatMessageSttResult();
-        given(chatService.sendAudioMessage(any())).willReturn(result);
+        given(chatMessageService.sendAudioMessage(any())).willReturn(result);
 
         ChatMessageSttRequest request = ChatFixture.chatAudioUploadRequest();
         MockMultipartFile mockRequest = new MockMultipartFile(

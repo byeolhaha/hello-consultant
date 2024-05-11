@@ -3,8 +3,8 @@ package com.hellomeritz.chat.controller;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hellomeritz.chat.controller.dto.request.ChatMessageTranslateRequest;
 import com.hellomeritz.chat.controller.dto.response.ChatMessageSttResponse;
-import com.hellomeritz.chat.controller.dto.response.ChatMessageTranslateResponse;
-import com.hellomeritz.chat.service.ChatService;
+import com.hellomeritz.chat.controller.dto.response.ChatMessageTranslateResponses;
+import com.hellomeritz.chat.service.ChatMessageService;
 import com.hellomeritz.chat.service.dto.result.ChatMessageSttResult;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -21,30 +21,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class ChatController {
-    private final ChatService chatService;
+    private final ChatMessageService chatMessageService;
 
-    public ChatController(ChatService chatService) {
-        this.chatService = chatService;
+    public ChatController(ChatMessageService chatMessageService) {
+        this.chatMessageService = chatMessageService;
     }
 
     @MessageMapping("/chats/{chatRoomId}")
     @SendTo("/queue/chats/{chatRoomId}")
-    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessageWithSocket(
+    public ResponseEntity<ChatMessageTranslateResponses> sendChatMessage(
         @DestinationVariable("chatRoomId") Long chatRoomId,
-        @Payload ChatMessageTranslateRequest request) {
+        @Payload @Valid ChatMessageTranslateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ChatMessageTranslateResponse.to(
-                chatService.translateText(request.toChatMessageTextParam(chatRoomId))
-            ));
-    }
-
-    @PostMapping("/chats/{chatRoomId}")
-    public ResponseEntity<ChatMessageTranslateResponse> sendChatMessage(
-        @PathVariable @Positive(message = "chatRoomId는 양수여야 합니다.") Long chatRoomId,
-        @RequestBody @Valid ChatMessageTranslateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ChatMessageTranslateResponse.to(
-                chatService.translateText(request.toChatMessageTextParam(chatRoomId))
+            .body(ChatMessageTranslateResponses.to(
+                chatMessageService.translateText(request.toChatMessageTextParam(chatRoomId))
             ));
     }
 
@@ -63,7 +53,7 @@ public class ChatController {
         @Valid
         ChatMessageSttRequest request) {
         ChatMessageSttResult result
-            = chatService.sendAudioMessage(request.toChatMessageSttParam(audioFile, chatRoomId));
+            = chatMessageService.sendAudioMessage(request.toChatMessageSttParam(audioFile, chatRoomId));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ChatMessageSttResponse.to(result));
     }
