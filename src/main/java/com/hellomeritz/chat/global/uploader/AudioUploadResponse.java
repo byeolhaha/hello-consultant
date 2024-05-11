@@ -19,7 +19,8 @@ public record AudioUploadResponse(
             ChatMessageType.AUDIO.name(),
             param.userId(),
             param.isFC(),
-            param.chatRoomId()
+            param.chatRoomId(),
+            false
         );
     }
 }

@@ -13,7 +13,8 @@ public record SttResponse(
             ChatMessageType.TEXT.name(),
             param.userId(),
             param.isFC(),
-            param.chatRoomId()
+            param.chatRoomId(),
+            false
         );
     }
 

@@ -8,8 +8,8 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.speech.v1.SpeechSettings;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.cloud.speech.v1.*;
-import com.hellomeritz.chat.global.exception.ErrorCode;
-import com.hellomeritz.chat.global.exception.custom.SttException;
+import com.hellomeritz.global.exception.ErrorCode;
+import com.hellomeritz.global.exception.custom.SttException;
 import com.hellomeritz.chat.global.stt.SttManager;
 import com.hellomeritz.chat.global.stt.dto.SttRequest;
 import com.hellomeritz.chat.global.stt.dto.SttResponse;
@@ -103,7 +103,7 @@ public class SttGoogleManager implements SttManager {
                         .setInitialRpcTimeout(Duration.ZERO)
                         .setRpcTimeoutMultiplier(1.0)
                         .setMaxRpcTimeout(Duration.ZERO)
-                        .setTotalTimeout(Duration.ofHours(24L)) // set polling timeout to 24 hours
+                        .setTotalTimeout(Duration.ofHours(24L))
                         .build());
     }
 
