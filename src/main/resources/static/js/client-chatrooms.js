@@ -125,3 +125,118 @@ function populateOpponentInfo(data) {
     languageElement.textContent = 'Language : ' + data.sourceLanguage;
     residencePermitElement.textContent = 'Resident Card Have : ' + data.hasResidentCard;
 }
+
+document.getElementById("plusChatRoom").addEventListener("click", function() {
+    matchConsultant();
+});
+
+async function createChatRoom() {
+    try {
+        const response = await fetch('/chat-rooms', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                 fcId: fcId,
+                 userId: userId
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        chatRoomId = data.chatRoomId;
+
+        openChatPasswordModal(chatRoomId);
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        alert('채팅방 생성 실패');
+        throw error;
+    }
+}
+
+async function matchConsultant() {
+    try {
+        const response = await fetch('/consultants', {
+            method: 'PATCH', // PATCH 메서드 사용
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify({}) // 빈 JSON 객체 전송
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        fcId = data.fcId;
+
+        console.log("fcId:", fcId);
+
+        await createChatRoom();
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        alert('There is no consultant available. Please wait.');
+        throw error;
+    }
+}
+
+function openChatPasswordModal(chatRoomId) {
+    var modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    // 모달 내용을 추가합니다.
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Set chat room password</h2>
+            <input type="password" id="password" name="password" required>
+            <button id="submitPassword">Enter</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    var submitButton = modal.querySelector("#submitPassword");
+    submitButton.addEventListener("click", function() {
+        var passwordInput = modal.querySelector("#password");
+        var password = passwordInput.value;
+
+        if (!validatePassword(password)) {
+            alert("Password must be at least 10 characters long and must contain all special characters, English, and numbers.");
+            return;
+        }
+
+        fetch('/chat-rooms/password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chatRoomPassword: password,
+                chatRoomId: chatRoomId
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            alert('Password setting is complete.');
+            modal.remove();
+
+            window.location.href = `/client.html?chatRoomId=${chatRoomId}`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while setting the password.');
+        });
+    });
+}
+
+function validatePassword(password) {
+    const regex = /^(?=.*[!@#$%^&*])(?=.*[a-zA-Z])(?=.*[0-9]).{10,}$/;
+    return regex.test(password);
+}
