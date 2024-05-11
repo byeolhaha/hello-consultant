@@ -6,19 +6,19 @@ import com.hellomeritz.member.domain.BirthDate;
 import com.hellomeritz.member.domain.Foreigner;
 
 public record ForeignInfoSaveParam(
-        Long userId,
-        SourceLanguage language,
-        VisaType visaType,
-        boolean hasResidentCard,
-        BirthDate birthDate
+    SourceLanguage language,
+    VisaType visaType,
+    boolean hasResidentCard,
+    BirthDate birthDate,
+    String name
 ) {
     public Foreigner toForeigner() {
         return Foreigner.of(
-                userId,
-                language,
-                visaType,
-                hasResidentCard,
-                birthDate
+            language,
+            visaType,
+            hasResidentCard,
+            birthDate,
+            name
         );
     }
 }
