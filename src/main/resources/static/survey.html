@@ -2,20 +2,28 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>설문조사</title>
+    <title>Hello 🖐️</title>
     <link rel="stylesheet" href="/styles/survey.css">
 </head>
 <body>
-<h1>설문조사</h1>
+<h1>Shall we start the chat consultation? 🕺</h1>
 <form id="clientSurveyForm">
-    <label for="name">이름:</label>
-    <input type="text" id="name" name="name" required><br><br>
+    <label for="name">What's Your Name ? </label>
+    <input type="text" id="name" name="name" required
+           oninvalid="this.setCustomValidity('Please enter your name.')"
+           oninput="this.setCustomValidity('')"><br><br>
 
-    <label for="birthDate">생년월일(yyyyMMdd):</label>
-    <input type="text" id="birthDate" name="birthDate" required pattern="[0-9]{8}" placeholder="yyyyMMdd"><br><br>
+    <label for="birthDate">Birth Day (yyyyMMdd)</label>
+    <input type="text" id="birthDate" name="birthDate" required
+           oninvalid="this.setCustomValidity('Please enter your birth date.')"
+           oninput="this.setCustomValidity('')"
+           pattern="[0-9]{8}" placeholder="yyyyMMdd"><br><br>
 
-    <label for="language">언어:</label>
-    <select id="language" name="language" required>
+    <label for="language">Your Language</label>
+    <select id="language" name="language" required
+            oninvalid="this.setCustomValidity('Please select a language.')"
+            oninput="this.setCustomValidity('')">
+        <option value="" disabled selected>Select Your Language</option>
         <Option value="CHINA">Chinese (Simplified)</Option>
         <Option value="US">English (United States)</Option>
         <Option value="UK">English (United Kingdom)</Option>
@@ -27,8 +35,11 @@
         <Option value="ITALIAN">Italian (Italy)</Option>
     </select><br><br>
 
-    <label for="visaType">비자타입:</label>
-    <select id="visaType" name="visaType" required>
+    <label for="visaType">Visa Type</label>
+    <select id="visaType" name="visaType" required
+            oninvalid="this.setCustomValidity('Please select a visa type.')"
+            oninput="this.setCustomValidity('')">
+        <option value="" disabled selected>Select Visa Type</option>
         <Option value="D1">D1</Option>
         <Option value="D2">D2</Option>
         <Option value="D4">D4</Option>
@@ -56,10 +67,14 @@
         <Option value="F6">F6</Option>
     </select><br><br>
 
-    <label>외국인 등록증 여부:</label><br>
-    <input type="radio" id="foreignYes" name="hasResidentCard" value="yes">
+    <label> Do you have a foreigner registration card? </label><br>
+    <input type="radio" id="foreignYes" name="hasResidentCard" value="yes" required
+           oninvalid="this.setCustomValidity('Please choose whether or not to own the resident card')"
+           oninput="this.setCustomValidity('')">
     <label for="foreignYes">Yes</label>
-    <input type="radio" id="foreignNo" name="hasResidentCard" value="no">
+    <input type="radio" id="foreignNo" name="hasResidentCard" value="no" required
+           oninvalid="this.setCustomValidity('Please choose whether or not to own the resident card')"
+           oninput="this.setCustomValidity('')">
     <label for="foreignNo">No</label><br><br>
 
     <button type="submit">chat start</button>
