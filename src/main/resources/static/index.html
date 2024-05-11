@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="/styles/index.css">
 </head>
 <body>
-<a href="/survey.html"><img src="/InitButton.PNG" alt="외국인 상담"></a>
+<a href="#" id="openModal"><img src="/InitButton.PNG" alt="외국인 상담"></a>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Do you continue with the existing consultation? 🖐️ </p>
+        <button id="newCustomer">No, first visit.</button>
+        <button id="existingCustomer">Yes, continue. </button>
+    </div>
+</div>
+
+<script src="/js/index.js"></script>
 </body>
 </html>
