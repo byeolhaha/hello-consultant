@@ -40,8 +40,8 @@ button[onclick="sendMessage()"]:hover {
     padding: 5px 5px;
     max-width: 80%; /* 메시지 최대 너비 설정 */
     margin-bottom: 8px;
-    word-wrap: break-word; /* 긴 텍스트가 요소 너비를 넘어가지 않도록 설정 */
-    position: relative; /* 상대적인 위치 설정 */
+    word-wrap: break-word;
+    position: relative;
     align-items: center;
 }
 
@@ -169,3 +169,86 @@ button[onclick="sendMessage()"]:hover {
     font-size: 16px; /* 원하는 크기로 조정하세요 */
 }
 
+.consultant-details {
+    position: relative;
+    text-align: left;
+    background-color: #87CEEB;
+    border-radius: 15px;
+    width: 200px;
+    height: 100px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.consultant-details::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: -15px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid #B0E0E6;
+}
+
+/*비밀번호 관련*/
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0.7,0.7,0.7,0.7);
+    backdrop-filter: blur(5px);
+}
+
+/* 모달 내용 스타일 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 입력 필드와 버튼 간격 조정 */
+.modal-content input[type=password],
+.modal-content button {
+    margin-top: 10px;
+}
+
+/* 버튼 스타일 */
+#submitPassword {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#submitPassword:hover {
+    background-color: #45a049;
+}

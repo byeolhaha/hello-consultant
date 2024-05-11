@@ -19,6 +19,7 @@ function getRoomIdFromUrl() {
 
 document.addEventListener("DOMContentLoaded", async function() {
     chatRoomId = getRoomIdFromUrl();
+    openChatPasswordModal();
 
     const messageInput = document.getElementById('message-input');
 
@@ -222,4 +223,54 @@ async function enterChatRoom() {
         console.error('There was a problem with the fetch operation:', error);
         throw error;
     }
+}
+
+function openChatPasswordModal() {
+    var modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    // 모달 내용을 추가합니다.
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Enter the chat room password</h2>
+            <input type="password" id="password" name="password" required>
+            <button id="submitPassword">Enter</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    var submitButton = modal.querySelector("#submitPassword");
+    submitButton.addEventListener("click", function() {
+        var passwordInput = modal.querySelector("#password");
+        var password = passwordInput.value;
+
+        fetch(`/chat-rooms/${chatRoomId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chatRoomPassword: password
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+             return response.json();
+        })
+        .then(data => {
+             if(!data.isMyUser) {
+                  throw new Error('Invalid password');
+             }
+
+             alert('Successfully entered password 👍');
+             modal.remove();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Invalid password');
+        });
+    });
 }
