@@ -35,10 +35,9 @@ public class ChatMessageService {
     private final TranslatorHandler translatorHandler;
     private final AudioUploader audioUploader;
     private final SttManagerHandler sttManagerHandler;
-
     private final CircuitBreakerBot circuitBreakerBot;
     private final ChatRoomEntryRepository chatRoomEntryRepository;
-
+    private final BanWordFilter banWordFilter;
 
     public ChatMessageService(
         ChatMessageRepository chatMessageRepository,
@@ -46,18 +45,30 @@ public class ChatMessageService {
         AudioUploader audioUploader,
         SttManagerHandler sttManagerHandler,
         CircuitBreakerBot circuitBreakerBot,
-        ChatRoomEntryRepository chatRoomEntryRepository) {
+        ChatRoomEntryRepository chatRoomEntryRepository,
+        BanWordFilter banWordFilter) {
         this.chatMessageRepository = chatMessageRepository;
         this.translatorHandler = translatorHandler;
         this.audioUploader = audioUploader;
         this.sttManagerHandler = sttManagerHandler;
         this.circuitBreakerBot = circuitBreakerBot;
         this.chatRoomEntryRepository = chatRoomEntryRepository;
+        this.banWordFilter = banWordFilter;
+    }
+
+    public ChatMessageTranslateResults translateText(ChatMessageTextParam param) {
+        String banWords = banWordFilter.validate(param.sourceLang().name(), param.contents());
+        if (!banWords.isEmpty()) {
+            return ChatMessageTranslateResults.toBanChatMessage(banWords, param.sourceLang());
+        }
+        return sendMessage(param);
     }
 
     @CircuitBreaker(name = SIMPLE_CIRCUIT_BREAKER_CONFIG, fallbackMethod = "fallbackSendMessage")
     @Transactional
-    public ChatMessageTranslateResults translateText(ChatMessageTextParam param) {
+    public ChatMessageTranslateResults sendMessage(ChatMessageTextParam param) {
+        banWordFilter.validate(param.sourceLang().name(), param.contents());
+
         Translator translator = translatorHandler.getTranslator(TranslateProvider.DEEPL.name());
         TranslationResponse translatedResponse = translator.translate(param.toTranslationRequest());
 
@@ -67,6 +78,7 @@ public class ChatMessageService {
                 chatMessageRepository.save(param.toReadChatMessage(translatedResponse.translatedText()))
             );
         }
+
         return ChatMessageTranslateResults.to(
             chatMessageRepository.save(param.toNotReadChatMessage()),
             chatMessageRepository.save(param.toNotReadChatMessage(translatedResponse.translatedText()))
