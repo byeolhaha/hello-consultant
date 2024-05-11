@@ -44,7 +44,7 @@ public class ChatMessageMongoRepository {
 
         List<ChatMessage> chatMessages = mongoTemplate.find(query, ChatMessage.class);
 
-        boolean hasNext =  hasNext(chatMessages.size(), request.pageSize());
+        boolean hasNext = hasNext(chatMessages.size(), request.pageSize());
         if (hasNext) {
             chatMessages.remove(chatMessages.size() - 1);
         }
@@ -77,7 +77,7 @@ public class ChatMessageMongoRepository {
         Aggregation aggregation = Aggregation.newAggregation(matchStage, sortStage, Aggregation.limit(1));
 
         AggregationResults<ChatMessage> results = mongoTemplate.aggregate(aggregation, "chatMessage", ChatMessage.class);
-        ChatMessage recentChatMessage = results.getMappedResults().get(0);
+        ChatMessage recentChatMessage = getRecentChatMessage(results, request.chatRoomId());
 
         long unreadCount = mongoTemplate.count(
             Query.query(
@@ -93,6 +93,14 @@ public class ChatMessageMongoRepository {
 
     private static boolean hasNext(int returnSize, int pageSize) {
         return returnSize > pageSize;
+    }
+
+    private ChatMessage getRecentChatMessage(AggregationResults<ChatMessage> results, Long chatRoomId) {
+        List<ChatMessage> mappedResults = results.getMappedResults();
+        if (mappedResults.isEmpty()) {
+            return ChatMessage.emptyChatMessage(chatRoomId);
+        }
+        return results.getMappedResults().get(0);
     }
 
 }

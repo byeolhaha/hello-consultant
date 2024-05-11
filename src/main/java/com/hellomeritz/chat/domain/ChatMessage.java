@@ -1,6 +1,7 @@
 package com.hellomeritz.chat.domain;
 
 import lombok.Getter;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.Assert;
@@ -12,8 +13,14 @@ import java.time.LocalDateTime;
 public class ChatMessage {
 
     private static final int CONTENTS_MAX_LENGTH = 100;
-    private static final int USER_ID_MIN_VALUE = 1;
+    private static final long USER_ID_MIN_VALUE = 1;
     private static final int ROOM_ID_MIN_VALUE = 1;
+
+    private static final String EMPTY_MESSAGE = "";
+    private static final String EMPTY_MESSAGE_TYPE = ChatMessageType.TEXT.name();
+    private static final Long EMPTY_USER_ID = 0L;
+    private static final boolean EMPTY_READ_OR_NOT = true;
+    private static final boolean EMPTY_IS_FC = false;
 
     @Id
     private String id;
@@ -25,7 +32,7 @@ public class ChatMessage {
     private LocalDateTime createdAt;
     private Boolean readOrNot;
 
-    private ChatMessage () {
+    private ChatMessage() {
 
     }
 
@@ -54,6 +61,20 @@ public class ChatMessage {
         this.readOrNot = readOrNot;
     }
 
+    private ChatMessage(
+        Long chatRoomId
+    ) {
+        Assert.isTrue(chatRoomId >= ROOM_ID_MIN_VALUE, "chatRoomId는 음수이거나 0일 수 없습니다.");
+
+        this.contents = EMPTY_MESSAGE;
+        this.messageType = EMPTY_MESSAGE_TYPE;
+        this.userId = EMPTY_USER_ID;
+        this.isFC = EMPTY_IS_FC;
+        this.chatRoomId = chatRoomId;
+        this.createdAt = LocalDateTime.now();
+        this.readOrNot = EMPTY_READ_OR_NOT;
+    }
+
     public static ChatMessage of(
         String contents,
         String messageType,
@@ -69,6 +90,12 @@ public class ChatMessage {
             isFC,
             chatRoomId,
             readOrNot);
+    }
+
+    public static ChatMessage emptyChatMessage(
+        Long chatRoomId
+    ) {
+        return new ChatMessage(chatRoomId);
     }
 
 }
