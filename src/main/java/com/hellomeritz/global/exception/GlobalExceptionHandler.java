@@ -24,7 +24,7 @@ import static com.hellomeritz.global.exception.ErrorCode.*;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(SttException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
+    protected ResponseEntity<ErrorResponse> handleSttException(
             SttException e) {
         log.warn("Handle SttException", e);
         final ErrorResponse response = ErrorResponse.of(e.getErrorCode(), e.getMessage());
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
      * [Exception] 클라이언트에서 request의 '파라미터로' 데이터가 넘어오지 않았을 경우
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    protected ResponseEntity<ErrorResponse> handleMissingRequestHeaderExceptionException(
+    protected ResponseEntity<ErrorResponse> handleMissingRequestHeaderException(
             MissingServletRequestParameterException ex) {
         log.warn("Handle MissingServletRequestParameterException", ex);
         final ErrorResponse response = ErrorResponse.of(REQUEST_PARAM_MISSING_ERROR, ex.getMessage());
