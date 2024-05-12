@@ -1,11 +1,14 @@
 package com.hellomeritz.chat.service;
 
 import com.hellomeritz.chat.domain.ChatMessage;
+import com.hellomeritz.chat.domain.ChatMessageType;
 import com.hellomeritz.chat.domain.ChatRoom;
 import com.hellomeritz.chat.global.stt.SttManagerHandler;
+import com.hellomeritz.chat.repository.chatentry.ChatRoomEntryRepository;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
 import com.hellomeritz.chat.repository.chatroom.ChatRoomRepository;
+import com.hellomeritz.chat.repository.chatsession.ChatSessionRepository;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
 import com.hellomeritz.global.ChatFixture;
@@ -25,6 +28,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
@@ -49,6 +53,12 @@ class ChatServiceTest {
 
     @Autowired
     private ForeignRepository foreignRepository;
+
+    @Autowired
+    private ChatSessionRepository chatSessionRepository;
+
+    @Autowired
+    private ChatRoomEntryRepository chatRoomEntryRepository;
 
     @DisplayName("채팅방을 만들 수 있다.")
     @Test
@@ -194,6 +204,25 @@ class ChatServiceTest {
         assertThat(chatRoomInfoOfConsultantResult.contents()).isEqualTo(secondChatMessage.getContents());
         assertThat(chatRoomInfoOfConsultantResult.notReadCount()).isEqualTo(0);
         assertThat(chatRoomInfoOfConsultantResult.foreignerName()).isEqualTo(foreigner.getName());
+    }
+
+    @DisplayName("채팅방에 나갈 때 관련 session 정보와 entry 정보가 함께 삭제된다.")
+    @Test
+    void leaveChatRoom() {
+        // given
+        String sessionId = "123ded";
+        chatRoomEntryRepository.addMemberToRoom(ChatFixture.chatRoomEntryAddRepositoryRequestByForeigner(sessionId));
+        chatSessionRepository.addSession(ChatFixture.chatSessionAddRepositoryRequestByForeigner(sessionId));
+        chatSessionRepository.changeChatRoomEntry(ChatFixture.chatSessionChangeRepositoryRequest(sessionId));
+
+        // when
+        chatService.leaveChatRoom(ChatFixture.chatRoomLeaveParamByForeigner());
+
+        // then
+        assertThrows(IllegalArgumentException.class,
+            () -> chatSessionRepository.getChatSession(sessionId));
+        assertThrows(IllegalArgumentException.class,
+            () -> chatRoomEntryRepository.getSession(ChatFixture.chatRoomEntryGetSessionRequest()));
     }
 
 }
