@@ -18,8 +18,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,4 +51,20 @@ class ConsultantControllerDocsTest extends RestDocsSupport {
                 )
             ));
     }
+
+    @DisplayName("상담이 끝나면 상담원의 상태를 가능 상태로 변경하는 API")
+    @Test
+    void endConsultation() throws Exception {
+        mockMvc.perform(put("/consultants/{fcId}",1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("end-consultation-and-change-available",
+                pathParameters(
+                    parameterWithName("fcId").description("상담원의 ID")
+                )
+            ));
+    }
+
 }

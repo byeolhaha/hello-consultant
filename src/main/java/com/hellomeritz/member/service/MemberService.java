@@ -81,4 +81,11 @@ public class MemberService {
         int randomIndex = random.nextInt(consultants.size());
         return consultants.get(randomIndex);
     }
+
+    @Transactional
+    public void endConsultation(FinancialConsultantChangeStateParam param) {
+        FinancialConsultant financialConsultant = financialConsultantRepository.getFinancialConsultant(param.fcId());
+        financialConsultant.endConsulting();
+    }
+
 }
