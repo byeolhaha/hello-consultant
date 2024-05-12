@@ -4,6 +4,8 @@ import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryDeleteReposito
 import lombok.Getter;
 import org.springframework.util.Assert;
 
+import java.util.Objects;
+
 @Getter
 public class ChatSession {
 
@@ -46,5 +48,19 @@ public class ChatSession {
             sessionId
         );
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatSession that = (ChatSession) o;
+        return Objects.equals(userId, that.userId) && Objects.equals(isFC, that.isFC) && Objects.equals(chatRoomId, that.chatRoomId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, isFC, chatRoomId);
+    }
+
 
 }
