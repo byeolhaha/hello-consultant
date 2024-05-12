@@ -9,7 +9,11 @@ import com.hellomeritz.chat.domain.ChatRoomPassword;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.global.stt.SttProvider;
+import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryAddRepositoryRequest;
+import com.hellomeritz.chat.repository.chatentry.dto.ChatRoomEntryGetSessionRequest;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryRequest;
+import com.hellomeritz.chat.repository.chatsession.dto.ChatSessionAddRepositoryRequest;
+import com.hellomeritz.chat.repository.chatsession.dto.ChatSessionChangeRepositoryRequest;
 import com.hellomeritz.chat.service.dto.param.*;
 import com.hellomeritz.chat.service.dto.result.*;
 
@@ -264,8 +268,7 @@ public class ChatFixture {
     public static ChatRoomPasswordCreateRequest chatRoomPasswordCreateRequest(
     ) {
         return new ChatRoomPasswordCreateRequest(
-            "30303TWSA!!!",
-            1L
+            "30303TWSA!!!"
         );
     }
 
@@ -306,7 +309,7 @@ public class ChatFixture {
                 new ChatRoomInfoOfForeignerResult(
                     1L,
                     "hello my name is byeol",
-                    LocalDateTime.of(2024,3,11,12,11),
+                    LocalDateTime.of(2024, 3, 11, 12, 11),
                     3,
                     "김별",
                     "https://storage.googleapis.com/hello/byeik.jpg"
@@ -314,7 +317,7 @@ public class ChatFixture {
                 new ChatRoomInfoOfForeignerResult(
                     2L,
                     "do you have resident card?",
-                    LocalDateTime.of(2023,3,11,12,11),
+                    LocalDateTime.of(2023, 3, 11, 12, 11),
                     4,
                     "김무지개",
                     "https://storage.googleapis.com/hello/byeik.jpg"
@@ -328,19 +331,72 @@ public class ChatFixture {
                 new ChatRoomInfoOfConsultantResult(
                     1L,
                     "안녕하세요",
-                    LocalDateTime.of(2024,3,11,12,11),
+                    LocalDateTime.of(2024, 3, 11, 12, 11),
                     3,
                     "jennie",
-                    LocalDateTime.of(2024,3,11,12,11)
+                    LocalDateTime.of(2024, 3, 11, 12, 11)
                 ),
                 new ChatRoomInfoOfConsultantResult(
                     2L,
                     "자동차 보험 들고 싶어요",
-                    LocalDateTime.of(2023,3,11,12,11),
+                    LocalDateTime.of(2023, 3, 11, 12, 11),
                     4,
                     "charrie",
-                    LocalDateTime.of(2023,3,11,12,11)
+                    LocalDateTime.of(2023, 3, 11, 12, 11)
                 )
             ));
+    }
+
+    public static ChatRoomLeaveRequest chatRoomLeaveRequest() {
+        return new ChatRoomLeaveRequest(
+            1L,
+            true
+        );
+    }
+
+    public static ChatRoomEntryAddRepositoryRequest chatRoomEntryAddRepositoryRequestByForeigner(
+        String sessionId
+    ) {
+        return new ChatRoomEntryAddRepositoryRequest(
+            1,
+            1,
+            false,
+            sessionId
+        );
+    }
+
+    public static ChatSessionAddRepositoryRequest chatSessionAddRepositoryRequestByForeigner(
+        String sessionId
+    ) {
+        return new ChatSessionAddRepositoryRequest(
+            sessionId,
+            1,
+            false
+        );
+    }
+
+    public static ChatRoomLeaveParam chatRoomLeaveParamByForeigner() {
+        return new ChatRoomLeaveParam(
+            1,
+            1,
+            false
+        );
+    }
+
+    public static ChatRoomEntryGetSessionRequest chatRoomEntryGetSessionRequest() {
+        return new ChatRoomEntryGetSessionRequest(
+            1,
+            1,
+            false
+        );
+    }
+
+    public static ChatSessionChangeRepositoryRequest chatSessionChangeRepositoryRequest(
+        String sessionId
+    ) {
+        return new ChatSessionChangeRepositoryRequest(
+            1,
+            sessionId
+        );
     }
 }

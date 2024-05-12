@@ -118,16 +118,18 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
     @DisplayName("채팅방 패스워드를 만드는 API")
     @Test
     void createChatRoomPassword() throws Exception {
-        mockMvc.perform(post("/chat-rooms/password")
+        mockMvc.perform(post("/chat-rooms/{chatRoomId}/passwords",1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(ChatFixture.chatRoomPasswordCreateRequest()))
             )
             .andDo(print())
             .andExpect(status().isCreated())
             .andDo(document("create-chat-room-password",
+                pathParameters(
+                    parameterWithName("chatRoomId").description("채팅방 id")
+                ),
                 requestFields(
-                    fieldWithPath("chatRoomPassword").type(JsonFieldType.STRING).description("채팅방 password"),
-                    fieldWithPath("chatRoomId").type(JsonFieldType.NUMBER).description("채팅방 Id")
+                    fieldWithPath("chatRoomPassword").type(JsonFieldType.STRING).description("채팅방 password")
                 )
             ));
     }
@@ -137,7 +139,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
     void checkChatRoomPassword() throws Exception {
         given(chatService.checkChatRoomPassword(any())).willReturn(true);
 
-        mockMvc.perform(put("/chat-rooms/{chatRoomId}", 1L)
+        mockMvc.perform(patch("/chat-rooms/{chatRoomId}/passwords", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(objectMapper.writeValueAsString(ChatFixture.chatRoomPasswordCheckRequest()))
@@ -228,6 +230,27 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("responses[].notReadCount").type(JsonFieldType.NUMBER).description("채팅방의 내가 읽지 않은 메세지 개수"),
                     fieldWithPath("responses[].consultantName").type(JsonFieldType.STRING).description("상담원의 이름"),
                     fieldWithPath("responses[].profileUrl").type(JsonFieldType.STRING).description("상담원 프로필")
+                )
+            ));
+    }
+
+    @DisplayName("채팅방을 나가는 API")
+    @Test
+    void leaveChatRoom() throws Exception {
+        mockMvc.perform(patch("/chat-rooms/{chatRoomId}",1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(objectMapper.writeValueAsString(ChatFixture.chatRoomLeaveRequest()))
+            )
+            .andDo(print())
+            .andExpect(status().isNoContent())
+            .andDo(document("leave-chat-room",
+                pathParameters(
+                    parameterWithName("chatRoomId").description("채팅방 id")
+                ),
+                requestFields(
+                    fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원의 Id"),
+                    fieldWithPath("isFC").type(JsonFieldType.BOOLEAN).description("떠나는 유저가 상담원인가?")
                 )
             ));
     }
