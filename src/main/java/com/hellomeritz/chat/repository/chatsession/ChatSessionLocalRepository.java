@@ -21,7 +21,11 @@ public class ChatSessionLocalRepository {
     }
 
     public ChatSession getChatSession(String sessionId) {
-        return sessions.get(sessionId);
+        ChatSession chatSession = sessions.get(sessionId);
+        if (chatSession == null) {
+            throw new IllegalArgumentException("세션 정보를 찾을 수 없습니다: " + sessionId);
+        }
+        return chatSession;
     }
 
     public void changeChatRoomEntry(ChatSessionChangeRepositoryRequest request) {
