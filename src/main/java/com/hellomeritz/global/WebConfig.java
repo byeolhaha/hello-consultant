@@ -33,5 +33,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new IpSensor(objectMapper))
                 .addPathPatterns("/users/*");
     }
-    
+
 }
