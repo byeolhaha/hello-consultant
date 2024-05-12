@@ -12,6 +12,7 @@ import com.hellomeritz.chat.global.translator.Translator;
 import com.hellomeritz.chat.global.translator.TranslatorHandler;
 import com.hellomeritz.chat.global.uploader.AudioUploadResponse;
 import com.hellomeritz.chat.global.uploader.AudioUploader;
+import com.hellomeritz.chat.repository.chatentry.ChatRoomEntryLocalRepository;
 import com.hellomeritz.chat.repository.chatentry.ChatRoomEntryRepository;
 import com.hellomeritz.chat.repository.chatmessage.ChatMessageRepository;
 import com.hellomeritz.chat.repository.chatmessage.dto.ChatMessageGetRepositoryResponses;
@@ -121,6 +122,11 @@ public class ChatService {
 
     public void changeSession(ChatSessionChangeParam param) {
         chatSessionRepository.changeChatRoomEntry(param.toChatSessionChangeRepositoryRequest());
+    }
+
+    public void leaveChatRoom(ChatRoomLeaveParam param) {
+        String sessionId = chatRoomEntryRepository.getSession(param.toChatRoomEntryGetSessionRequest());
+        leaveChatRoom(sessionId);
     }
 
     public void leaveChatRoom(String sessionId) {
