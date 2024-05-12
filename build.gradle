@@ -120,6 +120,7 @@ build {
 }
 
 bootJar {
+	archiveFileName = "${rootProject.name}.jar"
 	dependsOn asciidoctor
 	from ("${asciidoctor.outputDir}") {
 		into 'static/docs'
