@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # JAR 파일 경로 설정
-JAR_PATH="/home/ubuntu/meritz/build/libs/hellomeritz-0.0.1-SNAPSHOT.jar"
+JAR_PATH="/home/ubuntu/hello/build/libs/hello-0.0.1-SNAPSHOT.jar"
 
 # 실행 중인 애플리케이션의 PID 찾기
 CURRENT_PID=$(pgrep -f "java -jar $JAR_PATH")
