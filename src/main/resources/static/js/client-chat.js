@@ -11,6 +11,16 @@ let consultantId = null;
 let nextChatMessageId = '';
 let hasNext = true;
 
+window.addEventListener('popstate', async function(event) {
+    await leaveChatRoom();
+});
+
+window.onpageshow = function(event) {
+    if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+        history.pushState(null, null, null);
+    }
+};
+
 function getRoomIdFromUrl() {
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
@@ -45,13 +55,11 @@ async function fetchChatMessages() {
         const data = await response.json();
         const chatMessages = data.chatMessages;
 
-        // 채팅 메시지를 처리합니다.
         for (let i = chatMessages.length - 1; i >= 0; i--) {
               messages.unshift(chatMessages[i]);
               displayMessages();
         }
 
-        // 다음 메시지의 ID를 업데이트합니다.
         nextChatMessageId = data.nextChatMessageId;
         hasNext = data.hasNext;
     } else {
@@ -133,7 +141,7 @@ async function getConsultantInfo() {
             profileImage.innerHTML = `<img src="${data.profileUrl}" alt="프로필 이미지">`;
 
             const profileName = document.querySelector('.profile-name');
-            profileName.textContent = data.name + ' 상담사';
+            profileName.textContent = data.name + '✅';
 
             const introduce = document.querySelector('.introduce');
             introduce.textContent = data.introduceMessage + '🖐️';
@@ -246,8 +254,8 @@ function openChatPasswordModal() {
         var passwordInput = modal.querySelector("#password");
         var password = passwordInput.value;
 
-        fetch(`/chat-rooms/${chatRoomId}`, {
-            method: 'PUT',
+        fetch(`/chat-rooms/${chatRoomId}/passwords`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -274,4 +282,27 @@ function openChatPasswordModal() {
             alert('Invalid password');
         });
     });
+}
+
+async function leaveChatRoom() {
+    try {
+        const response = await fetch(`/chat-rooms/${chatRoomId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               userId: clientId,
+               isFC: false
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
 }

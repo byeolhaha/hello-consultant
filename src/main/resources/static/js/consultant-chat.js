@@ -11,6 +11,16 @@ let clientLanguage = null;
 let nextChatMessageId = '';
 let hasNext = true;
 
+window.addEventListener('popstate', async function(event) {
+    await leaveChatRoom();
+});
+
+window.onpageshow = function(event) {
+    if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+        history.pushState(null, null, null);
+    }
+};
+
 function getRoomIdFromUrl() {
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
@@ -202,6 +212,29 @@ async function enterChatRoom() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+               isFC: true
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
+}
+
+async function leaveChatRoom() {
+    try {
+        const response = await fetch(`/chat-rooms/${chatRoomId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               userId: consultantId,
                isFC: true
             })
         });
