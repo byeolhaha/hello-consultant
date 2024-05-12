@@ -3,11 +3,11 @@ document.getElementById("openModal").addEventListener("click", function() {
 });
 
 document.getElementById("newCustomer").addEventListener("click", function() {
-    window.location.href = "/survey.html";
+    window.location.href = "/templates/survey.html";
 });
 
 document.getElementById("existingCustomer").addEventListener("click", function() {
-    window.location.href = "/client-chatrooms.html";
+    window.location.href = "/templates/client-chatrooms.html";
 });
 
 document.getElementsByClassName("close")[0].addEventListener("click", function() {

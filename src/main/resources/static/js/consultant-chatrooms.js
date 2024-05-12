@@ -25,7 +25,7 @@ function createChatRoomElement(chatRoom) {
     chatRoomElement.classList.add('chat-room');
 
     chatRoomElement.addEventListener('click', function() {
-        window.location.href = `/consultant.html?chatRoomId=${chatRoom.chatRoomId}`;
+        window.location.href = `/templates/consultant.html?chatRoomId=${chatRoom.chatRoomId}`;
     });
 
     //chat-room-detail 안에 외국인 이름과 최신 메세지 넣기

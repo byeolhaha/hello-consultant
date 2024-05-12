@@ -40,7 +40,7 @@ function createChatRoomElement(chatRoom) {
     chatRoomElement.classList.add('chat-room');
 
     chatRoomElement.addEventListener('click', function() {
-        window.location.href = `/client.html?chatRoomId=${chatRoom.chatRoomId}`;
+        window.location.href = `/templates/client.html?chatRoomId=${chatRoom.chatRoomId}`;
     });
 
     const profileImg = document.createElement('img');
@@ -227,7 +227,7 @@ function openChatPasswordModal(chatRoomId) {
             alert('Password setting is complete.');
             modal.remove();
 
-            window.location.href = `/client.html?chatRoomId=${chatRoomId}`;
+            window.location.href = `/templates/client.html?chatRoomId=${chatRoomId}`;
         })
         .catch(error => {
             console.error('Error:', error);

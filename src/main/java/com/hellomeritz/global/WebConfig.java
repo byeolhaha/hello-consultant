@@ -33,13 +33,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new IpSensor(objectMapper))
                 .addPathPatterns("/users/*");
     }
-
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-            .addResourceLocations("classpath:/templates/","classpath:/static/")
-            .setCacheControl(CacheControl.maxAge(1, TimeUnit.SECONDS));
-    }
-
-
+    
 }
