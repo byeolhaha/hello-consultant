@@ -121,3 +121,17 @@ include::{snippets}/get-chat-room-info-of-foreigner/query-parameters.adoc[]
 
 include::{snippets}/get-chat-room-info-of-foreigner/http-response.adoc[]
 include::{snippets}/get-chat-room-info-of-foreigner/response-fields.adoc[]
+
+== 채팅방 나가기(영구 삭제가 아닌 단순 나가기)
+
+채팅방에 나가는 API (영구 삭제가 아닌 단순 나가기)
+
+=== Request
+
+include::{snippets}/leave-chat-room/http-request.adoc[]
+include::{snippets}/leave-chat-room/path-parameters.adoc[]
+
+=== Response (Success)
+
+include::{snippets}/leave-chat-room/http-response.adoc[]
+

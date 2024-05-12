@@ -754,11 +754,11 @@ audio-files
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json;charset=UTF-8
-Content-Length: 126
+Content-Length: 129
 
 {
   "textBySpeech" : "Hello my name is byeol",
-  "createdAt" : "2024-05-10T10:39:43.467337",
+  "createdAt" : "2024-05-11T23:09:46.612011500",
   "sttProvider" : "WHISPER"
 }</code></pre>
 </div>
@@ -885,14 +885,13 @@ Content-Length: 35
 <h3 id="_request_5">Request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /chat-rooms/password HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /chat-rooms/1/passwords HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 43
 Host: localhost:8080
 
 {
-  "chatRoomPassword" : "30303TWSA!!!",
-  "chatRoomId" : 1
+  "chatRoomPassword" : "30303TWSA!!!"
 }</code></pre>
 </div>
 </div>
@@ -918,7 +917,7 @@ Host: localhost:8080
 <h3 id="_request_6">Request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /chat-rooms/1 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /chat-rooms/1/passwords HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 43
 Host: localhost:8080
@@ -929,7 +928,7 @@ Host: localhost:8080
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /chat-rooms/{chatRoomId}</caption>
+<caption class="title">Table 4. /chat-rooms/{chatRoomId}/passwords</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1237,11 +1236,62 @@ Content-Length: 532
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_채팅방_나가기영구_삭제가_아닌_단순_나가기">채팅방 나가기(영구 삭제가 아닌 단순 나가기)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>채팅방에 나가는 API (영구 삭제가 아닌 단순 나가기)</p>
+</div>
+<div class="sect2">
+<h3 id="_request_10">Request</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /chat-rooms/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 38
+Host: localhost:8080
+
+{
+  "userId" : 1,
+  "isFC" : true
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /chat-rooms/{chatRoomId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chatRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_success_10">Response (Success)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-05-10 10:39:28 +0900
+Last updated 2024-05-11 22:42:53 +0900
 </div>
 </div>
 </body>
