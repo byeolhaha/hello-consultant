@@ -62,6 +62,7 @@ button[onclick="sendMessage()"]:hover {
     border-radius: 15px;
     color: #fff;
     max-width: 70%;
+    text-align : left
 }
 
 .sent .message-content {
