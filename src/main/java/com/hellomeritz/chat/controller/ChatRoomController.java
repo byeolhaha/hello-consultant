@@ -64,21 +64,30 @@ public class ChatRoomController {
     }
 
     @PostMapping(
-        path = "/password"
+        path = "/{chatRoomId}/passwords"
     )
     public ResponseEntity<Void> createPassword(
+        @Positive(message = "chatRoomId는 양수여야 합니다.")
+        @NotNull(message = "chatRoomId는 null값 일 수 없습니다.")
+        @PathVariable
+        Long chatRoomId,
         @Valid @RequestBody ChatRoomPasswordCreateRequest request) {
-        chatService.createChatRoomPassword(request.toChatRoomPasswordCreateParam());
+        chatService.createChatRoomPassword(request.toChatRoomPasswordCreateParam(chatRoomId));
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping(
-        path = "/{chatRoomId}"
+    @PatchMapping(
+        path = "/{chatRoomId}/passwords"
     )
     public ResponseEntity<ChatRoomPasswordCheckResponse> checkPassword(
-        @Positive @NotNull @PathVariable Long chatRoomId,
-        @Valid @RequestBody ChatRoomPasswordCheckRequest request) {
+        @Positive(message = "chatRoomId는 양수여야 합니다.")
+        @NotNull(message = "chatRoomId는 null값 일 수 없습니다.")
+        @PathVariable
+        Long chatRoomId,
+        @Valid
+        @RequestBody
+        ChatRoomPasswordCheckRequest request) {
         boolean isMyUser = chatService.checkChatRoomPassword
             (request.toChatRoomPasswordCheckParam(chatRoomId));
 
@@ -91,8 +100,13 @@ public class ChatRoomController {
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Void> enterChatRoom(
-        @Positive @PathVariable Long chatRoomId,
-        @Valid @RequestBody ChatRoomEnterRequest request
+        @Positive(message = "chatRoomId는 양수여야 합니다.")
+        @NotNull(message = "chatRoomId는 null값 일 수 없습니다.")
+        @PathVariable
+        Long chatRoomId,
+        @Valid
+        @RequestBody
+        ChatRoomEnterRequest request
     ) {
         chatService.enterChatRoom(request.toChatRoomEnterParam(chatRoomId));
 
@@ -125,6 +139,24 @@ public class ChatRoomController {
 
         return ResponseEntity.status(HttpStatus.OK)
             .body(ChatRoomInfoOfForeignerResponses.to(chatRoomInfoOfForeigner));
+    }
+
+    @PatchMapping(
+        path = "/{chatRoomId}",
+        consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Void> leaveChatRoom(
+        @Positive(message = "chatRoomId는 양수여야 합니다.")
+        @NotNull(message = "chatRoomId는 null값 일 수 없습니다.")
+        @PathVariable
+        Long chatRoomId,
+        @Valid
+        @RequestBody
+        ChatRoomLeaveRequest request
+    ) {
+        chatService.leaveChatRoom(request.toChatRoomLeaveParam(chatRoomId));
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

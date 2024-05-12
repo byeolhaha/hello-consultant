@@ -12,13 +12,10 @@ import java.time.LocalDateTime;
 
 public record ChatRoomPasswordCreateRequest(
         @NotBlank(message = "chatRoomPassword은 빈값일 수 없습니다.")
-        String chatRoomPassword,
-        @NotNull(message = "chatRoomId는 null 값일 수 없습니다.")
-        @Positive(message = "chatRoomId는 양수여야 합니다.")
-        Long chatRoomId
+        String chatRoomPassword
 ) {
 
-    public ChatRoomPasswordCreateParam toChatRoomPasswordCreateParam() {
+    public ChatRoomPasswordCreateParam toChatRoomPasswordCreateParam(Long chatRoomId) {
         return new ChatRoomPasswordCreateParam(
                 ChatRoomPassword.of(chatRoomPassword),
                 chatRoomId,
