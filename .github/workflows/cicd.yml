@@ -2,14 +2,14 @@ name: develop branch Build and Deploy to EC2
 on:
   push:
     branches: [ "main" ]
-
   workflow_dispatch:
 
 env:
-  BUCKET_NAME: hellomeritz-cicd
-  PROJECT_NAME: hellomeritz
-  DEPLOYMENT_GROUP_NAME: meritz
+  BUCKET_NAME: hello-consultant
+  PROJECT_NAME: hello
+  DEPLOYMENT_GROUP_NAME: hello-consultant
   CODE_DEPLOY_APP_NAME: code-deploy
+
 jobs:
   # 작업의 이름
   build_and_test:
