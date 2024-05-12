@@ -2,7 +2,6 @@ name: develop branch Build and Deploy to EC2
 on:
   pull_request:
     branches: [ "main" ]
-
   workflow_dispatch:
 
 env:
@@ -10,6 +9,7 @@ env:
   PROJECT_NAME: hello
   DEPLOYMENT_GROUP_NAME: hello-consultant
   CODE_DEPLOY_APP_NAME: code-deploy
+
 jobs:
   # 작업의 이름
   build_and_test:
