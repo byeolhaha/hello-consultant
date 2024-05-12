@@ -3,11 +3,11 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/meritz
+    destination: /home/ubuntu/hello
     overwrite: yes
 file_exists_behavior: OVERWRITE
 permissions:
-  - object: /home/ubuntu/meritz/
+  - object: /home/ubuntu/hello/
     owner: ubuntu
     group: ubuntu
 hooks:
