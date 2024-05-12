@@ -165,7 +165,7 @@ function openChatPasswordModal(chatRoomId) {
             alert('Password setting is complete.');
             modal.remove();
 
-            window.location.href = `/client.html?chatRoomId=${chatRoomId}`;
+            window.location.href = `/templates/client.html?chatRoomId=${chatRoomId}`;
         })
         .catch(error => {
             console.error('Error:', error);
