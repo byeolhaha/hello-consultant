@@ -210,7 +210,7 @@ function openChatPasswordModal(chatRoomId) {
             return;
         }
 
-        fetch('/chat-rooms/password', {
+        fetch(`/chat-rooms/${chatRoomId}/passwords`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
