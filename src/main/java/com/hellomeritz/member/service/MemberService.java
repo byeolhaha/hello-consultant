@@ -3,6 +3,8 @@ package com.hellomeritz.member.service;
 import com.hellomeritz.member.domain.FinancialConsultant;
 import com.hellomeritz.member.domain.Foreigner;
 import com.hellomeritz.member.global.IpSensor;
+import com.hellomeritz.global.encryption.PasswordEncoder;
+import com.hellomeritz.global.encryption.dto.EncryptionResponse;
 import com.hellomeritz.member.global.sms.SmsManager;
 import com.hellomeritz.member.repository.fc.FinancialConsultantRepository;
 import com.hellomeritz.member.repository.foreign.ForeignRepository;
@@ -24,11 +26,14 @@ public class MemberService {
     private final IpSensor ipSensor;
     private final SmsManager smsManager;
 
-    public MemberService(ForeignRepository foreignRepository, FinancialConsultantRepository financialConsultantRepository, IpSensor ipSensor, SmsManager smsManager) {
+    private final PasswordEncoder passwordEncoder;
+
+    public MemberService(ForeignRepository foreignRepository, FinancialConsultantRepository financialConsultantRepository, IpSensor ipSensor, SmsManager smsManager, PasswordEncoder passwordEncoder) {
         this.foreignRepository = foreignRepository;
         this.financialConsultantRepository = financialConsultantRepository;
         this.ipSensor = ipSensor;
         this.smsManager = smsManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -80,6 +85,39 @@ public class MemberService {
     private FinancialConsultant selectConsultant(List<FinancialConsultant> consultants) {
         int randomIndex = random.nextInt(consultants.size());
         return consultants.get(randomIndex);
+    }
+
+    @Transactional
+    public ConsultantSignUpResult signUp(ConsultantSignUpParam param) {
+        String clientIp = ipSensor.getClientIP();
+        EncryptionResponse encryptionResponse
+            = passwordEncoder.encrypt(param.toEncryptionRequest(clientIp));
+
+        FinancialConsultant savedFinancialConsultant
+            = financialConsultantRepository.save(param.toFinancialConsultant(encryptionResponse));
+
+        return ConsultantSignUpResult.to(savedFinancialConsultant.getFinancialConsultantId());
+    }
+
+    @Transactional
+    public ConsultantLoginResult login(ConsultantLoginParam param) {
+        FinancialConsultant financialConsultant
+            = financialConsultantRepository.getByEmployeeNumber(param.employeeNumber());
+        boolean isAuthorized = passwordEncoder.matchPassword(param.toPasswordMatchRequest(financialConsultant));
+
+        if (isAuthorized) {
+            createConsultantPassword(param, financialConsultant);
+        }
+        return ConsultantLoginResult.to(isAuthorized, financialConsultant.getFinancialConsultantId());
+    }
+
+    public void createConsultantPassword(ConsultantLoginParam param, FinancialConsultant financialConsultant) {
+        String clientIp = ipSensor.getClientIP();
+        EncryptionResponse encryptionResponse
+            = passwordEncoder.encrypt(param.toEncryptionRequest(clientIp));
+
+        financialConsultant.changePassword(encryptionResponse.password());
+        financialConsultant.changeSalt(encryptionResponse.salt());
     }
 
     @Transactional
