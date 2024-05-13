@@ -34,4 +34,10 @@ public class FinancialConsultantRepositoryImpl implements FinancialConsultantRep
         return financialConsultants;
     }
 
+    @Override
+    public FinancialConsultant getByEmployeeNumber(String employeeNumber) {
+        return financialConsultantJapRepository.findByEmployeeNumber(employeeNumber)
+            .orElseThrow(()-> new EntityNotFoundException("해당하는 설계사는 존재하지 않습니다."));
+    }
+
 }

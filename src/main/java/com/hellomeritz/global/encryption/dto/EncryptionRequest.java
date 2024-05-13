@@ -1,4 +1,4 @@
-package com.hellomeritz.member.global.encryption.dto;
+package com.hellomeritz.global.encryption.dto;
 
 import java.time.LocalDateTime;
 

@@ -248,3 +248,39 @@ async function leaveChatRoom() {
         throw error;
     }
 }
+
+function completeConsultation() {
+        var url = `/consultants/${consultantId}`;
+
+           // PUT 요청 보내기
+           fetch(url, {
+               method: 'PUT',
+               headers: {
+                   'Content-Type': 'application/json'
+               },
+               body: JSON.stringify({})
+           })
+           .then(response => {
+               endMessages();
+           })
+           .catch(error => {
+               console.error('Error:', error);
+               alert('상담 완료 요청을 처리하는 동안 오류가 발생했습니다. 다시 시도해주세요.');
+           });
+}
+
+function endMessages() {
+     const messageList = document.getElementById('message-list');
+
+     const originMessageElement = document.createElement('div');
+     originMessageElement.className = 'message sent';
+
+     const originContentElement = document.createElement('div');
+     originContentElement.className = 'message-content';
+     originContentElement.textContent = '상담이 완료되었습니다.✅ 다른 궁금한 사항이 있다면 언제든 다시 물아봐주세요';
+
+     originMessageElement.appendChild(originContentElement);
+
+     messageList.appendChild(originMessageElement);
+
+}

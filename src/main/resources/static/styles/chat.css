@@ -253,3 +253,20 @@ button[onclick="sendMessage()"]:hover {
 #submitPassword:hover {
     background-color: #45a049;
 }
+
+/*상담완료 버튼*/
+.complete-button {
+    width: calc(100% - 20px);
+    margin: 10px;
+    padding: 10px;
+    background-color: #ff6347; /* 버튼 배경색 */
+    color: white; /* 버튼 텍스트 색상 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.complete-button:hover {
+    background-color: #d6342b; /* 마우스 호버 시 배경색 */
+}

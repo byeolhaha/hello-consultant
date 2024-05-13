@@ -1,7 +1,11 @@
 package com.hellomeritz.global;
 
+import com.hellomeritz.member.controller.dto.request.ConsultantLoginRequest;
+import com.hellomeritz.member.controller.dto.request.ConsultantSignUpRequest;
 import com.hellomeritz.member.domain.FinancialConsultant;
+import com.hellomeritz.member.service.dto.result.ConsultantLoginResult;
 import com.hellomeritz.member.service.dto.result.ConsultantMatchResult;
+import com.hellomeritz.member.service.dto.result.ConsultantSignUpResult;
 import com.hellomeritz.member.service.dto.result.FcInfoResult;
 
 public class FinancialConsultantFixture {
@@ -20,7 +24,7 @@ public class FinancialConsultantFixture {
     }
 
     public static FinancialConsultant financialConsultantNotVailable() {
-        FinancialConsultant financialConsultant =  FinancialConsultant.of(
+        FinancialConsultant financialConsultant = FinancialConsultant.of(
             "010-1234-6789",
             "박지호",
             "https://gcp//meritz-profile/mypicture",
@@ -44,4 +48,29 @@ public class FinancialConsultantFixture {
     public static ConsultantMatchResult consultantMatchResult() {
         return new ConsultantMatchResult(1L);
     }
+
+    public static ConsultantSignUpResult consultantSignUpResult() {
+        return new ConsultantSignUpResult(1L);
+    }
+
+    public static ConsultantSignUpRequest consultantSignUpRequest() {
+        return new ConsultantSignUpRequest(
+            "123401343",
+            "123456789TWE!@",
+            "01012345678",
+            "KIM BYEOL",
+            "https://gcp//meritz-profile/mypicture",
+            "hello, my name is byeol");
+    }
+
+    public static ConsultantLoginResult consultantLoginResult() {
+        return new ConsultantLoginResult(true, 1L);
+    }
+
+    public static ConsultantLoginRequest consultantLoginRequest() {
+        return new ConsultantLoginRequest(
+            "123401343",
+            "12345678TWE!@");
+    }
+
 }

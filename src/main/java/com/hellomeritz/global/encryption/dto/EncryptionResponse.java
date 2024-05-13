@@ -1,4 +1,4 @@
-package com.hellomeritz.member.global.encryption.dto;
+package com.hellomeritz.global.encryption.dto;
 
 public record EncryptionResponse(
         String password,

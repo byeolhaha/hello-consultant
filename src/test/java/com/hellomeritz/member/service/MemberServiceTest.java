@@ -2,16 +2,17 @@ package com.hellomeritz.member.service;
 
 import com.hellomeritz.global.FinancialConsultantFixture;
 import com.hellomeritz.global.ForeignFixture;
+import com.hellomeritz.member.domain.ConsultationState;
 import com.hellomeritz.member.domain.FinancialConsultant;
 import com.hellomeritz.member.domain.Foreigner;
 import com.hellomeritz.member.repository.fc.FinancialConsultantRepository;
 import com.hellomeritz.member.repository.foreign.ForeignRepository;
+import com.hellomeritz.member.service.dto.param.FinancialConsultantChangeStateParam;
 import com.hellomeritz.member.service.dto.param.FinancialConsultantInfoGetParam;
 import com.hellomeritz.member.service.dto.param.ForeignerInfoGetParam;
 import com.hellomeritz.member.service.dto.result.ConsultantMatchResult;
 import com.hellomeritz.member.service.dto.result.FcInfoResult;
 import com.hellomeritz.member.service.dto.result.ForeignerInfoResult;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,4 +93,19 @@ class MemberServiceTest {
             , ()->memberService.matchConsultant()
         );
     }
+
+    @DisplayName("상담원은 상담이 끝나면 본인의 상태를 UNAVAILABLE로 바꿀 수 있다.")
+    @Test
+    void changeConsultationState() {
+        // given
+        FinancialConsultant financialConsultant = financialConsultantRepository.save(FinancialConsultantFixture.financialConsultantNotVailable());
+
+        // when
+        memberService.endConsultation(new FinancialConsultantChangeStateParam(financialConsultant.getFinancialConsultantId()));
+        FinancialConsultant changedFinancialConsultant = financialConsultantRepository.getFinancialConsultant(financialConsultant.getFinancialConsultantId());
+
+        // then
+        assertThat(changedFinancialConsultant.getConsultationState()).isEqualTo(ConsultationState.AVAILABLE.name());
+    }
+
 }

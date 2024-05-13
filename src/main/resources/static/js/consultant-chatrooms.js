@@ -1,8 +1,16 @@
 let userId = 1;
 
+function getUserIdFromUrl() {
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    return urlParams.get('fcId');
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
     getChatRooms();
     getConsultantInfo();
+    userId = getUserIdFromUrl();
 });
 
 async function getChatRooms() {
