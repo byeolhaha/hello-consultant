@@ -19,9 +19,8 @@
 - 상담원 : https://hellocounselors.p-e.kr/templates/consultant-login.html
 
 # 프로젝트의 주요 관심사
-
 - 외부 API에 대한 이중화 및 fallback method 호출, open 상태로의 전환 시 관리자 알림
-- 효율적인 금칙어 처리
+- 금칙어 조회에 성능이 좋은 아호코라식 알고리즘을 사용 및  ApplicationRunner를 통하여 스프링 부트 초기화 시 DB에 있는 금칙어 데이터를 로컬 캐시에 올려두도록 구현 및 새롭게 DB에 추가된 경우 서버를 재가동 시키는 번거로움이 존재하여 API 구현
 - 채팅방 비밀번호에 대한 가변적 salt 처리
 
 
