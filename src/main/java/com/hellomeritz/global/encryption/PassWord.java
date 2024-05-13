@@ -1,47 +1,47 @@
-package com.hellomeritz.chat.domain;
+package com.hellomeritz.global.encryption;
 
 import lombok.Getter;
 import org.springframework.util.Assert;
 
 @Getter
-public class ChatRoomPassword {
+public class PassWord {
 
     private static final int MIN_PASSWORD_LENGTH = 10;
-    private String chatRoomPassword;
+    private String password;
 
-    private ChatRoomPassword() {
+    private PassWord() {
     }
 
-    private ChatRoomPassword(
-            String chatRoomPassword
+    private PassWord(
+            String password
     ) {
-        this.chatRoomPassword = chatRoomPassword;
+        this.password = password;
     }
 
-    public static ChatRoomPassword of(
-            String chatRoomPassword
+    public static PassWord of(
+            String password
     ) {
-        Assert.hasLength(chatRoomPassword, "비밀번호는 빈값이나 null 일 수 없습니다.");
-        checkLength(chatRoomPassword);
-        isContainEngAndSpecialCharAndDigit(chatRoomPassword);
+        Assert.hasLength(password, "비밀번호는 빈값이나 null 일 수 없습니다.");
+        checkLength(password);
+        isContainEngAndSpecialCharAndDigit(password);
 
-        return new ChatRoomPassword(chatRoomPassword);
+        return new PassWord(password);
     }
 
-    private static void checkLength(String chatRoomPassword) {
-        int passwordLength = chatRoomPassword.length();
+    private static void checkLength(String password) {
+        int passwordLength = password.length();
         if (passwordLength < MIN_PASSWORD_LENGTH) {
             throw new IllegalArgumentException(String.format("password의 자릿수가 %d를 넘지 않습니다. " +
                     "현재 자릿수는 %d 입니다.", MIN_PASSWORD_LENGTH, passwordLength));
         }
     }
 
-    private static void isContainEngAndSpecialCharAndDigit(String chatRoomPassword) {
+    private static void isContainEngAndSpecialCharAndDigit(String password) {
         boolean hasEnglish = false;
         boolean hasSpecialCharacter = false;
         boolean hasDigit = false;
 
-        for (char ch : chatRoomPassword.toCharArray()) {
+        for (char ch : password.toCharArray()) {
             if (Character.isLetter(ch)) {
                 hasEnglish = true;
             } else if (Character.isDigit(ch)) {

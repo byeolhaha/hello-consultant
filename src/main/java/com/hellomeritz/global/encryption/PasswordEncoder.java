@@ -1,10 +1,9 @@
-package com.hellomeritz.member.global.encryption;
+package com.hellomeritz.global.encryption;
 
-import com.hellomeritz.member.global.encryption.dto.EncryptionRequest;
-import com.hellomeritz.member.global.encryption.dto.EncryptionResponse;
-import com.hellomeritz.member.global.encryption.dto.PasswordMatchRequest;
-import com.hellomeritz.member.global.encryption.dto.SaltRequest;
-import org.springframework.beans.factory.annotation.Value;
+import com.hellomeritz.global.encryption.dto.EncryptionResponse;
+import com.hellomeritz.global.encryption.dto.SaltRequest;
+import com.hellomeritz.global.encryption.dto.EncryptionRequest;
+import com.hellomeritz.global.encryption.dto.PasswordMatchRequest;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKeyFactory;

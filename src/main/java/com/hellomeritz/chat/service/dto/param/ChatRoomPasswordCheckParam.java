@@ -1,8 +1,8 @@
 package com.hellomeritz.chat.service.dto.param;
 
-import com.hellomeritz.chat.domain.ChatRoomPassword;
+import com.hellomeritz.global.encryption.PassWord;
 import com.hellomeritz.chat.repository.chatroom.dto.ChatRoomPasswordInfo;
-import com.hellomeritz.member.global.encryption.dto.PasswordMatchRequest;
+import com.hellomeritz.global.encryption.dto.PasswordMatchRequest;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ public record ChatRoomPasswordCheckParam(
 
     public ChatRoomPasswordCreateParam toChatRoomPasswordCreateRequest() {
         return new ChatRoomPasswordCreateParam(
-                ChatRoomPassword.of(chatRoomPassword),
+                PassWord.of(chatRoomPassword),
                 chatRoomId,
                 LocalDateTime.now()
         );
