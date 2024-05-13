@@ -12,7 +12,8 @@
 ![image](https://github.com/byeolhaha/hello-counselers/assets/108210958/92056e34-5a55-4bf8-ab1f-4e85a152efba)
 - 히스토리 저장에 따른 상담원 및 외국인 고객의 채팅 목록
 ![image](https://github.com/byeolhaha/hello-counselers/assets/108210958/efef140c-3bf6-4eef-b68f-e2abff665482)
-
+- 채팅방 읽지 않은 메세지 수 제공 
+- fallback method 및 Open 상태 전환 시 관리자에게 텔레그램 봇 알람
 # 운영중인 사이트
 
 - 외국인 고객 : https://hellocounselors.p-e.kr/
