@@ -1,0 +1,35 @@
+# 개인 프로젝트 Hello, consultant!
+
+## 프로젝트 기획 배경
+
+외국인들이 본인의 언어로 소통이 가능한 상담사를 찾으려고 노력하는 모습을 보고 서로의 언어로 소통이 가능한 상담 채팅 플랫폼을 만들고자 계획하게 되었습니다.
+<br />
+
+## 제공하는 기능
+- 외국인 고객의 채팅 시작 전 고객 정보 입력 및 채팅방 비밀 번호 설정 (Yes, continue 클릭시 히스토리 채팅 목록으로 이동)
+![image](https://github.com/byeolhaha/hello-counselers/assets/108210958/470eca3f-e0eb-4d53-931a-87f5be5a00b2)
+- 서로의 언어로 번역되는 채팅 및 상담원의 상담 완료 버튼(상태가 AVAILABLE로 되어 다른 외국인 상담 매칭 가능), 금칙어 처리
+![image](https://github.com/byeolhaha/hello-counselers/assets/108210958/92056e34-5a55-4bf8-ab1f-4e85a152efba)
+- 히스토리 저장에 따른 상담원 및 외국인 고객의 채팅 목록
+![image](https://github.com/byeolhaha/hello-counselers/assets/108210958/efef140c-3bf6-4eef-b68f-e2abff665482)
+
+# 운영중인 사이트
+
+- 외국인 고객 : https://hellocounselors.p-e.kr/
+- 상담원 : https://hellocounselors.p-e.kr/templates/consultant-login.html
+
+# 프로젝트의 주요 관심사
+
+- 외부 API에 대한 이중화 및 fallback method 호출, open 상태로의 전환 시 관리자 알림
+- 효율적인 금칙어 처리
+- 채팅방 비밀번호에 대한 가변적 salt 처리
+
+
+## 아키텍처
+
+![image](https://github.com/byeolhaha/hello-counselers/assets/108210958/4d69d83c-a5fa-4140-bfb5-d740b4d90975)
+
+
+
+
+
