@@ -270,17 +270,17 @@ function completeConsultation() {
 }
 
 function endMessages() {
-     const messageList = document.getElementById('message-list');
+    const newMessage = '상담이 완료되었습니다.✅ 다른 궁금한 사항이 있다면 언제든 다시 물아봐주세요';
+    if (newMessage && chatClient && chatClient.connected) {
+        const chatMessage = {
+            contents: newMessage,
+            userId: consultantId,
+            isFC : true,
+            targetLang : clientLanguage,
+            sourceLang : "KOREAN"
+        };
 
-     const originMessageElement = document.createElement('div');
-     originMessageElement.className = 'message sent';
-
-     const originContentElement = document.createElement('div');
-     originContentElement.className = 'message-content';
-     originContentElement.textContent = '상담이 완료되었습니다.✅ 다른 궁금한 사항이 있다면 언제든 다시 물아봐주세요';
-
-     originMessageElement.appendChild(originContentElement);
-
-     messageList.appendChild(originMessageElement);
-
+        chatClient.send(`/app/chats/${chatRoomId}`, {}, JSON.stringify(chatMessage));
+        document.getElementById('message-input').value = ''; // 메시지 입력란 초기화
+    }
 }
