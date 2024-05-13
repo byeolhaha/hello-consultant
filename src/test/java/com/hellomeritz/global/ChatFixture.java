@@ -5,7 +5,7 @@ import com.hellomeritz.chat.controller.dto.response.ChatRoomUserInfoResponse;
 import com.hellomeritz.chat.domain.ChatMessage;
 import com.hellomeritz.chat.domain.ChatMessageType;
 import com.hellomeritz.chat.domain.ChatRoom;
-import com.hellomeritz.chat.domain.ChatRoomPassword;
+import com.hellomeritz.global.encryption.PassWord;
 import com.hellomeritz.chat.global.SourceLanguage;
 import com.hellomeritz.chat.global.TargetLanguage;
 import com.hellomeritz.chat.global.stt.SttProvider;
@@ -250,7 +250,7 @@ public class ChatFixture {
         long chatRoomId
     ) {
         return new ChatRoomPasswordCreateParam(
-            ChatRoomPassword.of("30303TWSA!!!"),
+            PassWord.of("30303TWSA!!!"),
             chatRoomId,
             LocalDateTime.now()
         );
