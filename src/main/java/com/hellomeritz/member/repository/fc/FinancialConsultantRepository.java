@@ -14,4 +14,6 @@ public interface FinancialConsultantRepository {
 
     List<FinancialConsultant> getFinancialConsultantWithAvailable();
 
+    FinancialConsultant getByEmployeeNumber (String employeeNumber);
+
 }
