@@ -106,7 +106,6 @@ class MemberServiceTest {
 
         // then
         assertThat(changedFinancialConsultant.getConsultationState()).isEqualTo(ConsultationState.AVAILABLE.name());
-
-
     }
+
 }
