@@ -1,5 +1,6 @@
 package com.hellomeritz.member.service;
 
+import com.hellomeritz.global.cache.CacheType;
 import com.hellomeritz.member.domain.FinancialConsultant;
 import com.hellomeritz.member.domain.Foreigner;
 import com.hellomeritz.member.global.IpSensor;
@@ -10,6 +11,7 @@ import com.hellomeritz.member.repository.fc.FinancialConsultantRepository;
 import com.hellomeritz.member.repository.foreign.ForeignRepository;
 import com.hellomeritz.member.service.dto.param.*;
 import com.hellomeritz.member.service.dto.result.*;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,12 +63,14 @@ public class MemberService {
         smsManager.sendAlarmMessage(param.t0SmsSendRequest(financialConsultant.getPhoneNumber()));
     }
 
+    @Cacheable(cacheNames = "consultant", key = "#param.userId()")
     public FcInfoResult getFinancialConsultantInfo(FinancialConsultantInfoGetParam param) {
         FinancialConsultant financialConsultant
             = financialConsultantRepository.getFinancialConsultant(param.userId());
         return FcInfoResult.of(financialConsultant);
     }
 
+    @Cacheable(cacheNames = "foreigner", key = "#param.userId()")
     public ForeignerInfoResult getForeignerInfo(ForeignerInfoGetParam param) {
         Foreigner foreigner = foreignRepository.getById(param.userId());
         return ForeignerInfoResult.of(foreigner);
