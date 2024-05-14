@@ -22,8 +22,12 @@
 # 프로젝트의 주요 관심사
 - 외부 API에 대한 이중화 및 fallback method 호출, open 상태로의 전환 시 관리자 알림
 - 금칙어 조회에 성능이 좋은 아호코라식 알고리즘을 사용 및  ApplicationRunner를 통하여 스프링 부트 초기화 시 DB에 있는 금칙어 데이터를 로컬 캐시에 올려두도록 구현 및 새롭게 DB에 추가된 경우 서버를 재가동 시키는 번거로움이 존재하여 API 구현
-- 채팅방 비밀번호에 대한 가변적 salt 처리
+- 개인 정보 노출을 고려하여 채팅방 비밀번호를 설정 및 암호화, ip Address와 접속 일자를 통한 가변적 salt 처리
 
+## 기술
+- 프레임워크 : Java 17,  Spring(Boot 3.2.0, JPA, Hibernate), JUnit5, Javascript
+- DB :  MySQL 8.0, MongoDB
+- 인프라 :  AWS(EC2, RDS, Code Deploy),  Github Action, Nginx
 
 ## 아키텍처
 
