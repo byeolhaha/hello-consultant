@@ -14,4 +14,10 @@ public record ChatRoomInfoOfConsultantRequest(
             userId
         );
     }
+
+    public static ChatRoomInfoOfConsultantParam toChatRoomInfoParam(Long userId) {
+        return new ChatRoomInfoOfConsultantParam(
+            userId
+        );
+    }
 }

@@ -2,10 +2,18 @@ package com.hello.chat.controller;
 
 import com.hello.chat.controller.dto.request.ChatMessageSttRequest;
 import com.hello.chat.controller.dto.request.ChatMessageTranslateRequest;
+import com.hello.chat.controller.dto.request.ChatRoomInfoOfConsultantRequest;
+import com.hello.chat.controller.dto.request.ChatRoomInfoOfForeignerRequest;
 import com.hello.chat.controller.dto.response.ChatMessageSttResponse;
 import com.hello.chat.controller.dto.response.ChatMessageTranslateResponses;
+import com.hello.chat.controller.dto.response.ChatRoomInfoOfConsultantResponses;
+import com.hello.chat.controller.dto.response.ChatRoomInfoOfForeignerResponses;
 import com.hello.chat.service.ChatMessageService;
+import com.hello.chat.service.ChatService;
+import com.hello.chat.service.dto.param.ChatRoomInfoOfConsultantParam;
 import com.hello.chat.service.dto.result.ChatMessageSttResult;
+import com.hello.chat.service.dto.result.ChatRoomInfoOfConsultantResults;
+import com.hello.chat.service.dto.result.ChatRoomInfoOfForeignerResults;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -22,9 +30,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class ChatController {
     private final ChatMessageService chatMessageService;
+    private final ChatService chatService;
 
-    public ChatController(ChatMessageService chatMessageService) {
+    public ChatController(ChatMessageService chatMessageService, ChatService chatService) {
         this.chatMessageService = chatMessageService;
+        this.chatService = chatService;
     }
 
     @MessageMapping("/chats/{chatRoomId}")
@@ -56,6 +66,30 @@ public class ChatController {
             = chatMessageService.sendAudioMessage(request.toChatMessageSttParam(audioFile, chatRoomId));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ChatMessageSttResponse.to(result));
+    }
+
+    @MessageMapping("/chat-rooms/consultants/{consultantId}")
+    @SendTo("/queue/chat-rooms/consultants/{consultantId}")
+    public ResponseEntity<ChatRoomInfoOfConsultantResponses> getRoomInfoOfConsultant(
+        @DestinationVariable("consultantId") Long consultantId
+    ) {
+        ChatRoomInfoOfConsultantResults chatRoomInfoOfConsultant
+            = chatService.getChatRoomInfoOfConsultant(ChatRoomInfoOfConsultantRequest.toChatRoomInfoParam(consultantId));
+
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(ChatRoomInfoOfConsultantResponses.to(chatRoomInfoOfConsultant));
+    }
+
+    @MessageMapping("/chat-rooms/foreigners/{foreignerId}")
+    @SendTo("/queue/chat-rooms/foreigners/{foreignerId}")
+    public ResponseEntity<ChatRoomInfoOfForeignerResponses> getRoomInfoOfForeigner(
+        @DestinationVariable("foreignerId") Long foreignerId
+    ) {
+        ChatRoomInfoOfForeignerResults chatRoomInfoOfForeigner
+            = chatService.getChatRoomInfoOfForeigner(ChatRoomInfoOfForeignerRequest.toChatRoomInfoParam(foreignerId));
+
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(ChatRoomInfoOfForeignerResponses.to(chatRoomInfoOfForeigner));
     }
 
 }

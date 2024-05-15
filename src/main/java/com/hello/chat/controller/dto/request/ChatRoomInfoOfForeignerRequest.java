@@ -14,4 +14,10 @@ public record ChatRoomInfoOfForeignerRequest(
             userId
         );
     }
+
+    public static ChatRoomInfoOfForeignerParam toChatRoomInfoParam(Long userId) {
+        return new ChatRoomInfoOfForeignerParam(
+            userId
+        );
+    }
 }
