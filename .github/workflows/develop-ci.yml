@@ -58,13 +58,12 @@ jobs:
           EOF
           # Do whatever you like in here
 
-      - name: Checkout code
-        uses: actions/checkout@v4.1.1
       - name: Set up JDK 17
         uses: actions/setup-java@v3.13.0
         with:
           java-version: '17'
           distribution: 'corretto'
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
@@ -82,10 +81,3 @@ jobs:
 
       - name: Build with gradle
         run: ./gradlew build
-
-      - name: Upload Test Report
-        if: failure()  # 이 단계는 테스트 실패시에만 실행됩니다.
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-report
-          path: build/reports/tests/test
