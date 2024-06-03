@@ -7,7 +7,12 @@ document.getElementById("newCustomer").addEventListener("click", function() {
 });
 
 document.getElementById("existingCustomer").addEventListener("click", function() {
-    window.location.href = "/templates/client-chatrooms.html";
+    userId = getUserIdFromCookie();
+    if (userId === 0) {
+         alert("This is your first visit. Please click on the 'No first visit✅' button");
+    } else {
+        window.location.href = "/templates/client-chatrooms.html";
+    }
 });
 
 document.getElementsByClassName("close")[0].addEventListener("click", function() {
@@ -19,3 +24,17 @@ window.addEventListener("click", function(event) {
         document.getElementById("myModal").style.display = "none";
     }
 });
+
+function getUserIdFromCookie() {
+    const cookieString = document.cookie;
+    const cookies = cookieString.split(';');
+
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split('=');
+        if (cookieName.trim() === 'userId') {
+            return parseInt(cookieValue) || 0;
+        }
+    }
+
+    return 0;
+}
