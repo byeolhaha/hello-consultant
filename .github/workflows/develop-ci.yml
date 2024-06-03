@@ -83,9 +83,24 @@ jobs:
       - name: Build with gradle
         run: ./gradlew build
 
-      - name: Upload Test Report
-        if: failure()  # 이 단계는 테스트 실패시에만 실행됩니다.
-        uses: actions/upload-artifact@v2
+      - name: Docker build & push to prod
+        if: contains(github.ref, 'main')
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/hello-counsellor .
+          docker push ${{ secrets.DOCKER_USERNAME }}/hello-counsellor
+
+      - name: Deploy to prod
+        uses: appleboy/ssh-action@master
+        id: deploy-prod
+        if: contains(github.ref, 'main')
         with:
-          name: test-report
-          path: build/reports/tests/test
+          host: ${{ secrets.HOST_PROD }} # EC2 퍼블릭 IPv4 DNS
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker ps
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/hello-counsellor
+            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/hello-counsellor
+            sudo docker image prune -f
