@@ -89,6 +89,9 @@ jobs:
           docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/hello-counsellor .
           docker push ${{ secrets.DOCKER_USERNAME }}/hello-counsellor
 
+      - name : Docker stop container
+        run: sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
+
       - name: Deploy to prod
         uses: appleboy/ssh-action@master
         id: deploy-prod
