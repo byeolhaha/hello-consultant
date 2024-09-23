@@ -27,7 +27,7 @@
 ## 기술
 - 프레임워크 : Java 17,  Spring(Boot 3.2.0, JPA, Hibernate), JUnit5, Javascript
 - DB :  MySQL 8.0, MongoDB
-- 인프라 :  AWS(EC2, RDS, Code Deploy),  Github Action, Nginx
+- 인프라 :  AWS(EC2, RDS),  Github Action, Docker, Nginx
 
 ## 아키텍처
 
